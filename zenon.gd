@@ -46,7 +46,9 @@ func _physics_process(delta: float) -> void:
 		#if $Zenon_animated.animation != "idle":
 			#$Zenon_animated.play("idle")
 
-	move_and_slide()
+	move_and_slide(
+		#this also adds something
+	)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Shoot"):
