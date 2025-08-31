@@ -19,22 +19,21 @@ func _physics_process(delta: float) -> void:
 		velocity.y = move_toward(velocity.y, 0, FRICTION * delta)
 	var direction_x := Input.get_axis("Left", "Right")
 	if Input.is_action_just_pressed("Left"):
-		if direction_x > 0:
-			velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
+		#if direction_x > 0:
+			#velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
 		$Zenon_animated.flip_h = false
 		$Zenon_animated.play("turn")
 	if Input.is_action_just_released("Left"):
 		$Zenon_animated.play_backwards("turn")
 		
 	if Input.is_action_just_pressed("Right"):
-		if direction_x < 0:
-			velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
+		#if direction_x < 0:
+			#velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
 		$Zenon_animated.flip_h = true
 		$Zenon_animated.play("turn")
 	if Input.is_action_just_released("Right"):
 		$Zenon_animated.play_backwards("turn")
 		
-	
 	
 	#elif direction_x < 0:
 		#velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
