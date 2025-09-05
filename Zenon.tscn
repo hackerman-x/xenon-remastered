@@ -1,9 +1,49 @@
-[gd_scene load_steps=13 format=3 uid="uid://b6ey43jfat6tm"]
+[gd_scene load_steps=22 format=3 uid="uid://b6ey43jfat6tm"]
 
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="1_1idqq"]
 [ext_resource type="Script" uid="uid://bjoch4en3npja" path="res://zenon.gd" id="1_a6j1p"]
 [ext_resource type="Texture2D" uid="uid://cdyv51g5qp54" path="res://PixelSpaceRage/256px/PlayerRed_Frame_03_png_processed.png" id="2_jkmpv"]
 [ext_resource type="Texture2D" uid="uid://by8hmut1j5k2p" path="res://PixelSpaceRage/256px/PlayerRed_Frame_02_png_processed.png" id="3_2o0eo"]
+[ext_resource type="Texture2D" uid="uid://cr4y8uqxbauj7" path="res://PixelSpaceRage/256px/Exhaust_Frame_01_png_processed.png" id="5_6uadn"]
+[ext_resource type="Texture2D" uid="uid://bvshkuyg2flea" path="res://PixelSpaceRage/256px/Exhaust_Frame_02_png_processed.png" id="6_urj40"]
+[ext_resource type="Texture2D" uid="uid://cxgm3siu65kog" path="res://PixelSpaceRage/256px/Exhaust_Frame_04_png_processed.png" id="8_ss6wa"]
+[ext_resource type="Texture2D" uid="uid://dh0ymeqba102s" path="res://PixelSpaceRage/256px/Exhaust_Frame_05_png_processed.png" id="9_1uvvo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsc4s"]
+atlas = ExtResource("5_6uadn")
+region = Rect2(0, 0, 23, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knv3j"]
+atlas = ExtResource("6_urj40")
+region = Rect2(0, 0, 24, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ss6wa"]
+atlas = ExtResource("8_ss6wa")
+region = Rect2(0, 0, 23, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uvvo"]
+atlas = ExtResource("9_1uvvo")
+region = Rect2(0, 0, 23, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ht32x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsc4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_knv3j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ss6wa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uvvo")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 9.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2o0eo"]
 atlas = ExtResource("1_1idqq")
@@ -66,6 +106,25 @@ size = Vector2(38, 20)
 
 [node name="Zenon" type="CharacterBody2D"]
 script = ExtResource("1_a6j1p")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Left" type="AnimatedSprite2D" parent="Node2D"]
+position = Vector2(-4, 32)
+sprite_frames = SubResource("SpriteFrames_ht32x")
+animation = &"new_animation"
+autoplay = "new_animation"
+frame = 2
+frame_progress = 0.709223
+
+[node name="Right" type="AnimatedSprite2D" parent="Node2D"]
+position = Vector2(4, 32)
+sprite_frames = SubResource("SpriteFrames_ht32x")
+animation = &"new_animation"
+autoplay = "new_animation"
+frame = 2
+frame_progress = 0.709223
+flip_h = true
 
 [node name="Zenon_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ss6wa")

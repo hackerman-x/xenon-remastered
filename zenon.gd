@@ -22,7 +22,6 @@ func _physics_process(delta: float) -> void:
 	var direction_x := Input.get_axis("Left", "Right")
 	#print ("I'm getting warm! ", direction_x)
 	if direction_x < 0: # Moving left now. 
-		print ("I'm here")
 		velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
 	elif direction_x == 0: 
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
@@ -34,10 +33,8 @@ func _physics_process(delta: float) -> void:
 
 
 	if direction_x > 0:
-		print("I shouldn't be here!!!")
 		velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
 	elif direction_x == 0:
-		print ("I'm actually here! Ha Ha!")
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 		
 		
@@ -59,9 +56,8 @@ func _physics_process(delta: float) -> void:
 		#if $Zenon_animated.animation != "idle":
 			#$Zenon_animated.play("idle")
 
-	move_and_slide(
-		#this also adds something
-	)
+	move_and_slide()
+	
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Shoot"):
