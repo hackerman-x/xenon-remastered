@@ -154,7 +154,7 @@ position = Vector2(-3, 35)
 sprite_frames = SubResource("SpriteFrames_ht32x")
 animation = &"back"
 autoplay = "idle"
-frame_progress = 0.0671277
+frame_progress = 0.281043
 
 [node name="Right" type="AnimatedSprite2D" parent="Thrusters"]
 position = Vector2(3, 35)
