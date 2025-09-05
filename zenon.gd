@@ -17,6 +17,14 @@ func _physics_process(delta: float) -> void:
 		velocity.y = move_toward(velocity.y, direction_y * UP_SPEED, ACCELERATION * delta)
 	else:
 		velocity.y = move_toward(velocity.y, 0, FRICTION * delta)
+		$Thrusters/Left.play("idle")
+		$Thrusters/Right.play("idle")
+	if Input.is_action_just_pressed("Up"):
+		$Thrusters/Left.play("forward")
+		$Thrusters/Right.play("forward")
+	elif Input.is_action_just_pressed("Down"):
+		$Thrusters/Left.play("back")
+		$Thrusters/Right.play("back")
 
 
 	var direction_x := Input.get_axis("Left", "Right")
@@ -65,3 +73,6 @@ func _input(event: InputEvent) -> void:
 		
 func _ready() -> void:
 	$Zenon_animated.play("idle")
+	
+func hello_from_scene2(msg: String):
+	print("Scene2 got message:", msg)
