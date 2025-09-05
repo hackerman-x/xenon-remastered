@@ -1,14 +1,30 @@
 [gd_scene load_steps=3 format=3 uid="uid://bckoota2brwm7"]
 
+[ext_resource type="Texture2D" uid="uid://7x44yctjijxc" path="res://PixelSpaceRage/256px/Platform_03_png_processed.png" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://b6ey43jfat6tm" path="res://Zenon.tscn" id="1_ig7tw"]
-[ext_resource type="Texture2D" uid="uid://cdm6oybbyajqx" path="res://PixelSpaceRage/256px/Platform_04_png_processed.png" id="2_0xm2m"]
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Platform03PngProcessed" type="Sprite2D" parent="Background"]
+position = Vector2(-325, -325)
+scale = Vector2(10.16, 10.16)
+texture = ExtResource("1_0xm2m")
+
+[node name="Platform03PngProcessed2" type="Sprite2D" parent="Background"]
+position = Vector2(325, -325)
+scale = Vector2(10.16, 10.16)
+texture = ExtResource("1_0xm2m")
+
+[node name="Platform03PngProcessed3" type="Sprite2D" parent="Background"]
+position = Vector2(325, 325)
+scale = Vector2(10.16, 10.16)
+texture = ExtResource("1_0xm2m")
+
+[node name="Platform03PngProcessed4" type="Sprite2D" parent="Background"]
+position = Vector2(-325, 325)
+scale = Vector2(10.16, 10.16)
+texture = ExtResource("1_0xm2m")
+
 [node name="Zenon" parent="." instance=ExtResource("1_ig7tw")]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Platform04PngProcessed" type="Sprite2D" parent="."]
-position = Vector2(2, -86)
-texture = ExtResource("2_0xm2m")

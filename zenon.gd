@@ -21,10 +21,10 @@ func _physics_process(delta: float) -> void:
 
 	var direction_x := Input.get_axis("Left", "Right")
 	#print ("I'm getting warm! ", direction_x)
-	if direction_x < 0:
-		#print("I'm in here!!!")
+	if direction_x < 0: # Moving left now. 
+		print ("I'm here")
 		velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
-	else: 
+	elif direction_x == 0: 
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 	if Input.is_action_just_pressed("Left"):
 		$Zenon_animated.flip_h = false
@@ -34,11 +34,13 @@ func _physics_process(delta: float) -> void:
 
 
 	if direction_x > 0:
-		#print("I'm in here!!!")
+		print("I shouldn't be here!!!")
 		velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
-	else:
-		#velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
-		pass
+	elif direction_x == 0:
+		print ("I'm actually here! Ha Ha!")
+		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+		
+		
 	if Input.is_action_just_pressed("Right"):
 		$Zenon_animated.flip_h = true
 		$Zenon_animated.play("turn")
