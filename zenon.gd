@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-
+var newLaser = preload("res://Laser.tscn")
 const UP_SPEED = 250.0
 const ACCELERATION = 700   # how fast we reach top speed
 const FRICTION = 900      # how fast we slow down
@@ -69,10 +69,10 @@ func _physics_process(delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Shoot"):
-		print("vedi vechu")
+		var laser = newLaser.instantiate()
+		laser.position = position
+		get_tree().root.add_child(laser)
+	
 		
 func _ready() -> void:
-	$Zenon_animated.play("idle")
-	
-func hello_from_scene2(msg: String):
-	print("Scene2 got message:", msg)
+	pass

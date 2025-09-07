@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://b6ey43jfat6tm"]
+[gd_scene load_steps=27 format=3 uid="uid://b6ey43jfat6tm"]
 
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="1_1idqq"]
 [ext_resource type="Script" uid="uid://bjoch4en3npja" path="res://zenon.gd" id="1_a6j1p"]
@@ -12,12 +12,12 @@
 [ext_resource type="Texture2D" uid="uid://d1275vuovejht" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed.png" id="10_sijs3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sijs3"]
-atlas = ExtResource("6_urj40")
-region = Rect2(0, 0, 24, 31)
+atlas = ExtResource("9_1uvvo")
+region = Rect2(0, 0, 21, 28)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y1rom"]
-atlas = ExtResource("5_6uadn")
-region = Rect2(0, 0, 23, 29)
+atlas = ExtResource("6_urj40")
+region = Rect2(0, 0, 24, 31)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7xnso"]
 atlas = ExtResource("7_yulqn")
@@ -54,7 +54,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"back",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -89,10 +89,6 @@ animations = [{
 atlas = ExtResource("1_1idqq")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jkmpv"]
-atlas = ExtResource("2_jkmpv")
-region = Rect2(0, 0, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_6uadn"]
 atlas = ExtResource("1_1idqq")
 region = Rect2(0, 0, 64, 64)
@@ -117,14 +113,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jkmpv")
-}],
-"loop": false,
-"name": &"stay",
-"speed": 1.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_6uadn")
 }, {
 "duration": 1.0,
@@ -135,7 +123,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"turn",
-"speed": 5.0
+"speed": 7.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j1p"]
@@ -154,19 +142,18 @@ position = Vector2(-3, 35)
 sprite_frames = SubResource("SpriteFrames_ht32x")
 animation = &"back"
 autoplay = "idle"
-frame_progress = 0.943707
 
 [node name="Right" type="AnimatedSprite2D" parent="Thrusters"]
 position = Vector2(3, 35)
 sprite_frames = SubResource("SpriteFrames_ht32x")
 animation = &"back"
 autoplay = "idle"
-frame_progress = 0.0167502
+frame_progress = 0.107789
 flip_h = true
 
 [node name="Zenon_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ss6wa")
-animation = &"idle"
+animation = &"turn"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
