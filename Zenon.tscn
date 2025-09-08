@@ -13,13 +13,13 @@
 [ext_resource type="Texture2D" uid="uid://dh0ymeqba102s" path="res://PixelSpaceRage/256px/Exhaust_Frame_05_png_processed.png" id="9_1uvvo"]
 [ext_resource type="Texture2D" uid="uid://d1275vuovejht" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed.png" id="10_sijs3"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sijs3"]
-atlas = ExtResource("9_1uvvo")
-region = Rect2(0, 0, 21, 28)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_y1rom"]
 atlas = ExtResource("6_urj40")
 region = Rect2(0, 0, 24, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sijs3"]
+atlas = ExtResource("9_1uvvo")
+region = Rect2(0, 0, 23, 28)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n8dj1"]
 atlas = ExtResource("4_yulqn")
@@ -57,10 +57,10 @@ region = Rect2(0, 0, 23, 28)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sijs3")
+"texture": SubResource("AtlasTexture_y1rom")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_y1rom")
+"texture": SubResource("AtlasTexture_sijs3")
 }],
 "loop": true,
 "name": &"back",
@@ -161,7 +161,7 @@ script = ExtResource("1_a6j1p")
 [node name="Left" type="AnimatedSprite2D" parent="Thrusters"]
 position = Vector2(-3, 35)
 sprite_frames = SubResource("SpriteFrames_ht32x")
-animation = &"boost"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="Right" type="AnimatedSprite2D" parent="Thrusters"]
@@ -189,7 +189,7 @@ shape = SubResource("RectangleShape2D_oa4gd")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.15
 one_shot = true
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

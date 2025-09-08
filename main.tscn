@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bckoota2brwm7"]
 
 [ext_resource type="Texture2D" uid="uid://7x44yctjijxc" path="res://PixelSpaceRage/256px/Platform_03_png_processed.png" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://bubv50dnutskk" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://b1c67u76u677o" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b6ey43jfat6tm" path="res://Zenon.tscn" id="1_ig7tw"]
 
 [node name="Main" type="Node2D"]
@@ -29,4 +29,14 @@ position = Vector2(-325, 325)
 scale = Vector2(10.16, 10.16)
 texture = ExtResource("1_0xm2m")
 
+[node name="Laser" type="Node2D" parent="."]
+
+[node name="Enemy" type="Node2D" parent="."]
+
 [node name="Zenon" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="EnemyWaitTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="EnemyWaitTimer" to="." method="_on_enemy_wait_timer_timeout"]
