@@ -2,10 +2,11 @@ extends CharacterBody2D
 
 
 var newLaser = preload("res://Laser.tscn")
-const UP_SPEED = 250.0
-const ACCELERATION = 700   # how fast we reach top speed
-const FRICTION = 900      # how fast we slow down
-const MAX_SPEED = 300      # top speed
+@export var UP_SPEED = 250.0
+@export var ACCELERATION = 700   # how fast we reach top speed
+@export var FRICTION = 900      # how fast we slow down
+@export var MAX_SPEED = 300      # top speed
+var can_shoot := true
 
 
 
@@ -15,6 +16,16 @@ func _physics_process(delta: float) -> void:
 	var direction_y := Input.get_axis("Up", "Down")
 	if direction_y:
 		velocity.y = move_toward(velocity.y, direction_y * UP_SPEED, ACCELERATION * delta)
+		if Input.is_action_pressed("Boost"):
+			UP_SPEED = 600
+			FRICTION = 700
+			$Thrusters/Left.play("boost")
+			$Thrusters/Right.play("boost")
+		elif Input.is_action_just_released("Boost"):
+			UP_SPEED = 250.0
+			FRICTION = 900
+			$Thrusters/Left.play("forward")
+			$Thrusters/Right.play("forward")
 	else:
 		velocity.y = move_toward(velocity.y, 0, FRICTION * delta)
 		$Thrusters/Left.play("idle")
@@ -51,7 +62,15 @@ func _physics_process(delta: float) -> void:
 		$Zenon_animated.play("turn")
 	if Input.is_action_just_released("Right"):
 		$Zenon_animated.play_backwards("turn")
+
+
+	if Input.is_action_pressed("Shoot") and can_shoot:
+		var laser = newLaser.instantiate()
+		laser.position = position
+		get_tree().root.add_child(laser)
 		
+		can_shoot = false
+		$ShootTimer.start()
 	#print("I'm moving ", direction_x)
 	#elif direction_x < 0:
 		#velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
@@ -68,11 +87,12 @@ func _physics_process(delta: float) -> void:
 	
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("Shoot"):
-		var laser = newLaser.instantiate()
-		laser.position = position
-		get_tree().root.add_child(laser)
+	pass
 	
 		
 func _ready() -> void:
 	pass
+
+
+func _on_shoot_timer_timeout() -> void:
+	can_shoot = true

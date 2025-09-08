@@ -1,10 +1,12 @@
-[gd_scene load_steps=27 format=3 uid="uid://b6ey43jfat6tm"]
+[gd_scene load_steps=31 format=3 uid="uid://b6ey43jfat6tm"]
 
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="1_1idqq"]
 [ext_resource type="Script" uid="uid://bjoch4en3npja" path="res://zenon.gd" id="1_a6j1p"]
 [ext_resource type="Texture2D" uid="uid://cdyv51g5qp54" path="res://PixelSpaceRage/256px/PlayerRed_Frame_03_png_processed.png" id="2_jkmpv"]
 [ext_resource type="Texture2D" uid="uid://by8hmut1j5k2p" path="res://PixelSpaceRage/256px/PlayerRed_Frame_02_png_processed.png" id="3_2o0eo"]
+[ext_resource type="Texture2D" uid="uid://4gupuv1e8r1a" path="res://PixelSpaceRage/256px/Exhaust_Frame_03_png_processed_bigger.png" id="4_yulqn"]
 [ext_resource type="Texture2D" uid="uid://cr4y8uqxbauj7" path="res://PixelSpaceRage/256px/Exhaust_Frame_01_png_processed.png" id="5_6uadn"]
+[ext_resource type="Texture2D" uid="uid://881ns2k50570" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed_bigger.png" id="5_ss6wa"]
 [ext_resource type="Texture2D" uid="uid://bvshkuyg2flea" path="res://PixelSpaceRage/256px/Exhaust_Frame_02_png_processed.png" id="6_urj40"]
 [ext_resource type="Texture2D" uid="uid://vmoo7r6pnpge" path="res://PixelSpaceRage/256px/Exhaust_Frame_03_png_processed.png" id="7_yulqn"]
 [ext_resource type="Texture2D" uid="uid://cxgm3siu65kog" path="res://PixelSpaceRage/256px/Exhaust_Frame_04_png_processed.png" id="8_ss6wa"]
@@ -18,6 +20,14 @@ region = Rect2(0, 0, 21, 28)
 [sub_resource type="AtlasTexture" id="AtlasTexture_y1rom"]
 atlas = ExtResource("6_urj40")
 region = Rect2(0, 0, 24, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8dj1"]
+atlas = ExtResource("4_yulqn")
+region = Rect2(0, 0, 25, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ebfb"]
+atlas = ExtResource("5_ss6wa")
+region = Rect2(0, 0, 25, 38)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7xnso"]
 atlas = ExtResource("7_yulqn")
@@ -55,6 +65,17 @@ animations = [{
 "loop": true,
 "name": &"back",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8dj1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ebfb")
+}],
+"loop": true,
+"name": &"boost",
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -140,15 +161,16 @@ script = ExtResource("1_a6j1p")
 [node name="Left" type="AnimatedSprite2D" parent="Thrusters"]
 position = Vector2(-3, 35)
 sprite_frames = SubResource("SpriteFrames_ht32x")
-animation = &"back"
+animation = &"boost"
 autoplay = "idle"
 
 [node name="Right" type="AnimatedSprite2D" parent="Thrusters"]
 position = Vector2(3, 35)
 sprite_frames = SubResource("SpriteFrames_ht32x")
-animation = &"back"
+animation = &"boost"
 autoplay = "idle"
-frame_progress = 0.107789
+frame = 1
+frame_progress = 0.582277
 flip_h = true
 
 [node name="Zenon_animated" type="AnimatedSprite2D" parent="."]
@@ -165,3 +187,9 @@ position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_oa4gd")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

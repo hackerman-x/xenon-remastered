@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bubv50dnutskk" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b6ey43jfat6tm" path="res://Zenon.tscn" id="1_ig7tw"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Main" type="Node2D"]
 script = ExtResource("1_h2yge")
 
 [node name="Background" type="Node2D" parent="."]
