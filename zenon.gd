@@ -27,6 +27,9 @@ func _physics_process(delta: float) -> void:
 				FRICTION = 900
 				$Thrusters/Left.play("forward")
 				$Thrusters/Right.play("forward")
+		if Input.is_action_pressed("Down"):
+			UP_SPEED = 250.0
+			FRICTION = 900
 	else:
 		velocity.y = move_toward(velocity.y, 0, FRICTION * delta)
 		$Thrusters/Left.play("idle")

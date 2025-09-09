@@ -1,8 +1,54 @@
-[gd_scene load_steps=10 format=3 uid="uid://da70gciyjjmgm"]
+[gd_scene load_steps=29 format=3 uid="uid://da70gciyjjmgm"]
 
+[ext_resource type="Script" uid="uid://dflyhpkpu13v0" path="res://enemy.gd" id="1_e6d4v"]
 [ext_resource type="Texture2D" uid="uid://bw8sosbsj2ma5" path="res://PixelSpaceRage/256px/Enemy01_Red_Frame_1_png_processed.png" id="1_tt7e2"]
 [ext_resource type="Texture2D" uid="uid://0w72ck4ndvpj" path="res://PixelSpaceRage/256px/Enemy01_Red_Frame_2_png_processed.png" id="2_2hac7"]
+[ext_resource type="Texture2D" uid="uid://c6hjqx0eflmev" path="res://PixelSpaceRage/256px/Explosion01_Frame_01_png_processed.png" id="2_2iwxp"]
+[ext_resource type="Texture2D" uid="uid://8n11rkutu6gs" path="res://PixelSpaceRage/256px/Explosion01_Frame_02_png_processed.png" id="3_4v6dm"]
 [ext_resource type="Texture2D" uid="uid://dikuimlrfoj1f" path="res://PixelSpaceRage/256px/Enemy01_Red_Frame_3_png_processed.png" id="3_e6d4v"]
+[ext_resource type="Texture2D" uid="uid://cxtnyovc4y131" path="res://PixelSpaceRage/256px/Explosion01_Frame_03_png_processed.png" id="4_2r3mv"]
+[ext_resource type="Texture2D" uid="uid://byk8pcc4b7pvn" path="res://PixelSpaceRage/256px/Explosion01_Frame_04_png_processed.png" id="5_jccr3"]
+[ext_resource type="Texture2D" uid="uid://c6rxipgw4bw88" path="res://PixelSpaceRage/256px/Explosion01_Frame_05_png_processed.png" id="6_jd3y4"]
+[ext_resource type="Texture2D" uid="uid://dtina431l4dpy" path="res://PixelSpaceRage/256px/Explosion01_Frame_06_png_processed.png" id="7_h6feu"]
+[ext_resource type="Texture2D" uid="uid://cltgimw43cn5h" path="res://PixelSpaceRage/256px/Explosion01_Frame_07_png_processed.png" id="8_npdxj"]
+[ext_resource type="Texture2D" uid="uid://xyuoflg23pcp" path="res://PixelSpaceRage/256px/Explosion01_Frame_08_png_processed.png" id="9_hxvgb"]
+[ext_resource type="Texture2D" uid="uid://c4x52w1olsb61" path="res://PixelSpaceRage/256px/Explosion01_Frame_09_png_processed.png" id="10_0qy3v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smfg5"]
+atlas = ExtResource("2_2iwxp")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdb26"]
+atlas = ExtResource("3_4v6dm")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dn8ps"]
+atlas = ExtResource("4_2r3mv")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1k6s"]
+atlas = ExtResource("5_jccr3")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir673"]
+atlas = ExtResource("6_jd3y4")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nenbi"]
+atlas = ExtResource("7_h6feu")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nexad"]
+atlas = ExtResource("8_npdxj")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_grakr"]
+atlas = ExtResource("9_hxvgb")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_se7ri"]
+atlas = ExtResource("10_0qy3v")
+region = Rect2(0, 0, 65, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qp131"]
 atlas = ExtResource("1_tt7e2")
@@ -22,6 +68,38 @@ region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tt7e2"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smfg5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdb26")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dn8ps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1k6s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ir673")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nenbi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nexad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_grakr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_se7ri")
+}],
+"loop": false,
+"name": &"blow_up",
+"speed": 15.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qp131")
@@ -49,12 +127,16 @@ animations = [{
 radius = 23.0217
 
 [node name="Enemy" type="Area2D"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_e6d4v")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Enemy_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tt7e2")
-animation = &"turn"
+animation = &"blow_up"
 autoplay = "idle"
-frame_progress = 0.00437229
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tt7e2")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

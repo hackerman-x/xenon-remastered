@@ -154,6 +154,7 @@ size = Vector2(22, 35)
 size = Vector2(38, 20)
 
 [node name="Zenon" type="CharacterBody2D"]
+collision_mask = 4
 script = ExtResource("1_a6j1p")
 
 [node name="Thrusters" type="Node2D" parent="."]
