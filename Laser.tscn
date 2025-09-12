@@ -75,7 +75,7 @@ animations = [{
 radius = 6.32394
 height = 37.9436
 
-[node name="Laser" type="Area2D"]
+[node name="Laser" type="Area2D" groups=["Bullet"]]
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_c0y1x")

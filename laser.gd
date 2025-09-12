@@ -15,21 +15,21 @@ func _physics_process(delta):
 func _process(_delta: float) -> void:
 	pass
 
-func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemies"):
-		# Enemy explosion
-		var explosion = Explosion.instantiate()
-		explosion.global_position = area.global_position
-		get_tree().root.add_child(explosion)
+func _on_area_entered(area):
+	if area.is_in_group("Enemies"):
+		# spawn bullet explosion at bullet's position
+		var bex = Explosion.instantiate()
+		bex.global_position = global_position
+		get_tree().root.add_child(bex)
 
-		# Remove enemy + bullet
-		area.queue_free()
+		# tell the enemy to handle its own explosion & die
+		area.explode()
+
+		# remove the bullet
 		queue_free()
 	else:
-		# Bullet explosion (wall/anything else)
-		var explosion = Explosion.instantiate()
-		explosion.global_position = global_position
-		get_tree().root.add_child(explosion)
-
-		# Remove only the bullet
+		# hit something else -> just spawn bullet explosion
+		var bex = Explosion.instantiate()
+		bex.global_position = global_position
+		get_tree().root.add_child(bex)
 		queue_free()
