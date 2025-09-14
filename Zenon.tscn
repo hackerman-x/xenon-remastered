@@ -168,10 +168,8 @@ autoplay = "idle"
 [node name="Right" type="AnimatedSprite2D" parent="Thrusters"]
 position = Vector2(3, 35)
 sprite_frames = SubResource("SpriteFrames_ht32x")
-animation = &"boost"
+animation = &"idle"
 autoplay = "idle"
-frame = 1
-frame_progress = 0.582277
 flip_h = true
 
 [node name="Zenon_animated" type="AnimatedSprite2D" parent="."]

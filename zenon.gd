@@ -71,7 +71,8 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("Shoot") and can_shoot:
 		var laser = newLaser.instantiate()
 		laser.position = position
-		get_parent().get_node("Laser").add_child(laser)
+		var parent_node = get_tree().root.get_node("/root/Main/Laser")
+		parent_node.add_child(laser)
 #
 		can_shoot = false
 		$ShootTimer.start()
