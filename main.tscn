@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bckoota2brwm7"]
+[gd_scene load_steps=5 format=3 uid="uid://bckoota2brwm7"]
 
 [ext_resource type="Texture2D" uid="uid://7x44yctjijxc" path="res://PixelSpaceRage/256px/Platform_03_png_processed.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://b1c67u76u677o" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b6ey43jfat6tm" path="res://Zenon.tscn" id="1_ig7tw"]
+[ext_resource type="AudioStream" uid="uid://cc585ofu2vv6p" path="res://PixelSpaceRage/peter-hajba-razorback-unreal-tournament.mp3" id="4_1bvp3"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_h2yge")
@@ -38,5 +39,9 @@ texture = ExtResource("1_0xm2m")
 [node name="EnemyWaitTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_1bvp3")
+autoplay = true
 
 [connection signal="timeout" from="EnemyWaitTimer" to="." method="_on_enemy_wait_timer_timeout"]

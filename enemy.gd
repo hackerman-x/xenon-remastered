@@ -6,10 +6,11 @@ var Explosion = preload("res://enemy_explosion.tscn")
 
 
 
-@export var speed: float = 1.0     # how fast it loops
-@export var amplitude_x: float = 100.0
-@export var amplitude_y: float = 50.0
-@export var approach_speed: float = 0.5   # how fast it moves toward Zenon's Y
+var orbit_speed := 2.0
+var orbit_radius := 80.0
+var angle := 0.0
+var approach_speed: float = 1   # how fast it moves toward Zenon's Y\
+var in_orbit := false
 
 var t: float = 0.0
 var base_position: Vector2
@@ -18,24 +19,28 @@ func _ready() -> void:
 	# Center of the screen
 	base_position = Vector2(0, -500)
 
-func _process(delta: float) -> void:
-	# Time keeps going
-	t += delta * speed
+func _physics_process(delta: float) -> void:
+	var zenon := get_tree().root.get_node("Main/Zenon")
+	var direction = zenon.global_position - global_position
+	var distance = direction.length()
+	if not in_orbit:
+		if distance > orbit_radius:
+			position += direction * approach_speed * delta
+		else:
+			# Enter orbit
+			in_orbit = true
+			angle = (global_position - zenon.global_position).angle()
+	else:
+		# If Zenon is too far, stop orbiting
+		if distance > orbit_radius * 1.5:
+			in_orbit = false
+		else:
+			# Instead of snapping, MOVE toward the orbit point
+			angle += orbit_speed * delta
+			var target_pos = zenon.global_position + Vector2(cos(angle), sin(angle)) * orbit_radius
+			global_position = global_position.lerp(target_pos, 0.05) # smooth transition
 
-	# Infinity symbol motion
-	var offset_x = sin(t) * amplitude_x
-	var offset_y = sin(t) * cos(t) * amplitude_y
-
-	# Get Zenon
-	var zenon = get_tree().root.get_node("Main/Zenon")
-	if zenon:
-		# Slowly move base Y toward Zenon's Y
-		base_position.y = lerp(base_position.y, zenon.global_position.y, delta * approach_speed)
-
-	# Update position
-	global_position = base_position + Vector2(offset_x, offset_y)
-
-
+	
 func explode():
 	# Spawn the explosion
 	var explosion = Explosion.instantiate()
