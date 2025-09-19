@@ -21,9 +21,7 @@ func _on_area_entered(area):
 		var bex = Explosion.instantiate()
 		bex.global_position = global_position
 		get_tree().root.add_child(bex)
-
-		# tell the enemy to handle its own explosion & die
-		area.explode()
+		
 
 		# remove the bullet
 		queue_free()

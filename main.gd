@@ -15,8 +15,13 @@ func _process(_delta: float) -> void:
 
 
 func _on_enemy_wait_timer_timeout() -> void:
-	while current_no_of_enemies <= number_of_enemies:
+	for i in range(5): # make 5 enemies
 		var enemy = EnemyScene.instantiate()
-		add_child(enemy)
-		enemy.position = Vector2(0, -500)  # X=400, Y=200
-		current_no_of_enemies += 1
+		enemy.global_position = Vector2(randf() * 600, randf() * 400) # random spot
+		get_parent().add_child(enemy)
+
+
+func _on_warning_timeout() -> void:
+	var enemy = EnemyScene.instantiate()
+	enemy.global_position = Vector2(randf() * 600, randf() * 400) # random spot
+	get_parent().add_child(enemy)
