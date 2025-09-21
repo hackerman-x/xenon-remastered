@@ -147,14 +147,14 @@ animations = [{
 "speed": 7.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j1p"]
-size = Vector2(22, 35)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ss6wa"]
+radius = 13.152946
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oa4gd"]
-size = Vector2(38, 20)
+[sub_resource type="CircleShape2D" id="CircleShape2D_yulqn"]
+radius = 24.020824
 
-[node name="Zenon" type="CharacterBody2D"]
-collision_mask = 4
+[node name="Zenon" type="CharacterBody2D" groups=["Player"]]
+collision_mask = 8
 script = ExtResource("1_a6j1p")
 
 [node name="Thrusters" type="Node2D" parent="."]
@@ -177,13 +177,8 @@ sprite_frames = SubResource("SpriteFrames_ss6wa")
 animation = &"turn"
 autoplay = "idle"
 
-[node name="Vertical" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1.5)
-shape = SubResource("RectangleShape2D_a6j1p")
-
-[node name="Horizontal" type="CollisionShape2D" parent="."]
-position = Vector2(0, 12)
-shape = SubResource("RectangleShape2D_oa4gd")
+[node name="Base" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ss6wa")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -191,4 +186,12 @@ shape = SubResource("RectangleShape2D_oa4gd")
 wait_time = 0.15
 one_shot = true
 
+[node name="Hitbox" type="Area2D" parent="."]
+collision_mask = 8
+
+[node name="Hitbox" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_yulqn")
+
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_area_2d_area_entered"]

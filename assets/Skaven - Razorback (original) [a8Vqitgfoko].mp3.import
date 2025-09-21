@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cwej1ik4oqoln"
+path="res://.godot/imported/Skaven - Razorback (original) [a8Vqitgfoko].mp3-8ae526e8f3412a8fb2a3dca3c93925c6.mp3str"
+
+[deps]
+
+source_file="res://assets/Skaven - Razorback (original) [a8Vqitgfoko].mp3"
+dest_files=["res://.godot/imported/Skaven - Razorback (original) [a8Vqitgfoko].mp3-8ae526e8f3412a8fb2a3dca3c93925c6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

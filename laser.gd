@@ -15,6 +15,7 @@ func _physics_process(delta):
 func _process(_delta: float) -> void:
 	pass
 
+
 func _on_area_entered(area):
 	if area.is_in_group("Enemies"):
 		# spawn bullet explosion at bullet's position

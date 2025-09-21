@@ -51,7 +51,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"bigger",
-"speed": 2.0
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -75,15 +75,17 @@ animations = [{
 radius = 6.32394
 height = 37.9436
 
-[node name="Laser" type="Area2D" groups=["Bullet", "Enemy"]]
+[node name="Laser" type="Area2D" groups=["Bullet"]]
 show_behind_parent = true
 collision_layer = 4
-collision_mask = 9
+collision_mask = 2
 script = ExtResource("1_c0y1x")
 
 [node name="Laser_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a3a2b")
-animation = &"blow_up"
+animation = &"bigger"
+frame = 2
+frame_progress = 1.0
 
 [node name="Laser" type="CollisionShape2D" parent="."]
 scale = Vector2(0.474388, 0.474388)

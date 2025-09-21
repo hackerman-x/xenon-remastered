@@ -1,8 +1,10 @@
 extends RigidBody2D
 
 var Explosion = preload("res://enemy_explosion.tscn")
+var BulletScene = preload("res://EnemyLaser.tscn")
 
 @export var health := 5
+var can_shoot := true
 var min_distance := 50
 var orbit_speed := 1.5
 var orbit_radius := 120.0
@@ -15,30 +17,30 @@ func _ready() -> void:
 	base_position = Vector2(0, -500)
 
 func _physics_process(delta: float) -> void:
-	var zenon := get_tree().root.get_node("Main/Zenon")
-	var direction = zenon.global_position - global_position
-	var distance = direction.length()
-	if not in_orbit:
-		if distance > orbit_radius:
-			position += direction * approach_speed * delta
+	var zenon = get_tree().root.get_node_or_null("Main/Zenon")
+
+	if zenon:  # only runs if Zenon is still in the scene
+		var direction = zenon.global_position - global_position
+		var distance = direction.length()
+		if not in_orbit:
+			if distance > orbit_radius:
+				position += direction * approach_speed * delta
+			else:
+				# Enter orbit
+				in_orbit = true
+				angle = (global_position - zenon.global_position).angle()
 		else:
-			# Enter orbit
-			in_orbit = true
-			angle = (global_position - zenon.global_position).angle()
-	else:
-		# If Zenon is too far, stop orbiting
-		if distance > orbit_radius * 1.5:
-			in_orbit = false
-		else:
-			# Instead of snapping, MOVE toward the orbit point
-			angle += orbit_speed * delta
-			var target_pos = zenon.global_position + Vector2(cos(angle), sin(angle)) * orbit_radius
-			global_position = global_position.lerp(target_pos, 0.05) # smooth transition
-			
+			# If Zenon is too far, stop orbiting
+			if distance > orbit_radius * 1.5:
+				in_orbit = false
+			else:
+				# Instead of snapping, MOVE toward the orbit point
+				angle += orbit_speed * delta
+				var target_pos = zenon.global_position + Vector2(cos(angle), sin(angle)) * orbit_radius
+				global_position = global_position.lerp(target_pos, 0.05) # smooth transition
 
 
 
-	
 
 func explode():
 	# Spawn the explosion
@@ -56,7 +58,16 @@ func _on_area_entered(_area: Area2D) -> void:
 		#global_position += push
 		pass
 
-
+func shoot() -> void:
+	if can_shoot:
+		var bullet = BulletScene.instantiate()
+		get_parent().add_child(bullet)
+		bullet.global_position = global_position
+		
+		
+		can_shoot = false
+		$ShootTimer.start()
+	
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Bullet"):
@@ -68,4 +79,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			queue_free()
 		elif health > 0:
 			health -= 1
-			print(health)
+
+
+func _on_shoot_timer_timeout() -> void:
+	can_shoot = true

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://7x44yctjijxc" path="res://PixelSpaceRage/256px/Platform_03_png_processed.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://b1c67u76u677o" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b6ey43jfat6tm" path="res://Zenon.tscn" id="1_ig7tw"]
-[ext_resource type="AudioStream" uid="uid://cx7fdq1qkkrbv" path="res://PixelSpaceRage/peter-hajba-razorback-unreal-tournament.mp3" id="4_1bvp3"]
+[ext_resource type="AudioStream" uid="uid://cwej1ik4oqoln" path="res://assets/Skaven - Razorback (original) [a8Vqitgfoko].mp3" id="4_1bvp3"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_h2yge")
@@ -37,7 +37,7 @@ texture = ExtResource("1_0xm2m")
 [node name="Zenon" parent="." instance=ExtResource("1_ig7tw")]
 
 [node name="EnemyWaitTimer" type="Timer" parent="."]
-wait_time = 13.0
+wait_time = 32.0
 one_shot = true
 autostart = true
 
@@ -49,5 +49,9 @@ autostart = true
 stream = ExtResource("4_1bvp3")
 autoplay = true
 
+[node name="DeathCamera" type="Camera2D" parent="."]
+enabled = false
+
+[connection signal="child_order_changed" from="Enemy" to="." method="_on_enemy_child_order_changed"]
 [connection signal="timeout" from="EnemyWaitTimer" to="." method="_on_enemy_wait_timer_timeout"]
 [connection signal="timeout" from="Warning" to="." method="_on_warning_timeout"]

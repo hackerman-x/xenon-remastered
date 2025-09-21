@@ -2,6 +2,10 @@ extends CharacterBody2D
 
 
 var newLaser = preload("res://Laser.tscn")
+var Explosion = preload("res://player_explosion.tscn")
+
+
+@export var health := 5
 @export var UP_SPEED = 250.0
 @export var ACCELERATION = 700   # how fast we reach top speed
 @export var FRICTION = 900      # how fast we slow down
@@ -78,6 +82,8 @@ func _physics_process(delta: float) -> void:
 		$ShootTimer.start()
 
 	move_and_slide()
+	
+
 
 
 func _ready() -> void:
@@ -86,3 +92,16 @@ func _ready() -> void:
 
 func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
+
+
+func _on_area_2d_area_entered(_area: Area2D) -> void:
+	if health > 1:
+		health -= 1
+	elif health <= 1:
+		var explosion = Explosion.instantiate()
+		explosion.global_position = global_position
+		get_tree().root.add_child(explosion)
+		
+		visible = false
+		queue_free()
+		

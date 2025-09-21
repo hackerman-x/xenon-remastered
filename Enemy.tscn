@@ -124,14 +124,14 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tt7e2"]
-radius = 34.132095
+radius = 43.011627
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2iwxp"]
 radius = 34.525352
 
 [node name="Enemy" type="RigidBody2D" groups=["Enemies", "Enemy"]]
-collision_layer = 8
-collision_mask = 12
+collision_layer = 2
+collision_mask = 6
 gravity_scale = 0.0
 script = ExtResource("1_e6d4v")
 
@@ -139,15 +139,24 @@ script = ExtResource("1_e6d4v")
 sprite_frames = SubResource("SpriteFrames_tt7e2")
 animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.8893779
+
+[node name="Laser" type="Node2D" parent="."]
 
 [node name="Enemy" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tt7e2")
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 12
+[node name="Radar" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="Radar" type="CollisionShape2D" parent="Radar"]
 shape = SubResource("CircleShape2D_2iwxp")
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+autostart = true
+
+[connection signal="area_entered" from="Radar" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
