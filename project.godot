@@ -71,6 +71,12 @@ Boost={
 2d_render/layer_2="Enemy"
 2d_render/layer_3="Laser"
 2d_render/layer_4="EnemyLaser"
+2d_physics/layer_1="Zenon"
+2d_physics/layer_2="Enemy"
+2d_physics/layer_3="Laser"
+2d_physics/layer_4="EnemyLaser"
+2d_physics/layer_9="EnemyRadar"
+2d_physics/layer_10="Border"
 
 [rendering]
 

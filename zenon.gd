@@ -5,7 +5,7 @@ var newLaser = preload("res://Laser.tscn")
 var Explosion = preload("res://player_explosion.tscn")
 
 
-@export var health := 5
+@export var health := 10
 @export var UP_SPEED = 250.0
 @export var ACCELERATION = 700   # how fast we reach top speed
 @export var FRICTION = 900      # how fast we slow down
@@ -22,8 +22,8 @@ func _physics_process(delta: float) -> void:
 		velocity.y = move_toward(velocity.y, direction_y * UP_SPEED, ACCELERATION * delta)
 		if Input.is_action_pressed("Up"):
 			if Input.is_action_pressed("Boost"):
-				UP_SPEED = 600
-				FRICTION = 700
+				UP_SPEED = 450
+				FRICTION = 600
 				$Thrusters/Left.play("boost")
 				$Thrusters/Right.play("boost")
 			elif Input.is_action_just_released("Boost"):
@@ -75,7 +75,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("Shoot") and can_shoot:
 		var laser = newLaser.instantiate()
 		laser.position = position
-		var parent_node = get_tree().root.get_node("/root/Main/Laser")
+		var parent_node = get_tree().root.get_node("Main/Laser")
 		parent_node.add_child(laser)
 #
 		can_shoot = false
@@ -83,7 +83,6 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
-
 
 
 func _ready() -> void:
@@ -94,14 +93,17 @@ func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
 
 
-func _on_area_2d_area_entered(_area: Area2D) -> void:
-	if health > 1:
-		health -= 1
-	elif health <= 1:
-		var explosion = Explosion.instantiate()
-		explosion.global_position = global_position
-		get_tree().root.add_child(explosion)
-		
-		visible = false
-		queue_free()
-		
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.is_in_group("EnemyBullet"):
+		if health > 1:
+			health -= 1
+			var rect = get_parent().get_node("Health")
+			rect.size.x -= 20
+		elif health <= 1:
+			var explosion = Explosion.instantiate()
+			explosion.global_position = global_position
+			get_tree().root.add_child(explosion)
+			
+			visible = false
+			queue_free()
+			

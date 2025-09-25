@@ -4,19 +4,13 @@ var Explosion = preload("res://enemy_explosion.tscn")
 var BulletScene = preload("res://EnemyLaser.tscn")
 
 @export var health := 5
-@export var chase_distance: float = 400.0  # how close player must be
-@export var speed: float = 100.0           # enemy movement speed
-
-var aggro: bool = false
 var can_shoot := true
 var last_x: float = 0.0
 var moving_left: bool = false
 var moving_right: bool = false
 var min_distance := 50
 var orbit_speed := 1.5
-var old_health: int = 5
 var orbit_radius := 120.0
-var player: Node2D
 var angle := 0.0
 var approach_speed: float = 0.8   # how fast it moves toward Zenon's Y\
 var in_orbit := false
@@ -25,7 +19,6 @@ var base_position: Vector2
 func _ready() -> void:
 	base_position = Vector2(0, -500)
 	last_x = global_position.x
-	player = get_tree().root.get_node("Main/Zenon")  # change path to your player
 
 
 func _physics_process(delta: float) -> void:
@@ -33,8 +26,8 @@ func _physics_process(delta: float) -> void:
 
 	if zenon:  # only runs if Zenon is still in the scene
 		var direction = zenon.global_position - global_position
-		var distance = global_position.distance_to(player.global_position)
-		if not in_orbit and distance <= chase_distance or aggro:
+		var distance = direction.length()
+		if not in_orbit:
 			if distance > orbit_radius:
 				position += direction * approach_speed * delta
 			else:
@@ -80,9 +73,6 @@ func _physics_process(delta: float) -> void:
 
 	last_x = global_position.x
 
-	if not is_instance_valid(zenon):
-		return
-	
 
 
 
@@ -119,16 +109,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			# Remove the enemy itself
 			queue_free()
 		elif health > 0:
-			old_health = health
 			health -= 1
-			if health < old_health:   # health went down
-				aggro = true
-				$AggroTimer.start()
-				
+
 
 func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
-
-func _on_aggro_timer_timeout() -> void:
-	aggro = false
-	$AggroTimer.wait_time += 2

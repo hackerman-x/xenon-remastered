@@ -81,10 +81,12 @@ collision_layer = 8
 script = ExtResource("1_3yufu")
 
 [node name="Laser_animated" type="AnimatedSprite2D" parent="."]
+rotation = 3.1415927
 sprite_frames = SubResource("SpriteFrames_a3a2b")
 animation = &"bigger"
 
 [node name="Laser" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
 scale = Vector2(0.474388, 0.474388)
 shape = SubResource("CapsuleShape2D_klg7v")
 
