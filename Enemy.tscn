@@ -131,18 +131,19 @@ radius = 34.525352
 
 [node name="Enemy" type="RigidBody2D" groups=["Enemies"]]
 collision_layer = 2
-collision_mask = 518
+collision_mask = 6
 gravity_scale = 0.0
 script = ExtResource("1_e6d4v")
 
 [node name="Enemy_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tt7e2")
-animation = &"turn"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="Laser" type="Node2D" parent="."]
 
 [node name="Enemy" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_tt7e2")
 
 [node name="Radar" type="Area2D" parent="."]
@@ -150,6 +151,7 @@ collision_layer = 256
 collision_mask = 4
 
 [node name="Radar" type="CollisionShape2D" parent="Radar"]
+visible = false
 shape = SubResource("CircleShape2D_2iwxp")
 
 [node name="ShootTimer" type="Timer" parent="."]
@@ -157,11 +159,11 @@ wait_time = 0.4
 one_shot = true
 autostart = true
 
-[node name="AggroTimer" type="Timer" parent="."]
-wait_time = 3.0
+[node name="EnemyHitTimer" type="Timer" parent="."]
+wait_time = 0.1
 one_shot = true
 
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
 [connection signal="area_entered" from="Radar" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
-[connection signal="timeout" from="AggroTimer" to="." method="_on_aggro_timer_timeout"]
+[connection signal="timeout" from="EnemyHitTimer" to="." method="_on_enemy_hit_timer_timeout"]

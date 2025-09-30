@@ -47,7 +47,6 @@ func _physics_process(delta: float) -> void:
 #
 #
 	var direction_x := Input.get_axis("Left", "Right")
-	#print ("I'm getting warm! ", direction_x)
 	if direction_x < 0: # Moving left now. 
 		velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
 	elif direction_x == 0: 

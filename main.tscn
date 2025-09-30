@@ -10,8 +10,8 @@
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_h2yge")
-metadata/_edit_vertical_guides_ = [6.0, -80.0]
-metadata/_edit_horizontal_guides_ = [-77.0, -325.0]
+metadata/_edit_vertical_guides_ = [6.0, -911.0, 913.0]
+metadata/_edit_horizontal_guides_ = [-77.0, -325.0, -482.0, 471.0]
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -123,13 +123,12 @@ rotation = 3.1415927
 scale = Vector2(1, 0.39999998)
 color = Color(0.7529412, 0, 0, 1)
 
-[node name="Label" type="Label" parent="."]
+[node name="Score" type="Label" parent="."]
 offset_left = -19.0
 offset_top = -472.0
 offset_right = 21.0
 offset_bottom = -449.0
 scale = Vector2(1.36, 1.36)
-text = "A"
 
 [connection signal="timeout" from="EnemyWaitTimer" to="." method="_on_enemy_wait_timer_timeout"]
 [connection signal="timeout" from="Warning" to="." method="_on_warning_timeout"]

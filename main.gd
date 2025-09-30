@@ -5,10 +5,16 @@ var EnemyScene2 = preload("res://Enemy2.tscn")
 var current_no_of_enemies := 1.0
 var enemy_difficulty := 0
 var not_dead := true
+var x_min := -910
+var x_max := 910
+var y_min := -480
+var y_max := 480
 var enemies := []
 var enemyiesize : int
 var zenon : Node2D
 var can_shoot := false
+var score := 0
+var score_str :String
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,7 +23,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
-	print(enemyiesize)
 	if not is_instance_valid(zenon):
 		return
 	for enemy in enemies:
@@ -29,24 +34,96 @@ func _physics_process(_delta: float) -> void:
 					enemy.shoot()
 	
 	
+func enemy1() -> void:
+	var viewport_rect = get_viewport().get_visible_rect()
+	var spawn_pos = Vector2.ZERO
+	var margin = 100  # how far outside to spawn
 
-func _on_warning_timeout() -> void:
+	var side = randi_range(0, 3)  # 0=top, 1=bottom, 2=left, 3=right
+
+	match side:
+		0: # Top
+			spawn_pos.x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
+			spawn_pos.y = viewport_rect.position.y - margin
+
+		1: # Bottom
+			spawn_pos.x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
+			spawn_pos.y = viewport_rect.position.y + viewport_rect.size.y + margin
+
+		2: # Left
+			spawn_pos.x = viewport_rect.position.x - margin
+			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
+
+		3: # Right
+			spawn_pos.x = viewport_rect.position.x + viewport_rect.size.x + margin
+			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
 	var enemy = EnemyScene.instantiate()
-	enemy.global_position = Vector2(randf() * 600, randf() * 400) # random spot
-	var enemy_position = get_tree().root.get_node("Main/Enemy")
-	enemy_position.add_child(enemy)
+	var enemy_position_intree = get_tree().root.get_node("Main/Enemy")
+	enemy_position_intree.add_child(enemy)
+	enemy.global_position = spawn_pos
 	enemies.append(enemy)
 	enemyiesize = enemies.size()
+	
+	enemy.tree_exited.connect(func ():
+		if enemies.has(enemy):
+			enemies.erase(enemy)
+			score += 5
+			score_str = str(score)
+			$Score.text = score_str
+	)
+	
+func enemy2() -> void:
+	var viewport_rect = get_viewport().get_visible_rect()
+	var spawn_pos = Vector2.ZERO
+	var margin = 100  # how far outside to spawn
+
+	var side = randi_range(0, 3)  # 0=top, 1=bottom, 2=left, 3=right
+
+	match side:
+		0: # Top
+			spawn_pos.x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
+			spawn_pos.y = viewport_rect.position.y - margin
+
+		1: # Bottom
+			spawn_pos.x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
+			spawn_pos.y = viewport_rect.position.y + viewport_rect.size.y + margin
+
+		2: # Left
+			spawn_pos.x = viewport_rect.position.x - margin
+			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
+
+		3: # Right
+			spawn_pos.x = viewport_rect.position.x + viewport_rect.size.x + margin
+			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
+	var enemy = EnemyScene2.instantiate()
+	var enemy_position_intree = get_tree().root.get_node("Main/Enemy")
+	enemy_position_intree.add_child(enemy)
+	enemy.global_position = spawn_pos
+	enemies.append(enemy)
+	enemyiesize = enemies.size()
+	
+	enemy.tree_exited.connect(func ():
+		if enemies.has(enemy):
+			enemies.erase(enemy)
+			score += 10
+			score_str = str(score)
+			$Score.text = score_str
+	)
+
+func random() -> void:
+	var num = randi_range(1, 2)
+	if num == 1:
+		enemy1()
+	if num == 2:
+		enemy2()
+
+func _on_warning_timeout() -> void:
+	random()
 
 
 func _on_enemy_wait_timer_timeout() -> void:
 	for i in range(current_no_of_enemies):
-		var enemy = EnemyScene.instantiate()
-		enemy.global_position = Vector2(randf() * 600, randf() * 400) # random spot
-		var enemy_position = get_tree().root.get_node("Main/Enemy")
-		enemy_position.add_child(enemy)
-		enemies.append(enemy)
-		enemyiesize = enemies.size()
+		random()
 	current_no_of_enemies += 2
 	$EnemyWaitTimer.start()
 		

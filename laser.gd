@@ -29,7 +29,6 @@ func explode() -> void:
 		queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
-	print(area)
 	if area.is_in_group("Enemies"):
 		# spawn bullet explosion at bullet's position
 		var bex = Explosion.instantiate()

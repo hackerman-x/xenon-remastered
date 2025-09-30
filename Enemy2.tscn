@@ -10,9 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://cltgimw43cn5h" path="res://PixelSpaceRage/256px/Explosion01_Frame_07_png_processed.png" id="8_gjso2"]
 [ext_resource type="Texture2D" uid="uid://xyuoflg23pcp" path="res://PixelSpaceRage/256px/Explosion01_Frame_08_png_processed.png" id="9_qmy0k"]
 [ext_resource type="Texture2D" uid="uid://c4x52w1olsb61" path="res://PixelSpaceRage/256px/Explosion01_Frame_09_png_processed.png" id="10_uc7pv"]
-[ext_resource type="Texture2D" uid="uid://bw8sosbsj2ma5" path="res://PixelSpaceRage/256px/Enemy01_Red_Frame_1_png_processed.png" id="11_n645w"]
-[ext_resource type="Texture2D" uid="uid://0w72ck4ndvpj" path="res://PixelSpaceRage/256px/Enemy01_Red_Frame_2_png_processed.png" id="12_2a47u"]
-[ext_resource type="Texture2D" uid="uid://dikuimlrfoj1f" path="res://PixelSpaceRage/256px/Enemy01_Red_Frame_3_png_processed.png" id="13_koi5c"]
+[ext_resource type="Texture2D" uid="uid://dxtrtvfpxmj40" path="res://PixelSpaceRage/256px/Enemy02Green_Frame_1_png_processed.png" id="11_6req4"]
+[ext_resource type="Texture2D" uid="uid://bq0baxhyhp1rj" path="res://PixelSpaceRage/256px/Enemy02Green_Frame_2_png_processed.png" id="12_lwsab"]
+[ext_resource type="Texture2D" uid="uid://d1vy6i1741vam" path="res://PixelSpaceRage/256px/Enemy02Green_Frame_3_png_processed.png" id="13_qd5g0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smfg5"]
 atlas = ExtResource("2_lwsab")
@@ -50,20 +50,20 @@ region = Rect2(0, 0, 65, 64)
 atlas = ExtResource("10_uc7pv")
 region = Rect2(0, 0, 65, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qp131"]
-atlas = ExtResource("11_n645w")
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6gll"]
+atlas = ExtResource("11_6req4")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6do27"]
-atlas = ExtResource("11_n645w")
+[sub_resource type="AtlasTexture" id="AtlasTexture_cda4i"]
+atlas = ExtResource("11_6req4")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rvmyp"]
-atlas = ExtResource("12_2a47u")
+[sub_resource type="AtlasTexture" id="AtlasTexture_18rfq"]
+atlas = ExtResource("12_lwsab")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2nxwx"]
-atlas = ExtResource("13_koi5c")
+[sub_resource type="AtlasTexture" id="AtlasTexture_imc5r"]
+atlas = ExtResource("13_qd5g0")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tt7e2"]
@@ -102,7 +102,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qp131")
+"texture": SubResource("AtlasTexture_t6gll")
 }],
 "loop": true,
 "name": &"idle",
@@ -110,13 +110,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6do27")
+"texture": SubResource("AtlasTexture_cda4i")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rvmyp")
+"texture": SubResource("AtlasTexture_18rfq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2nxwx")
+"texture": SubResource("AtlasTexture_imc5r")
 }],
 "loop": false,
 "name": &"turn",
@@ -137,12 +137,13 @@ script = ExtResource("1_6req4")
 
 [node name="Enemy_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tt7e2")
-animation = &"turn"
+animation = &"blow_up"
 autoplay = "idle"
 
 [node name="Laser" type="Node2D" parent="."]
 
 [node name="Enemy" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_tt7e2")
 
 [node name="Radar" type="Area2D" parent="."]
@@ -150,12 +151,18 @@ collision_layer = 256
 collision_mask = 4
 
 [node name="Radar" type="CollisionShape2D" parent="Radar"]
+position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_2iwxp")
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.4
+wait_time = 0.6
 one_shot = true
 autostart = true
 
+[node name="EnemyHitTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [connection signal="area_entered" from="Radar" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="timeout" from="EnemyHitTimer" to="." method="_on_enemy_hit_timer_timeout"]
