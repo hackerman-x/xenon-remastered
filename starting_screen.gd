@@ -1,7 +1,9 @@
 extends Node2D
 
 var Main = preload("res://main.tscn")
-
+var max_y := 1360
+var can_move := false
+var next := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -9,13 +11,25 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func _physics_process(delta: float) -> void:
+	if can_move:
+		$Scroll.position.y -= 75 * delta
+		
+
 
 
 func _on_button_pressed() -> void:
 	$AudioStreamPlayer.playing = false
+	can_move = true
+	$AudioStreamPlayer2.play()
+	$Timer.start()
+
+
+func _on_timer_timeout() -> void:
+	can_move = false
+	$Scroll.queue_free()
+	$Camera2D.enabled = false
+	$STARS.queue_free()
+	$Button.visible = false
 	var main = Main.instantiate()
 	get_node("THE GAME").add_child(main)
-	$Camera2D.enabled = false
-	$Button.visible = false

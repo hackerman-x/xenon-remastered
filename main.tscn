@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bckoota2brwm7"]
+[gd_scene load_steps=6 format=3 uid="uid://bckoota2brwm7"]
 
 [ext_resource type="Script" uid="uid://b1c67u76u677o" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b6ey43jfat6tm" path="res://Zenon.tscn" id="1_ig7tw"]
-[ext_resource type="AudioStream" uid="uid://cwej1ik4oqoln" path="res://assets/Skaven - Razorback (original) [a8Vqitgfoko].mp3" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://depdwt03pd667" path="res://camera.gd" id="4_lquwl"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_h2yge"]
@@ -38,10 +37,6 @@ autostart = true
 [node name="Warning" type="Timer" parent="."]
 one_shot = true
 autostart = true
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_1bvp3")
-autoplay = true
 
 [node name="Camera" type="Camera2D" parent="."]
 script = ExtResource("4_lquwl")

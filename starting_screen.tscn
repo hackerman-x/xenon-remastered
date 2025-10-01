@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cp3dvj0otgrcf"]
+[gd_scene load_steps=9 format=3 uid="uid://cp3dvj0otgrcf"]
 
 [ext_resource type="Script" uid="uid://b5dek1nlrh7ra" path="res://starting_screen.gd" id="1_mdfg2"]
 [ext_resource type="PackedScene" uid="uid://b1b3r7nh1ll10" path="res://stars.tscn" id="2_grbrr"]
 [ext_resource type="AudioStream" uid="uid://boclgfunxwn3p" path="res://assets/1-space-cruise-title.mp3" id="2_gxvq4"]
 [ext_resource type="Texture2D" uid="uid://bms0ajn8hacse" path="res://assets/Background.jpeg" id="3_0g0qd"]
+[ext_resource type="Texture2D" uid="uid://cujrc4ks3p1o5" path="res://assets/Text.png" id="5_grbrr"]
+[ext_resource type="AudioStream" uid="uid://cwej1ik4oqoln" path="res://assets/Skaven - Razorback (original) [a8Vqitgfoko].mp3" id="6_jrgtf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0g0qd"]
 atlas = ExtResource("3_0g0qd")
@@ -31,7 +33,12 @@ frame_progress = 0.22506052
 stream = ExtResource("2_gxvq4")
 autoplay = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_jrgtf")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 32.0
+one_shot = true
 
 [node name="STARS" type="Node2D" parent="."]
 
@@ -166,6 +173,13 @@ theme_override_colors/font_outline_color = Color(0.9607843, 0.8117647, 0.6705882
 text = "DEPLOY"
 flat = true
 
+[node name="Scroll" type="Sprite2D" parent="."]
+position = Vector2(25, 3102.35)
+texture = ExtResource("5_grbrr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
 [node name="THE GAME" type="Node2D" parent="."]
 
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
