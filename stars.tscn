@@ -1,0 +1,68 @@
+[gd_scene load_steps=15 format=3 uid="uid://b1b3r7nh1ll10"]
+
+[ext_resource type="Texture2D" uid="uid://7sy8e4wfonib" path="res://assets/Untitled.png" id="1_6wdy3"]
+[ext_resource type="Script" uid="uid://ck63oypuorkou" path="res://stars.gd" id="1_opvdl"]
+[ext_resource type="Texture2D" uid="uid://bgsftehuj7ea8" path="res://assets/Untitled2.png" id="3_pga1i"]
+[ext_resource type="Texture2D" uid="uid://b5ndphh0yfijf" path="res://assets/Untitled3.png" id="4_pukdt"]
+[ext_resource type="Texture2D" uid="uid://cm1erryg2xldf" path="res://assets/Untitled1.png" id="5_fec62"]
+[ext_resource type="Texture2D" uid="uid://p8ghdxkrcq3q" path="res://assets/Untitled4.png" id="6_tva76"]
+[ext_resource type="Texture2D" uid="uid://dnxjbkjgfdpop" path="res://assets/Untitled5.png" id="7_carq4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iwoj7"]
+atlas = ExtResource("1_6wdy3")
+region = Rect2(0, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywb47"]
+atlas = ExtResource("3_pga1i")
+region = Rect2(0, 0, 13, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcdje"]
+atlas = ExtResource("4_pukdt")
+region = Rect2(0, 0, 14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_16w7u"]
+atlas = ExtResource("5_fec62")
+region = Rect2(0, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8u4g"]
+atlas = ExtResource("6_tva76")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6adw"]
+atlas = ExtResource("7_carq4")
+region = Rect2(0, 0, 17, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2o1mu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwoj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ywb47")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcdje")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_16w7u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8u4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6adw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="stars" type="Node2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_opvdl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2o1mu")
+frame = 1
+frame_progress = 0.65186596

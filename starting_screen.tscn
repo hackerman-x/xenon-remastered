@@ -1,18 +1,170 @@
-[gd_scene load_steps=2 format=3 uid="uid://cp3dvj0otgrcf"]
+[gd_scene load_steps=7 format=3 uid="uid://cp3dvj0otgrcf"]
 
 [ext_resource type="Script" uid="uid://b5dek1nlrh7ra" path="res://starting_screen.gd" id="1_mdfg2"]
+[ext_resource type="PackedScene" uid="uid://b1b3r7nh1ll10" path="res://stars.tscn" id="2_grbrr"]
+[ext_resource type="AudioStream" uid="uid://boclgfunxwn3p" path="res://assets/1-space-cruise-title.mp3" id="2_gxvq4"]
+[ext_resource type="Texture2D" uid="uid://bms0ajn8hacse" path="res://assets/Background.jpeg" id="3_0g0qd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0g0qd"]
+atlas = ExtResource("3_0g0qd")
+region = Rect2(0, 0, 1920, 1202)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y3dbm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0g0qd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Starting Screen" type="Node2D"]
 script = ExtResource("1_mdfg2")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_y3dbm")
+frame_progress = 0.22506052
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_gxvq4")
+autoplay = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
+[node name="STARS" type="Node2D" parent="."]
+
+[node name="stars" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-535, 352)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars2" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-315, 354)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars3" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-864.99994, 445)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars4" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-787, 333)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars5" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-850, 289)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars6" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-474.00003, 37.000015)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars7" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-411, 84)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars8" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-85.00003, 130)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars9" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(547.9999, 368)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars10" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(742, 267)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars11" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(781.99994, 305.00003)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars12" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(764, 382)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars13" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(891, 245.00002)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars14" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(852, -401.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars15" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(796, -489)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars16" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(561, -399)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars17" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(562, -596.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars18" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-145.99988, -422)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars19" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-211, -467)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars20" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-524, -338)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars21" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-588.00006, -276)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars22" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-713.00006, -376.00003)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars23" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-756, -294)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars24" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-799.99994, -396)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars25" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-874.99994, -514)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars26" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-652, -548)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars27" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-807, -255.00009)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars28" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(-266.00006, 459.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="stars29" parent="STARS" instance=ExtResource("2_grbrr")]
+position = Vector2(355.99994, 473)
+scale = Vector2(0.7, 0.7)
+
 [node name="Button" type="Button" parent="."]
-offset_left = -27.0
-offset_top = -15.0
-offset_right = 29.0
-offset_bottom = 16.0
-text = "START"
+offset_left = 257.0
+offset_top = -130.0
+offset_right = 327.0
+offset_bottom = -99.0
+scale = Vector2(3.17, 3.17)
+theme_override_colors/font_color = Color(0.52771664, 0.34942362, 0.15317398, 1)
+theme_override_colors/font_focus_color = Color(0.9607843, 0.827451, 0.6901961, 1)
+theme_override_colors/font_pressed_color = Color(0.9607843, 0.8117647, 0.67058825, 1)
+theme_override_colors/font_hover_color = Color(0.9647059, 0.8156863, 0.6745098, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.95686275, 0.8156863, 0.6901961, 1)
+theme_override_colors/font_outline_color = Color(0.9607843, 0.8117647, 0.67058825, 1)
+text = "DEPLOY"
+flat = true
 
 [node name="THE GAME" type="Node2D" parent="."]
 

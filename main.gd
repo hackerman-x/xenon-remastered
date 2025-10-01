@@ -3,6 +3,7 @@ extends Node2D
 var EnemyScene = preload("res://Enemies/Enemy.tscn")
 var EnemyScene2 = preload("res://Enemies/Enemy2.tscn")
 var EnemyScene3 = preload("res://Enemies/Enemy3.tscn")
+var EnemyScene4 = preload("res://Enemies/Enemy4.tscn")
 var current_no_of_enemies := 1.0
 var enemy_difficulty := 0
 var not_dead := true
@@ -113,14 +114,33 @@ func enemy3() -> void:
 			$Score.text = score_str
 	)
 
+func enemy4() -> void:
+	spawn()
+	var enemy = EnemyScene4.instantiate()
+	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
+	enemy_position_intree.add_child(enemy)
+	enemy.global_position = spawn_pos
+	enemies.append(enemy)
+	enemyiesize = enemies.size()
+	
+	enemy.tree_exited.connect(func ():
+		if enemies.has(enemy):
+			enemies.erase(enemy)
+			score += 5
+			score_str = str(score)
+			$Score.text = score_str
+	)
+
 func random() -> void:
-	var num = randi_range(1, 3)
+	var num = randi_range(1, 4)
 	if num == 1:
 		enemy1()
 	if num == 2:
 		enemy2()
 	if num == 3:
 		enemy3()
+	if num == 4:
+		enemy4()
 
 func _on_warning_timeout() -> void:
 	random()
