@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bckoota2brwm7"]
+[gd_scene load_steps=7 format=3 uid="uid://bckoota2brwm7"]
 
 [ext_resource type="Script" uid="uid://b1c67u76u677o" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b6ey43jfat6tm" path="res://Zenon.tscn" id="1_ig7tw"]
 [ext_resource type="AudioStream" uid="uid://cwej1ik4oqoln" path="res://assets/Skaven - Razorback (original) [a8Vqitgfoko].mp3" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://depdwt03pd667" path="res://camera.gd" id="4_lquwl"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_h2yge"]
 
@@ -30,7 +31,7 @@ color = Color(0, 0, 0, 1)
 [node name="Zenon" parent="." instance=ExtResource("1_ig7tw")]
 
 [node name="EnemyWaitTimer" type="Timer" parent="."]
-wait_time = 16.0
+wait_time = 5.0
 one_shot = true
 autostart = true
 
@@ -43,6 +44,7 @@ stream = ExtResource("4_1bvp3")
 autoplay = true
 
 [node name="Camera" type="Camera2D" parent="."]
+script = ExtResource("4_lquwl")
 
 [node name="Difficulty" type="Timer" parent="."]
 wait_time = 120.0
@@ -129,6 +131,7 @@ offset_top = -472.0
 offset_right = 21.0
 offset_bottom = -449.0
 scale = Vector2(1.36, 1.36)
+text = "0"
 
 [connection signal="timeout" from="EnemyWaitTimer" to="." method="_on_enemy_wait_timer_timeout"]
 [connection signal="timeout" from="Warning" to="." method="_on_warning_timeout"]

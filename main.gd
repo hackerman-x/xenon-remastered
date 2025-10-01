@@ -1,10 +1,12 @@
 extends Node2D
 
-var EnemyScene = preload("res://Enemy.tscn")
-var EnemyScene2 = preload("res://Enemy2.tscn")
+var EnemyScene = preload("res://Enemies/Enemy.tscn")
+var EnemyScene2 = preload("res://Enemies/Enemy2.tscn")
+var EnemyScene3 = preload("res://Enemies/Enemy3.tscn")
 var current_no_of_enemies := 1.0
 var enemy_difficulty := 0
 var not_dead := true
+var spawn_pos = Vector2.ZERO
 var x_min := -910
 var x_max := 910
 var y_min := -480
@@ -32,11 +34,11 @@ func _physics_process(_delta: float) -> void:
 			if is_instance_valid(enemy):
 				if y_dist <= -30 and y_dist >= -300 and x_dist <= 25:
 					enemy.shoot()
+					
 	
-	
-func enemy1() -> void:
+
+func spawn():
 	var viewport_rect = get_viewport().get_visible_rect()
-	var spawn_pos = Vector2.ZERO
 	var margin = 100  # how far outside to spawn
 
 	var side = randi_range(0, 3)  # 0=top, 1=bottom, 2=left, 3=right
@@ -57,8 +59,13 @@ func enemy1() -> void:
 		3: # Right
 			spawn_pos.x = viewport_rect.position.x + viewport_rect.size.x + margin
 			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
+			
+	return spawn_pos
+
+func enemy1() -> void:
+	spawn()
 	var enemy = EnemyScene.instantiate()
-	var enemy_position_intree = get_tree().root.get_node("Main/Enemy")
+	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
 	enemy_position_intree.add_child(enemy)
 	enemy.global_position = spawn_pos
 	enemies.append(enemy)
@@ -73,30 +80,26 @@ func enemy1() -> void:
 	)
 	
 func enemy2() -> void:
-	var viewport_rect = get_viewport().get_visible_rect()
-	var spawn_pos = Vector2.ZERO
-	var margin = 100  # how far outside to spawn
-
-	var side = randi_range(0, 3)  # 0=top, 1=bottom, 2=left, 3=right
-
-	match side:
-		0: # Top
-			spawn_pos.x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
-			spawn_pos.y = viewport_rect.position.y - margin
-
-		1: # Bottom
-			spawn_pos.x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
-			spawn_pos.y = viewport_rect.position.y + viewport_rect.size.y + margin
-
-		2: # Left
-			spawn_pos.x = viewport_rect.position.x - margin
-			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
-
-		3: # Right
-			spawn_pos.x = viewport_rect.position.x + viewport_rect.size.x + margin
-			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
+	spawn()
 	var enemy = EnemyScene2.instantiate()
-	var enemy_position_intree = get_tree().root.get_node("Main/Enemy")
+	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
+	enemy_position_intree.add_child(enemy)
+	enemy.global_position = spawn_pos
+	enemies.append(enemy)
+	enemyiesize = enemies.size()
+	
+	enemy.tree_exited.connect(func ():
+		if enemies.has(enemy):
+			enemies.erase(enemy)
+			score += 10
+			score_str = str(score)
+			$Score.text = score_str
+	)
+
+func enemy3() -> void:
+	spawn()
+	var enemy = EnemyScene3.instantiate()
+	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
 	enemy_position_intree.add_child(enemy)
 	enemy.global_position = spawn_pos
 	enemies.append(enemy)
@@ -111,11 +114,13 @@ func enemy2() -> void:
 	)
 
 func random() -> void:
-	var num = randi_range(1, 2)
+	var num = randi_range(1, 3)
 	if num == 1:
 		enemy1()
 	if num == 2:
 		enemy2()
+	if num == 3:
+		enemy3()
 
 func _on_warning_timeout() -> void:
 	random()
@@ -124,11 +129,14 @@ func _on_warning_timeout() -> void:
 func _on_enemy_wait_timer_timeout() -> void:
 	for i in range(current_no_of_enemies):
 		random()
-	current_no_of_enemies += 2
-	$EnemyWaitTimer.start()
-		
+	if enemies.size() <= enemies.size() - 1 or enemies.size() == 0:
+		$EnemyWaitTimer.wait_time -= 5
+		$EnemyWaitTimer.start()
+	elif enemies.size() != 0:
+		$EnemyWaitTimer.wait_time += 3
+		$EnemyWaitTimer.start()
 
 
 func _on_difficulty_timeout() -> void:
-	current_no_of_enemies += enemy_difficulty
+	current_no_of_enemies += 1
 	$Difficulty.start()

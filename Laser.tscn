@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c4b6ssptkv4ll"]
+[gd_scene load_steps=19 format=3 uid="uid://c4b6ssptkv4ll"]
 
 [ext_resource type="Script" uid="uid://dlbd4k1mcu0wd" path="res://laser.gd" id="1_c0y1x"]
 [ext_resource type="Texture2D" uid="uid://cyr16g88mu2mi" path="res://PixelSpaceRage/256px/Laser_Small_png_processed.png" id="1_tgwgk"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://8n11rkutu6gs" path="res://PixelSpaceRage/256px/Explosion01_Frame_02_png_processed.png" id="6_klg7v"]
 [ext_resource type="Texture2D" uid="uid://effiq5cqtum7" path="res://PixelSpaceRage/256px/Explosion01_Frame_08_png_processed2.png" id="7_n78cf"]
 [ext_resource type="Texture2D" uid="uid://b1wa6w3bgsi08" path="res://PixelSpaceRage/256px/Explosion01_Frame_09_png_processed2.png" id="8_gyh6v"]
+[ext_resource type="AudioStream" uid="uid://d3jaclaeqagpv" path="res://assets/laser-gun-81720.mp3.mp3" id="9_gyh6v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tgwgk"]
 atlas = ExtResource("1_tgwgk")
@@ -90,5 +91,9 @@ frame_progress = 1.0
 [node name="Laser" type="CollisionShape2D" parent="."]
 scale = Vector2(0.474388, 0.474388)
 shape = SubResource("CapsuleShape2D_klg7v")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_gyh6v")
+volume_db = -30.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

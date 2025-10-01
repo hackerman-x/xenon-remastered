@@ -1,7 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://bo2wie3xu1sso"]
+[gd_scene load_steps=22 format=3 uid="uid://bo2wie3xu1sso"]
 
 [ext_resource type="Texture2D" uid="uid://c6hjqx0eflmev" path="res://PixelSpaceRage/256px/Explosion01_Frame_01_png_processed.png" id="1_c0oyk"]
-[ext_resource type="Script" uid="uid://dsbfudw508gka" path="res://enemy_explosion.gd" id="1_nt80w"]
+[ext_resource type="Script" uid="uid://dsbfudw508gka" path="res://Explosions/enemy_explosion.gd" id="1_nt80w"]
 [ext_resource type="Texture2D" uid="uid://8n11rkutu6gs" path="res://PixelSpaceRage/256px/Explosion01_Frame_02_png_processed.png" id="2_nt80w"]
 [ext_resource type="Texture2D" uid="uid://cxtnyovc4y131" path="res://PixelSpaceRage/256px/Explosion01_Frame_03_png_processed.png" id="3_huuxp"]
 [ext_resource type="Texture2D" uid="uid://byk8pcc4b7pvn" path="res://PixelSpaceRage/256px/Explosion01_Frame_04_png_processed.png" id="4_mtpso"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cltgimw43cn5h" path="res://PixelSpaceRage/256px/Explosion01_Frame_07_png_processed.png" id="7_pd7kp"]
 [ext_resource type="Texture2D" uid="uid://xyuoflg23pcp" path="res://PixelSpaceRage/256px/Explosion01_Frame_08_png_processed.png" id="8_8ih1g"]
 [ext_resource type="Texture2D" uid="uid://c4x52w1olsb61" path="res://PixelSpaceRage/256px/Explosion01_Frame_09_png_processed.png" id="9_brcwm"]
+[ext_resource type="AudioStream" uid="uid://c1licgfy3s8f3" path="res://assets/space-explosion-with-reverb-101449.mp3" id="11_a0v7g"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kuuqp"]
 atlas = ExtResource("1_c0oyk")
@@ -79,7 +80,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"blow_up",
-"speed": 20.0
+"speed": 8.0
 }]
 
 [node name="EnemyExplosion" type="Node2D"]
@@ -89,7 +90,9 @@ script = ExtResource("1_nt80w")
 sprite_frames = SubResource("SpriteFrames_aulx5")
 animation = &"blow_up"
 autoplay = "blow_up"
-frame = 8
-frame_progress = 1.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_a0v7g")
+volume_db = 10.0
 
 [connection signal="animation_finished" from="Enemy_blowup" to="." method="_on_animated_sprite_2d_animation_finished"]

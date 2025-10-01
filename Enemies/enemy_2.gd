@@ -4,7 +4,7 @@ extends RigidBody2D
 
 
 # VARIABELLLLLS
-var Explosion = preload("res://enemy_explosion.tscn")
+var Explosion = preload("res://Explosions/enemy_explosion.tscn")
 var BulletScene = preload("res://EnemyLaser.tscn")
 
 @export var health := 5
@@ -30,16 +30,15 @@ var base_position: Vector2
 
 
 
-
 func _ready() -> void:
 	randomize()
 	base_position = Vector2(0, -500)
 	last_x = global_position.x
-	player = get_tree().root.get_node("Main/Zenon")  # change path to your player
+	player = get_tree().root.get_node("Starting Screen/THE GAME/Main/Zenon")  # change path to your player
 
 
 func _physics_process(delta: float) -> void:
-	var zenon = get_tree().root.get_node_or_null("Main/Zenon")
+	var zenon = get_tree().root.get_node_or_null("Starting Screen/THE GAME/Main/Zenon")
 	
 	if zenon:  # only runs if Zenon is still in the scene
 		if not zenon:
@@ -107,14 +106,6 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(zenon):
 		return
 
-
-func explode():
-	# Spawn the explosion
-	var explosion = Explosion.instantiate()
-	explosion.global_position = global_position
-	get_tree().root.add_child(explosion)
-	# Remove the enemy itself
-	queue_free()
 	
 	
 
@@ -134,6 +125,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		area.explode()
 		if health == 1:
 			var explosion = Explosion.instantiate()
+			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
+			camera.start_shake(8)
 			explosion.global_position = global_position
 			get_tree().root.add_child(explosion)
 			# Remove the enemy itself

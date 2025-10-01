@@ -1,11 +1,12 @@
 extends Area2D
 
-var Explosion = preload("res://explosion.tscn")
+var Explosion = preload("res://Explosions/explosion.tscn")
 @export var speed := 500
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Laser_animated.play("bigger")
+	$AudioStreamPlayer.play()
 
 func _physics_process(delta):
 	var direction = Vector2.DOWN.rotated(rotation)

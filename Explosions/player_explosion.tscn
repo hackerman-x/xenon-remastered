@@ -1,6 +1,6 @@
-[gd_scene load_steps=21 format=3 uid="uid://cmav6gvicn1rx"]
+[gd_scene load_steps=22 format=3 uid="uid://cmav6gvicn1rx"]
 
-[ext_resource type="Script" uid="uid://dcbw6rs5n5lxa" path="res://player_explosion.gd" id="1_805cs"]
+[ext_resource type="Script" uid="uid://dcbw6rs5n5lxa" path="res://Explosions/player_explosion.gd" id="1_805cs"]
 [ext_resource type="Texture2D" uid="uid://ddon6wv0ij6af" path="res://PixelSpaceRage/256px/Explosion02_Frame_01_png_processed.png" id="2_805cs"]
 [ext_resource type="Texture2D" uid="uid://dypwpfu6al3g7" path="res://PixelSpaceRage/256px/Explosion02_Frame_02_png_processed.png" id="3_5edio"]
 [ext_resource type="Texture2D" uid="uid://bv5a7f33iasoe" path="res://PixelSpaceRage/256px/Explosion02_Frame_03_png_processed.png" id="4_2ky4y"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://c2rl55a1qcsnd" path="res://PixelSpaceRage/256px/Explosion02_Frame_07_png_processed.png" id="8_c87j1"]
 [ext_resource type="Texture2D" uid="uid://bj12jubaw8mnl" path="res://PixelSpaceRage/256px/Explosion02_Frame_08_png_processed.png" id="9_f0u2y"]
 [ext_resource type="Texture2D" uid="uid://bq68lwgxr3kvk" path="res://PixelSpaceRage/256px/Explosion02_Frame_09_png_processed.png" id="10_bqhr2"]
+[ext_resource type="AudioStream" uid="uid://c1licgfy3s8f3" path="res://assets/space-explosion-with-reverb-101449.mp3" id="11_k61gg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1x50n"]
 atlas = ExtResource("2_805cs")
@@ -79,7 +80,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"blow_up",
-"speed": 20.0
+"speed": 8.0
 }]
 
 [node name="PlayerExplosion" type="Node2D"]
@@ -90,5 +91,9 @@ sprite_frames = SubResource("SpriteFrames_aulx5")
 animation = &"blow_up"
 autoplay = "blow_up"
 frame_progress = 1.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_k61gg")
+volume_db = 10.0
 
 [connection signal="animation_finished" from="Player_blowup" to="." method="_on_player_blowup_animation_finished"]

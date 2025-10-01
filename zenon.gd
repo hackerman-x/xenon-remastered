@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 
 var newLaser = preload("res://Laser.tscn")
-var Explosion = preload("res://player_explosion.tscn")
+var Explosion = preload("res://Explosions/player_explosion.tscn")
 
 
 @export var health := 10
@@ -74,7 +74,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("Shoot") and can_shoot:
 		var laser = newLaser.instantiate()
 		laser.position = position
-		var parent_node = get_tree().root.get_node("Main/Laser")
+		var parent_node = get_tree().root.get_node("Starting Screen/THE GAME/Main/Laser")
 		parent_node.add_child(laser)
 #
 		can_shoot = false
@@ -100,6 +100,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			rect.size.x -= 20
 		elif health <= 1:
 			var explosion = Explosion.instantiate()
+			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
+			camera.start_shake(20)
 			explosion.global_position = global_position
 			get_tree().root.add_child(explosion)
 			
