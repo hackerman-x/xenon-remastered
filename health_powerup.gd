@@ -12,12 +12,12 @@ func _process(_delta: float) -> void:
 
 
 func _on_area_entered(area: Area2D) -> void:
+	$Health.visible = false
 	$AudioStreamPlayer.play()
 	if area.is_in_group("Player"):
 		var player = get_tree().root.get_node("Starting Screen/THE GAME/Main/Zenon")
 		player.regen()
 		position = player.global_position
-		$Health.play("collected")
 		$Timer.start()
 
 

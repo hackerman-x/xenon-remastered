@@ -101,6 +101,7 @@ func _physics_process(delta: float) -> void:
 func _ready() -> void:
 	Global.zenon_ref = self
 	rect = get_parent().get_node("Health")
+	$PickUp.visible = false
 
 
 func _on_shoot_timer_timeout() -> void:
@@ -108,6 +109,9 @@ func _on_shoot_timer_timeout() -> void:
 
 func regen() -> void:
 	rect.size.x = 200
+	$PickUp.visible = true
+	$PickUp.play("default")
+	$Pickupwait.start()
 	health = 9
 
 
@@ -115,7 +119,11 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("EnemyBullet"):
 		rect.size.x -= 20
 		if health > 0:
+			$Zenon_animated.modulate = Color("#ff7c6b")
+			$HitTimer.start()
 			health -= 1
+			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
+			camera.start_shake(3)
 		elif health == 0:
 			var explosion = Explosion.instantiate()
 			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
@@ -126,3 +134,11 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			visible = false
 			queue_free()
 			
+
+
+func _on_pickupwait_timeout() -> void:
+	$PickUp.visible = false
+
+
+func _on_hit_timer_timeout() -> void:
+	$Zenon_animated.modulate = Color.WHITE
