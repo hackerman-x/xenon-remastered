@@ -19,21 +19,18 @@ func _ready():
 func _process(delta):
 	if Global.zenon_ref and Global.zenon_ref.faster:
 		speed = 100
-	#if Global.zenon_ref and not Global.zenon_ref.faster:
-		#speed = 50
 
 	if Global.zenon_ref and Global.zenon_ref.fastest:
 		speed = 200
-	#if Global.zenon_ref and not Global.zenon_ref.fastest:
-		#speed = 50
-	if Global.zenon_ref and Global.zenon_ref.slow:
-		speed = 25
-	
+		
 	if Global.zenon_ref and Global.zenon_ref.idle:
+		speed = 75
+			
+	
+	if Global.zenon_ref and Global.zenon_ref.slow:
 		speed = 50
-	
+		
 	position.y += speed * delta
-	
 	
 	# if star goes below the viewport
 	if position.y > 480:

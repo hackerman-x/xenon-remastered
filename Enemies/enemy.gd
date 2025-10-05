@@ -8,7 +8,7 @@ var Explosion = preload("res://Explosions/enemy_explosion.tscn")
 var BulletScene = preload("res://EnemyLaser.tscn")
 var PowerUp = preload("res://health_powerup.tscn")
 
-@export var health := 5
+@export var health := 4
 @export var chase_distance: float = 400.0  # how close player must be
 @export var speed: float = 100.0           # enemy movement speed
 @export var y_stop_range: float = 20.0

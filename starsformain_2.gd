@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var speed: float = 75.0   # how fast the star falls
+@export var speed: float = 100.0   # how fast the star falls
 @export var y_min: float = -520.0  # spawn range min Y
 @export var y_max: float = 520.0   # spawn range max Y
 @export var x_max: float = 945.0
@@ -19,19 +19,16 @@ func _ready():
 func _process(delta):
 	if Global.zenon_ref and Global.zenon_ref.faster:
 		speed = 150
-	#if Global.zenon_ref and not Global.zenon_ref.faster:
-		#speed = 50
 
 	if Global.zenon_ref and Global.zenon_ref.fastest:
 		speed = 250
-	#if Global.zenon_ref and not Global.zenon_ref.fastest:
-		#speed = 50
-	if Global.zenon_ref and Global.zenon_ref.slow:
-		speed = 37.5
-	
+		
 	if Global.zenon_ref and Global.zenon_ref.idle:
 		speed = 75
-	
+		
+	if Global.zenon_ref and Global.zenon_ref.slow:
+		speed = 75
+		
 	position.y += speed * delta
 	
 	

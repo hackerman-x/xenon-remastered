@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://8tqt4hk2apv7"]
 
-[ext_resource type="Script" uid="uid://xhhmdqtg8ueb" path="res://Enemies/enemy_5.gd" id="1_4wbr0"]
+[ext_resource type="Script" uid="uid://dflyhpkpu13v0" path="res://Enemies/enemy.gd" id="1_4wbr0"]
 [ext_resource type="Texture2D" uid="uid://c6hjqx0eflmev" path="res://PixelSpaceRage/256px/Explosion01_Frame_01_png_processed.png" id="2_q5l7a"]
 [ext_resource type="Texture2D" uid="uid://8n11rkutu6gs" path="res://PixelSpaceRage/256px/Explosion01_Frame_02_png_processed.png" id="3_7befb"]
 [ext_resource type="Texture2D" uid="uid://cxtnyovc4y131" path="res://PixelSpaceRage/256px/Explosion01_Frame_03_png_processed.png" id="4_mx1yi"]
@@ -134,6 +134,7 @@ collision_layer = 2
 collision_mask = 6
 gravity_scale = 0.0
 script = ExtResource("1_4wbr0")
+health = 9
 
 [node name="Enemy_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tt7e2")

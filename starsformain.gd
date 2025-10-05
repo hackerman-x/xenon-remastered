@@ -19,19 +19,16 @@ func _ready():
 func _process(delta):
 	if Global.zenon_ref and Global.zenon_ref.faster:
 		speed = 200
-	#if Global.zenon_ref and not Global.zenon_ref.faster:
-		#speed = 50
 
 	if Global.zenon_ref and Global.zenon_ref.fastest:
 		speed = 300
-	#if Global.zenon_ref and not Global.zenon_ref.fastest:
-		#speed = 50
-	if Global.zenon_ref and Global.zenon_ref.slow:
-		speed = 50
-	
+		
 	if Global.zenon_ref and Global.zenon_ref.idle:
 		speed = 100
-	
+			
+	if Global.zenon_ref and Global.zenon_ref.slow:
+		speed = 100
+		
 	position.y += speed * delta
 	
 	

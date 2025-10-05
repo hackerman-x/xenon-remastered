@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bckoota2brwm7"]
+[gd_scene load_steps=8 format=3 uid="uid://bckoota2brwm7"]
 
 [ext_resource type="Script" uid="uid://b1c67u76u677o" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b6ey43jfat6tm" path="res://Zenon.tscn" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://dkb3vw52hdn4l" path="res://assets/HIT.png" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://depdwt03pd667" path="res://camera.gd" id="4_lquwl"]
+[ext_resource type="Texture2D" uid="uid://10adpga01rn3" path="res://assets/REGEN.png" id="5_lquwl"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_h2yge"]
 
@@ -17,9 +19,9 @@ metadata/_edit_horizontal_guides_ = [-77.0, -325.0, -482.0, 471.0]
 
 [node name="ColorRect" type="ColorRect" parent="Background"]
 offset_left = 1109.0
-offset_top = 499.0
+offset_top = 616.3773
 offset_right = 1149.0
-offset_bottom = 539.0001
+offset_bottom = 664.12286
 scale = Vector2(-56.26705, -25.405918)
 color = Color(0, 0, 0, 1)
 
@@ -146,6 +148,17 @@ text = "0"
 metadata/_edit_use_anchors_ = true
 
 [node name="PowerUps" type="Node2D" parent="."]
+
+[node name="Hit" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-16.999992, 1)
+scale = Vector2(1.1593751, 1)
+texture = ExtResource("4_1bvp3")
+
+[node name="Regen" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(1.1473958, 1)
+texture = ExtResource("5_lquwl")
 
 [connection signal="timeout" from="EnemyWaitTimer" to="." method="_on_enemy_wait_timer_timeout"]
 [connection signal="timeout" from="Warning" to="." method="_on_warning_timeout"]

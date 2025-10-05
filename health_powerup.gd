@@ -1,5 +1,6 @@
 extends Area2D
 
+var speed :int = 35
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -7,8 +8,8 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func _physics_process(delta: float) -> void:
+	position.y += speed * delta
 
 
 func _on_area_entered(area: Area2D) -> void:
@@ -22,4 +23,8 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_timer_timeout() -> void:
+	queue_free()
+	
+
+func _on_end_timer_timeout() -> void:
 	queue_free()

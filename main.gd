@@ -31,6 +31,8 @@ var score_str :String
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$Health.color = Color.RED
+	$HealthBarBorder.color = Color.DARK_RED
 	zenon = $Zenon
 	spawn_star()
 

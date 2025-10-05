@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://b6ey43jfat6tm"]
+[gd_scene load_steps=32 format=3 uid="uid://b6ey43jfat6tm"]
 
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="1_1idqq"]
 [ext_resource type="Script" uid="uid://bjoch4en3npja" path="res://zenon.gd" id="1_a6j1p"]
@@ -13,9 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://dh0ymeqba102s" path="res://PixelSpaceRage/256px/Exhaust_Frame_05_png_processed.png" id="9_1uvvo"]
 [ext_resource type="Texture2D" uid="uid://d1275vuovejht" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed.png" id="10_sijs3"]
 [ext_resource type="AudioStream" uid="uid://c1licgfy3s8f3" path="res://assets/space-explosion-with-reverb-101449.mp3" id="13_ss6wa"]
-[ext_resource type="Texture2D" uid="uid://c4brlk1j0yqu7" path="res://PixelSpaceRage/256px/Proton_Small_png_processed.png" id="13_y1rom"]
-[ext_resource type="Texture2D" uid="uid://b44j6yie4spv8" path="res://PixelSpaceRage/256px/Proton_Medium_png_processed.png" id="14_7xnso"]
-[ext_resource type="Texture2D" uid="uid://dxv0hu81o7lxp" path="res://PixelSpaceRage/256px/Proton_Large_png_processed.png" id="15_e7ui0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y1rom"]
 atlas = ExtResource("6_urj40")
@@ -154,35 +151,6 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ss6wa"]
 radius = 13.152946
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tqrj3"]
-atlas = ExtResource("13_y1rom")
-region = Rect2(0, 0, 6, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ht32x"]
-atlas = ExtResource("14_7xnso")
-region = Rect2(0, 0, 10, 10)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dy2mj"]
-atlas = ExtResource("15_e7ui0")
-region = Rect2(0, 0, 13, 13)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_vkjed"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tqrj3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ht32x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dy2mj")
-}],
-"loop": false,
-"name": &"default",
-"speed": 4.0
-}]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_yulqn"]
 radius = 24.020824
 
@@ -213,14 +181,6 @@ autoplay = "idle"
 [node name="Base" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ss6wa")
 
-[node name="PickUp" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_vkjed")
-frame = 2
-frame_progress = 1.0
-
-[node name="Pickupwait" type="Timer" parent="."]
-one_shot = true
-
 [node name="Camera2D" type="Camera2D" parent="."]
 enabled = false
 
@@ -243,7 +203,13 @@ volume_db = -30.0
 wait_time = 0.1
 one_shot = true
 
-[connection signal="timeout" from="Pickupwait" to="." method="_on_pickupwait_timeout"]
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="Timer2" type="Timer" parent="."]
+
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]

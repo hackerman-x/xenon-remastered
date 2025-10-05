@@ -70,7 +70,11 @@ one_shot = true
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_84yhs")
 
-[node name="Timer2" type="Timer" parent="."]
+[node name="End Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="End Timer" to="." method="_on_end_timer_timeout"]
