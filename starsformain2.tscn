@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://chspi28vqibhb"]
+
+[ext_resource type="Script" uid="uid://tbma6c8f0wky" path="res://starsformain_2.gd" id="1_ji2kr"]
+[ext_resource type="Texture2D" uid="uid://lif8pnnpu8q7" path="res://assets/OIP-837214879.png" id="2_db05g"]
+
+[node name="Stars" type="Node2D"]
+modulate = Color(0.3553136, 0.35531354, 0.35531357, 1)
+scale = Vector2(0.205, 0.205)
+script = ExtResource("1_ji2kr")
+
+[node name="Stars" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_db05g")

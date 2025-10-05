@@ -14,7 +14,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if can_move:
 		$Scroll.position.y -= 75 * delta
-		
+	if Input.is_action_pressed("Skip"):
+		$Scroll.position.y -= 300 * delta
 
 
 

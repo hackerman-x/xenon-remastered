@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://jhx6j8ewip0u"]
+
+[ext_resource type="Script" uid="uid://c8401fumefwr1" path="res://starsformain.gd" id="1_ktmwr"]
+[ext_resource type="Texture2D" uid="uid://lif8pnnpu8q7" path="res://assets/OIP-837214879.png" id="2_2af56"]
+
+[node name="Stars" type="Node2D"]
+scale = Vector2(0.205, 0.205)
+script = ExtResource("1_ktmwr")
+speed = 50.0
+
+[node name="Stars" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_2af56")

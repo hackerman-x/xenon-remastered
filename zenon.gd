@@ -11,6 +11,10 @@ var Explosion = preload("res://Explosions/player_explosion.tscn")
 @export var FRICTION = 900      # how fast we slow down
 @export var MAX_SPEED = 300      # top speed
 var can_shoot := true
+var faster := false
+var fastest := false
+var slow := false
+var idle := true
 
 
 
@@ -19,22 +23,31 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction_y := Input.get_axis("Up", "Down")
 	if direction_y:
+		idle = false
 		velocity.y = move_toward(velocity.y, direction_y * UP_SPEED, ACCELERATION * delta)
 		if Input.is_action_pressed("Up"):
+			slow = false
+			faster = true
 			if Input.is_action_pressed("Boost"):
+				fastest = true
 				UP_SPEED = 450
 				FRICTION = 600
 				$Thrusters/Left.play("boost")
 				$Thrusters/Right.play("boost")
 			elif Input.is_action_just_released("Boost"):
+				fastest = false
 				UP_SPEED = 250.0
 				FRICTION = 900
 				$Thrusters/Left.play("forward")
 				$Thrusters/Right.play("forward")
 		if Input.is_action_pressed("Down"):
+			slow = true
 			UP_SPEED = 250.0
 			FRICTION = 900
 	else:
+		idle = true
+		slow = false
+		faster = false
 		velocity.y = move_toward(velocity.y, 0, FRICTION * delta)
 		$Thrusters/Left.play("idle")
 		$Thrusters/Right.play("idle")
@@ -85,7 +98,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _ready() -> void:
-	pass
+	Global.zenon_ref = self
 
 
 func _on_shoot_timer_timeout() -> void:

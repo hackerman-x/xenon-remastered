@@ -1,10 +1,17 @@
 extends Node2D
 
+@export var no_of_stars := 100
+
+var StarScene = preload("res://starsformain.tscn")
+var StarScene2 = preload("res://starsformain2.tscn")
+var StarScene3 =preload("res://starsformain3.tscn")
 var EnemyScene = preload("res://Enemies/Enemy.tscn")
 var EnemyScene2 = preload("res://Enemies/Enemy2.tscn")
 var EnemyScene3 = preload("res://Enemies/Enemy3.tscn")
 var EnemyScene4 = preload("res://Enemies/Enemy4.tscn")
+var EnemyScene5 = preload("res://Enemies/Enemy5.tscn")
 var current_no_of_enemies := 1.0
+var Star :Node2D
 var enemy_difficulty := 0
 var not_dead := true
 var spawn_pos = Vector2.ZERO
@@ -13,6 +20,7 @@ var x_max := 910
 var y_min := -480
 var y_max := 480
 var enemies := []
+var stars := []
 var enemyiesize : int
 var zenon : Node2D
 var can_shoot := false
@@ -22,7 +30,7 @@ var score_str :String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	zenon = $Zenon
-
+	spawn_star()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
@@ -35,8 +43,25 @@ func _physics_process(_delta: float) -> void:
 			if is_instance_valid(enemy):
 				if y_dist <= -30 and y_dist >= -300 and x_dist <= 25:
 					enemy.shoot()
-					
 	
+
+func spawn_star() -> void:
+	for star in no_of_stars:
+		Star = StarScene.instantiate()
+		get_node("Background/Stars").add_child(Star)
+		stars.append(Star)
+	for star in no_of_stars:
+		Star = StarScene2.instantiate()
+		get_node("Background/Stars").add_child(Star)
+		stars.append(Star)
+	for star in no_of_stars:
+		Star = StarScene3.instantiate()
+		get_node("Background/Stars").add_child(Star)
+		stars.append(Star)
+		
+	
+
+
 
 func spawn():
 	var viewport_rect = get_viewport().get_visible_rect()
@@ -116,6 +141,23 @@ func enemy3() -> void:
 
 func enemy4() -> void:
 	spawn()
+	var enemy = EnemyScene5.instantiate()
+	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
+	enemy_position_intree.add_child(enemy)
+	enemy.global_position = spawn_pos
+	enemies.append(enemy)
+	enemyiesize = enemies.size()
+	
+	enemy.tree_exited.connect(func ():
+		if enemies.has(enemy):
+			enemies.erase(enemy)
+			score += 5
+			score_str = str(score)
+			$Score.text = score_str
+	)
+
+func enemy5() -> void:
+	spawn()
 	var enemy = EnemyScene4.instantiate()
 	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
 	enemy_position_intree.add_child(enemy)
@@ -132,7 +174,7 @@ func enemy4() -> void:
 	)
 
 func random() -> void:
-	var num = randi_range(1, 4)
+	var num = randi_range(1, 5)
 	if num == 1:
 		enemy1()
 	if num == 2:
@@ -141,6 +183,8 @@ func random() -> void:
 		enemy3()
 	if num == 4:
 		enemy4()
+	if num == 5:
+		enemy5()
 
 func _on_warning_timeout() -> void:
 	random()
@@ -149,12 +193,13 @@ func _on_warning_timeout() -> void:
 func _on_enemy_wait_timer_timeout() -> void:
 	for i in range(current_no_of_enemies):
 		random()
-	if enemies.size() <= enemies.size() - 1 or enemies.size() == 0:
+	if enemies.size() == 0:
+		print("ZERO")
 		$EnemyWaitTimer.wait_time -= 5
-		$EnemyWaitTimer.start()
-	elif enemies.size() != 0:
+	elif enemies.size() > 0:
 		$EnemyWaitTimer.wait_time += 3
-		$EnemyWaitTimer.start()
+	print($EnemyWaitTimer.wait_time)
+	$EnemyWaitTimer.start()
 
 
 func _on_difficulty_timeout() -> void:
