@@ -145,6 +145,8 @@ scale = Vector2(1.36, 1.36)
 text = "0"
 metadata/_edit_use_anchors_ = true
 
+[node name="PowerUps" type="Node2D" parent="."]
+
 [connection signal="timeout" from="EnemyWaitTimer" to="." method="_on_enemy_wait_timer_timeout"]
 [connection signal="timeout" from="Warning" to="." method="_on_warning_timeout"]
 [connection signal="timeout" from="Difficulty" to="." method="_on_difficulty_timeout"]

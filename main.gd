@@ -5,11 +5,13 @@ extends Node2D
 var StarScene = preload("res://starsformain.tscn")
 var StarScene2 = preload("res://starsformain2.tscn")
 var StarScene3 =preload("res://starsformain3.tscn")
+var PowerUp = preload("res://health_powerup.tscn")
 var EnemyScene = preload("res://Enemies/Enemy.tscn")
 var EnemyScene2 = preload("res://Enemies/Enemy2.tscn")
 var EnemyScene3 = preload("res://Enemies/Enemy3.tscn")
 var EnemyScene4 = preload("res://Enemies/Enemy4.tscn")
 var EnemyScene5 = preload("res://Enemies/Enemy5.tscn")
+var EnemyScene6 = preload("res://Enemies/Enemy6.tscn")
 var current_no_of_enemies := 1.0
 var Star :Node2D
 var enemy_difficulty := 0
@@ -59,8 +61,6 @@ func spawn_star() -> void:
 		get_node("Background/Stars").add_child(Star)
 		stars.append(Star)
 		
-	
-
 
 
 func spawn():
@@ -141,7 +141,7 @@ func enemy3() -> void:
 
 func enemy4() -> void:
 	spawn()
-	var enemy = EnemyScene5.instantiate()
+	var enemy = EnemyScene4.instantiate()
 	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
 	enemy_position_intree.add_child(enemy)
 	enemy.global_position = spawn_pos
@@ -158,7 +158,7 @@ func enemy4() -> void:
 
 func enemy5() -> void:
 	spawn()
-	var enemy = EnemyScene4.instantiate()
+	var enemy = EnemyScene5.instantiate()
 	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
 	enemy_position_intree.add_child(enemy)
 	enemy.global_position = spawn_pos
@@ -168,13 +168,30 @@ func enemy5() -> void:
 	enemy.tree_exited.connect(func ():
 		if enemies.has(enemy):
 			enemies.erase(enemy)
-			score += 5
+			score += 20
+			score_str = str(score)
+			$Score.text = score_str
+	)
+
+func enemy6() -> void:
+	spawn()
+	var enemy = EnemyScene6.instantiate()
+	var enemy_position_intree = get_tree().root.get_node("Starting Screen/THE GAME/Main/Enemy")
+	enemy_position_intree.add_child(enemy)
+	enemy.global_position = spawn_pos
+	enemies.append(enemy)
+	enemyiesize = enemies.size()
+	
+	enemy.tree_exited.connect(func ():
+		if enemies.has(enemy):
+			enemies.erase(enemy)
+			score += 20
 			score_str = str(score)
 			$Score.text = score_str
 	)
 
 func random() -> void:
-	var num = randi_range(1, 5)
+	var num = randi_range(1, 6)
 	if num == 1:
 		enemy1()
 	if num == 2:
@@ -185,21 +202,23 @@ func random() -> void:
 		enemy4()
 	if num == 5:
 		enemy5()
+	if num == 6:
+		enemy6()
 
 func _on_warning_timeout() -> void:
 	random()
 
 
 func _on_enemy_wait_timer_timeout() -> void:
-	for i in range(current_no_of_enemies):
-		random()
 	if enemies.size() == 0:
 		print("ZERO")
-		$EnemyWaitTimer.wait_time -= 5
+		$EnemyWaitTimer.wait_time = 5
 	elif enemies.size() > 0:
 		$EnemyWaitTimer.wait_time += 3
 	print($EnemyWaitTimer.wait_time)
 	$EnemyWaitTimer.start()
+	for i in range(current_no_of_enemies):
+		random()
 
 
 func _on_difficulty_timeout() -> void:

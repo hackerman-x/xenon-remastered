@@ -5,12 +5,13 @@ var newLaser = preload("res://Laser.tscn")
 var Explosion = preload("res://Explosions/player_explosion.tscn")
 
 
-@export var health := 10
+@export var health := 9
 @export var UP_SPEED = 250.0
 @export var ACCELERATION = 700   # how fast we reach top speed
 @export var FRICTION = 900      # how fast we slow down
 @export var MAX_SPEED = 300      # top speed
 var can_shoot := true
+var rect :ColorRect
 var faster := false
 var fastest := false
 var slow := false
@@ -99,22 +100,26 @@ func _physics_process(delta: float) -> void:
 
 func _ready() -> void:
 	Global.zenon_ref = self
+	rect = get_parent().get_node("Health")
 
 
 func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
 
+func regen() -> void:
+	rect.size.x = 200
+	health = 9
+
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("EnemyBullet"):
-		if health > 1:
+		rect.size.x -= 20
+		if health > 0:
 			health -= 1
-			var rect = get_parent().get_node("Health")
-			rect.size.x -= 20
-		elif health <= 1:
+		elif health == 0:
 			var explosion = Explosion.instantiate()
 			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
-			camera.start_shake(20)
+			camera.start_shake(50)
 			explosion.global_position = global_position
 			get_tree().root.add_child(explosion)
 			
