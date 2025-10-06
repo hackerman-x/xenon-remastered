@@ -19,6 +19,15 @@ func move_right():
 	target_x = start_x + 25
 	moving = true
 
+func move_up():
+	target_y = start_y - 25
+	moving = true
+
+# move down (to original Y)
+func move_down():
+	target_y = start_y + 25
+	moving = true
+
 func move_left():
 	target_x = start_x - 25
 	moving = true
@@ -26,16 +35,19 @@ func move_left():
 
 func move_back():
 	target_x = start_x
+	target_y = start_y
 	moving = true
 
 func _process(delta: float):
 	if moving:
-		position.x = lerp(position.x, target_x, 5 * delta)
-		
-		if abs(position.x - target_x) < 0.5:
+		position.x = lerp(float(position.x), float(target_x), 5.0 * delta)
+		position.y = lerp(float(position.y), float(target_y), 5.0 * delta)
+
+		if abs(position.x - target_x) < 0.5 and abs(position.y - target_y) < 0.5:
 			position.x = target_x
+			position.y = target_y
 			moving = false
-	
+			
 	if shake_strength > 0:
 		offset = Vector2(randf_range(-shake_strength, shake_strength),
 						 randf_range(-shake_strength, shake_strength))

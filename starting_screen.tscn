@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cp3dvj0otgrcf"]
+[gd_scene load_steps=32 format=3 uid="uid://cp3dvj0otgrcf"]
 
 [ext_resource type="Script" uid="uid://b5dek1nlrh7ra" path="res://starting_screen.gd" id="1_mdfg2"]
 [ext_resource type="PackedScene" uid="uid://b1b3r7nh1ll10" path="res://stars.tscn" id="2_grbrr"]
@@ -6,6 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://bms0ajn8hacse" path="res://assets/Background.jpeg" id="3_0g0qd"]
 [ext_resource type="Texture2D" uid="uid://cujrc4ks3p1o5" path="res://assets/Text.png" id="5_grbrr"]
 [ext_resource type="AudioStream" uid="uid://cwej1ik4oqoln" path="res://assets/Skaven - Razorback (original) [a8Vqitgfoko].mp3" id="6_jrgtf"]
+[ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="7_bb5qi"]
+[ext_resource type="Texture2D" uid="uid://bvshkuyg2flea" path="res://PixelSpaceRage/256px/Exhaust_Frame_02_png_processed.png" id="8_nn2kd"]
+[ext_resource type="Texture2D" uid="uid://dh0ymeqba102s" path="res://PixelSpaceRage/256px/Exhaust_Frame_05_png_processed.png" id="9_y3dbm"]
+[ext_resource type="Texture2D" uid="uid://4gupuv1e8r1a" path="res://PixelSpaceRage/256px/Exhaust_Frame_03_png_processed_bigger.png" id="10_1awdi"]
+[ext_resource type="Texture2D" uid="uid://881ns2k50570" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed_bigger.png" id="11_2kodb"]
+[ext_resource type="Texture2D" uid="uid://vmoo7r6pnpge" path="res://PixelSpaceRage/256px/Exhaust_Frame_03_png_processed.png" id="12_yc5d4"]
+[ext_resource type="Texture2D" uid="uid://d1275vuovejht" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed.png" id="13_ym2er"]
+[ext_resource type="Texture2D" uid="uid://cr4y8uqxbauj7" path="res://PixelSpaceRage/256px/Exhaust_Frame_01_png_processed.png" id="14_cpc8k"]
+[ext_resource type="Texture2D" uid="uid://cxgm3siu65kog" path="res://PixelSpaceRage/256px/Exhaust_Frame_04_png_processed.png" id="15_a4jg5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0g0qd"]
 atlas = ExtResource("3_0g0qd")
@@ -20,6 +29,146 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_bb5qi"]
+resource_name = "Intro"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 496), Vector2(0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Player/Left")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_w34a2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(28, 496)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k2t2y"]
+_data = {
+&"Intro": SubResource("Animation_bb5qi"),
+&"RESET": SubResource("Animation_w34a2")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1rom"]
+atlas = ExtResource("8_nn2kd")
+region = Rect2(0, 0, 24, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sijs3"]
+atlas = ExtResource("9_y3dbm")
+region = Rect2(0, 0, 23, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8dj1"]
+atlas = ExtResource("10_1awdi")
+region = Rect2(0, 0, 25, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ebfb"]
+atlas = ExtResource("11_2kodb")
+region = Rect2(0, 0, 25, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xnso"]
+atlas = ExtResource("12_yc5d4")
+region = Rect2(0, 0, 16, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7ui0"]
+atlas = ExtResource("13_ym2er")
+region = Rect2(0, 0, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsc4s"]
+atlas = ExtResource("14_cpc8k")
+region = Rect2(0, 0, 23, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knv3j"]
+atlas = ExtResource("8_nn2kd")
+region = Rect2(0, 0, 24, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ss6wa"]
+atlas = ExtResource("15_a4jg5")
+region = Rect2(0, 0, 23, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uvvo"]
+atlas = ExtResource("9_y3dbm")
+region = Rect2(0, 0, 23, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bxd36"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1rom")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sijs3")
+}],
+"loop": true,
+"name": &"back",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8dj1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ebfb")
+}],
+"loop": true,
+"name": &"boost",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xnso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7ui0")
+}],
+"loop": true,
+"name": &"forward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsc4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_knv3j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ss6wa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uvvo")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 9.0
 }]
 
 [node name="Starting Screen" type="Node2D"]
@@ -181,5 +330,34 @@ texture = ExtResource("5_grbrr")
 
 [node name="THE GAME" type="Node2D" parent="."]
 
+[node name="Timer2" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_k2t2y")
+}
+
+[node name="Player" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(28, 496)
+texture = ExtResource("7_bb5qi")
+
+[node name="Left" type="AnimatedSprite2D" parent="Player"]
+show_behind_parent = true
+position = Vector2(-3, 35)
+sprite_frames = SubResource("SpriteFrames_bxd36")
+animation = &"boost"
+frame_progress = 0.99632907
+
+[node name="Right" type="AnimatedSprite2D" parent="Player"]
+show_behind_parent = true
+position = Vector2(3, 35)
+sprite_frames = SubResource("SpriteFrames_bxd36")
+animation = &"idle"
+frame_progress = 0.1810813
+flip_h = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]

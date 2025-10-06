@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://4p2qrtbmov06"]
+
+[ext_resource type="Script" uid="uid://d5wywayw4dxc" path="res://earth.gd" id="1_cluu8"]
+[ext_resource type="Texture2D" uid="uid://bvldttwisc8in" path="res://assets/rn1.png" id="2_cluu8"]
+
+[node name="Stars" type="Node2D"]
+scale = Vector2(0.205, 0.205)
+script = ExtResource("1_cluu8")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+
+[node name="Rn1" type="Sprite2D" parent="."]
+scale = Vector2(10, 10)
+texture = ExtResource("2_cluu8")

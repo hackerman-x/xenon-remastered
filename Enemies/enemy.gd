@@ -37,7 +37,7 @@ func _ready() -> void:
 	randomize()
 	base_position = Vector2(0, -500)
 	last_x = global_position.x
-	player = get_tree().root.get_node("Starting Screen/THE GAME/Main/Zenon")  # change path to your player
+	player = get_tree().root.get_node("/root/Starting Screen/THE GAME/Main/Zenon")  # change path to your player
 
 
 func _physics_process(delta: float) -> void:

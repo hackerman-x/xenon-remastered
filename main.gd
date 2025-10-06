@@ -5,6 +5,7 @@ extends Node2D
 var StarScene = preload("res://starsformain.tscn")
 var StarScene2 = preload("res://starsformain2.tscn")
 var StarScene3 =preload("res://starsformain3.tscn")
+var Earth = preload("res://Earth.tscn")
 var PowerUp = preload("res://health_powerup.tscn")
 var EnemyScene = preload("res://Enemies/Enemy.tscn")
 var EnemyScene2 = preload("res://Enemies/Enemy2.tscn")
@@ -62,7 +63,10 @@ func spawn_star() -> void:
 		Star = StarScene3.instantiate()
 		get_node("Background/Stars").add_child(Star)
 		stars.append(Star)
-		
+	#var earth = Earth.instantiate()
+	#get_node("Background/Earth").add_child(earth)
+	
+	
 
 
 func spawn():

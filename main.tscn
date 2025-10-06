@@ -25,6 +25,8 @@ offset_bottom = 664.12286
 scale = Vector2(-56.26705, -25.405918)
 color = Color(0, 0, 0, 1)
 
+[node name="Earth" type="Node2D" parent="Background"]
+
 [node name="Stars" type="Node2D" parent="Background"]
 
 [node name="Laser" type="Node2D" parent="."]

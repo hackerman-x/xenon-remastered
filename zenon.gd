@@ -60,11 +60,17 @@ func _physics_process(delta: float) -> void:
 		$Thrusters/Left.play("idle")
 		$Thrusters/Right.play("idle")
 	if Input.is_action_just_pressed("Up"):
+		camera.move_up()
 		$Thrusters/Left.play("forward")
 		$Thrusters/Right.play("forward")
+	if Input.is_action_just_released("Up"):
+		camera.move_back()
 	elif Input.is_action_just_pressed("Down"):
+		camera.move_down()
 		$Thrusters/Left.play("back")
 		$Thrusters/Right.play("back")
+	if Input.is_action_just_released("Down"):
+		camera.move_back()
 #
 #
 	var direction_x := Input.get_axis("Left", "Right")
@@ -149,11 +155,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			Hitscreen.visible = true
 			Hittime += 1
 			$Timer.start()
-			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
 			camera.start_shake(5)
 		elif health == 0:
 			var explosion = Explosion.instantiate()
-			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
 			camera.start_shake(50)
 			explosion.global_position = global_position
 			get_tree().root.add_child(explosion)

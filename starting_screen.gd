@@ -15,7 +15,9 @@ func _physics_process(delta: float) -> void:
 	if can_move:
 		$Scroll.position.y -= 75 * delta
 	if Input.is_action_pressed("Skip"):
-		$Scroll.position.y -= 300 * delta
+		$Timer2.start()
+	if Input.is_action_just_released("Skip"):
+		$Timer2.stop()
 
 
 
@@ -34,3 +36,8 @@ func _on_timer_timeout() -> void:
 	$Button.visible = false
 	var main = Main.instantiate()
 	get_node("THE GAME").add_child(main)
+
+
+func _on_timer_2_timeout() -> void:
+	$AudioStreamPlayer2.seek(32)
+	$Timer.wait_time = 0.1
