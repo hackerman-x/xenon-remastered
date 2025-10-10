@@ -307,6 +307,7 @@ position = Vector2(355.99994, 473)
 scale = Vector2(0.7, 0.7)
 
 [node name="Button" type="Button" parent="."]
+texture_filter = 4
 offset_left = 257.0
 offset_top = -130.0
 offset_right = 327.0
@@ -332,6 +333,24 @@ texture = ExtResource("5_grbrr")
 
 [node name="Timer2" type="Timer" parent="."]
 one_shot = true
+
+[node name="Death" type="Node2D" parent="."]
+position = Vector2(-982, -619)
+
+[node name="Death" type="ColorRect" parent="Death"]
+visible = false
+offset_right = 1945.0
+offset_bottom = 1304.0
+color = Color(0, 0, 0, 0.39215687)
+
+[node name="Button" type="Button" parent="Death"]
+visible = false
+texture_filter = 4
+offset_left = 950.0
+offset_top = 602.0
+offset_right = 1015.0
+offset_bottom = 633.0
+text = "Restart"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -361,3 +380,4 @@ flip_h = true
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
+[connection signal="pressed" from="Death/Button" to="." method="_on_button_pressed2"]

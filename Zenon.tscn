@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b6ey43jfat6tm"]
+[gd_scene load_steps=35 format=3 uid="uid://b6ey43jfat6tm"]
 
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="1_1idqq"]
 [ext_resource type="Script" uid="uid://bjoch4en3npja" path="res://zenon.gd" id="1_a6j1p"]
@@ -154,11 +154,38 @@ radius = 13.152946
 [sub_resource type="CircleShape2D" id="CircleShape2D_yulqn"]
 radius = 24.020824
 
+[sub_resource type="Curve" id="Curve_ss6wa"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.06741583), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_ss6wa"]
+offsets = PackedFloat32Array(0, 0.9626168)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_1uvvo"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
 [node name="Zenon" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 520
 script = ExtResource("1_a6j1p")
 
 [node name="Thrusters" type="Node2D" parent="."]
+
+[node name="Exhaust" type="CPUParticles2D" parent="Thrusters"]
+position = Vector2(0, 32)
+rotation = 1.5707964
+emitting = false
+amount = 100
+draw_order = 1
+emission_shape = 3
+emission_rect_extents = Vector2(20, 1)
+spread = 0.0
+gravity = Vector2(0, 100)
+initial_velocity_min = 50.0
+initial_velocity_max = 150.0
+scale_amount_min = 3.0
+scale_amount_max = 3.0
+color = Color(0.7137255, 0.92941177, 1, 0.4509804)
 
 [node name="Left" type="AnimatedSprite2D" parent="Thrusters"]
 position = Vector2(-3, 35)
@@ -207,6 +234,57 @@ one_shot = true
 wait_time = 0.3
 
 [node name="Timer2" type="Timer" parent="."]
+
+[node name="explosion" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 100
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_ss6wa")
+color = Color(0.16862746, 0.73333335, 0.94509804, 1)
+color_ramp = SubResource("Gradient_ss6wa")
+
+[node name="Hit" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 50
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_ss6wa")
+color = Color(0.5385077, 0.12745526, 0.085117765, 1)
+
+[node name="Regen" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 60
+lifetime = 2.0
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+orbit_velocity_min = -3.0
+orbit_velocity_max = 3.0
+linear_accel_min = 50.0
+linear_accel_max = 100.0
+radial_accel_min = 50.0
+radial_accel_max = 100.0
+tangential_accel_max = 100.0
+angle_min = 500.0
+angle_max = 500.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_ss6wa")
+color = Color(0.29411766, 0.6313726, 0.87058824, 1)
+color_ramp = SubResource("Gradient_1uvvo")
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_area_2d_area_entered"]

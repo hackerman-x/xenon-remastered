@@ -24,6 +24,7 @@ func _on_area_entered(area):
 		bex.global_position = global_position
 		get_tree().root.add_child(bex)
 		
+		
 
 		# remove the bullet
 		queue_free()

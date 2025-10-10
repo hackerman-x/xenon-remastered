@@ -141,6 +141,7 @@ color = Color(0.7529412, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="Score" type="Label" parent="."]
+texture_filter = 4
 offset_left = -19.0
 offset_top = -472.0
 offset_right = 21.0

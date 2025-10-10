@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bkqyix01llrnp"]
+[gd_scene load_steps=23 format=3 uid="uid://bkqyix01llrnp"]
 
 [ext_resource type="Texture2D" uid="uid://c6hjqx0eflmev" path="res://PixelSpaceRage/256px/Explosion01_Frame_01_png_processed.png" id="1_evdc4"]
 [ext_resource type="Script" uid="uid://g83aomuwg1mi" path="res://Explosions/explosion.gd" id="1_oafuo"]
@@ -82,6 +82,13 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="Curve" id="Curve_oafuo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.06741583), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_oafuo"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
 [node name="Explosion" type="Node2D"]
 script = ExtResource("1_oafuo")
 
@@ -92,5 +99,18 @@ animation = &"blow_up"
 autoplay = "blow_up"
 frame = 8
 frame_progress = 1.0
+
+[node name="explosion" type="CPUParticles2D" parent="."]
+scale = Vector2(0.7179503, 0.37965772)
+amount = 10
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_oafuo")
+color = Color(0.91764706, 0.6666667, 0.1254902, 1)
+color_ramp = SubResource("Gradient_oafuo")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

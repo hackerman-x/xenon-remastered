@@ -6,6 +6,7 @@ var StarScene = preload("res://starsformain.tscn")
 var StarScene2 = preload("res://starsformain2.tscn")
 var StarScene3 =preload("res://starsformain3.tscn")
 var Earth = preload("res://Earth.tscn")
+var Zenon = preload("res://Zenon.tscn")
 var PowerUp = preload("res://health_powerup.tscn")
 var EnemyScene = preload("res://Enemies/Enemy.tscn")
 var EnemyScene2 = preload("res://Enemies/Enemy2.tscn")
@@ -37,10 +38,14 @@ func _ready() -> void:
 	zenon = $Zenon
 	spawn_star()
 
+func _process(_delta: float) -> void:
+	if not is_instance_valid(zenon):
+		set_physics_process(false)
+	if is_instance_valid(zenon):
+		set_physics_process(true)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
-	if not is_instance_valid(zenon):
-		return
 	for enemy in enemies:
 		if is_instance_valid(enemy):
 			var x_dist = abs(enemy.global_position.x - zenon.global_position.x)
@@ -67,7 +72,13 @@ func spawn_star() -> void:
 	#get_node("Background/Earth").add_child(earth)
 	
 	
-
+func zenon_spawn() -> void:
+	var zenon1 = Zenon.instantiate()
+	add_child(zenon1)  # add it to Main
+	$Zenon.respawn()
+	zenon1.position = Vector2(200, 100)  # set its position in the scene
+	move_child(zenon1, 5)
+	
 
 func spawn():
 	var viewport_rect = get_viewport().get_visible_rect()
@@ -216,15 +227,20 @@ func _on_warning_timeout() -> void:
 
 
 func _on_enemy_wait_timer_timeout() -> void:
-	if enemies.size() == 0:
-		print("ZERO")
+	if is_instance_valid(zenon):
 		$EnemyWaitTimer.wait_time = 5
-	elif enemies.size() > 0:
-		$EnemyWaitTimer.wait_time += 3
-	print($EnemyWaitTimer.wait_time)
-	$EnemyWaitTimer.start()
-	for i in range(current_no_of_enemies):
-		random()
+		if enemies.size() == 0:
+			print("ZERO")
+			$EnemyWaitTimer.wait_time = 5
+		elif enemies.size() > 0:
+			$EnemyWaitTimer.wait_time += 3
+		print($EnemyWaitTimer.wait_time)
+		$EnemyWaitTimer.start()
+		for i in range(current_no_of_enemies):
+			random()
+	else:
+		while is_instance_valid(zenon):
+			$EnemyWaitTimer.wait_time += 1
 
 
 func _on_difficulty_timeout() -> void:

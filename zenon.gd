@@ -23,6 +23,7 @@ var left := false
 var slow := false
 var idle := true
 var Hittime := 1
+var dead := false
 
 
 
@@ -34,21 +35,25 @@ func _physics_process(delta: float) -> void:
 		idle = false
 		velocity.y = move_toward(velocity.y, direction_y * UP_SPEED, ACCELERATION * delta)
 		if Input.is_action_pressed("Up"):
+			$Thrusters/Exhaust.emitting = false
 			slow = false
 			faster = true
 			if Input.is_action_pressed("Boost"):
+				$Thrusters/Exhaust.emitting = true
 				fastest = true
 				UP_SPEED = 450
 				FRICTION = 600
 				$Thrusters/Left.play("boost")
 				$Thrusters/Right.play("boost")
 			elif Input.is_action_just_released("Boost"):
+				$Thrusters/Exhaust.emitting = false
 				fastest = false
 				UP_SPEED = 250.0
 				FRICTION = 900
 				$Thrusters/Left.play("forward")
 				$Thrusters/Right.play("forward")
 		if Input.is_action_pressed("Down"):
+			$Thrusters/Exhaust.emitting = false
 			slow = true
 			UP_SPEED = 250.0
 			FRICTION = 900
@@ -58,6 +63,7 @@ func _physics_process(delta: float) -> void:
 		faster = false
 		velocity.y = move_toward(velocity.y, 0, FRICTION * delta)
 		$Thrusters/Left.play("idle")
+		$Thrusters/Exhaust.emitting = false
 		$Thrusters/Right.play("idle")
 	if Input.is_action_just_pressed("Up"):
 		camera.move_up()
@@ -117,9 +123,23 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	
-
+	
+func respawn() -> void:
+	rect.size.x = 200
+	Regenscreen.visible = true
+	$Timer2.start()
+	Hittime = 0
+	var tween = create_tween()
+	tween.tween_property(rect, "color", Color.DEEP_SKY_BLUE, 0.5) # change to red in 1 second
+	tween.tween_property(rect, "color", Color.RED, 0.5) # then back to white in 1 second
+	tween.tween_property(rectborder, "color", Color.DEEP_SKY_BLUE, 0.5) # change to red in 1 second
+	tween.tween_property(rectborder, "color", Color.DARK_RED, 0.5) # then back to white in 1 second
+	health = 9
+	var score = get_parent().get_node("Score")
+	score.text = "0"
 
 func _ready() -> void:
+	dead = false
 	Global.zenon_ref = self
 	rect = get_parent().get_node("Health")
 	rectborder = get_parent().get_node("HealthBarBorder")
@@ -133,6 +153,7 @@ func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
 
 func regen() -> void:
+	$Regen.emitting = true
 	rect.size.x = 200
 	Regenscreen.visible = true
 	$Timer2.start()
@@ -143,12 +164,14 @@ func regen() -> void:
 	tween.tween_property(rectborder, "color", Color.DEEP_SKY_BLUE, 0.5) # change to red in 1 second
 	tween.tween_property(rectborder, "color", Color.DARK_RED, 0.5) # then back to white in 1 second
 	health = 9
+	$Regen.emitting = false
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("EnemyBullet"):
 		rect.size.x -= 20
 		if health > 0:
+			$Hit.emitting = true
 			$Zenon_animated.modulate = Color("#ff7c6b")
 			$HitTimer.start()
 			health -= 1
@@ -158,11 +181,13 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			camera.start_shake(5)
 		elif health == 0:
 			var explosion = Explosion.instantiate()
-			camera.start_shake(50)
+			camera.start_shake(1)
 			explosion.global_position = global_position
 			get_tree().root.add_child(explosion)
+			$explosion.emitting  = true
 			
 			visible = false
+			dead = true
 			queue_free()
 			
 
@@ -192,6 +217,7 @@ func _on_timer_timeout() -> void:
 	if Hittime == 9:
 		Hitscreen.modulate = Color("#ffffff")
 	Hitscreen.visible = false
+	$Hit.emitting = false
 
 
 func _on_timer_2_timeout() -> void:
