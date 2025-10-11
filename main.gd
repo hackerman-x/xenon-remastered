@@ -40,6 +40,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(zenon):
+		var new_zenon = get_tree().get_root().find_child("Zenon", true, false)
+		if new_zenon:
+			zenon = new_zenon
+		else:
+			return  # player still missing
+	if not is_instance_valid(zenon):
 		set_physics_process(false)
 	if is_instance_valid(zenon):
 		set_physics_process(true)
@@ -47,12 +53,15 @@ func _process(_delta: float) -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
 	for enemy in enemies:
-		if is_instance_valid(enemy):
+		if is_instance_valid(enemy) and is_instance_valid(zenon):
 			var x_dist = abs(enemy.global_position.x - zenon.global_position.x)
 			var y_dist = enemy.global_position.y - zenon.global_position.y
 			if is_instance_valid(enemy):
 				if y_dist <= -30 and y_dist >= -300 and x_dist <= 25:
 					enemy.shoot()
+	if enemies.size() > 0 and not is_instance_valid(zenon):
+		for enemy in enemies:
+			enemy.queue_free()
 	
 
 func spawn_star() -> void:
@@ -224,17 +233,17 @@ func random() -> void:
 
 func _on_warning_timeout() -> void:
 	random()
+	print("spawning")
 
 
 func _on_enemy_wait_timer_timeout() -> void:
 	if is_instance_valid(zenon):
+		print("spawning")
 		$EnemyWaitTimer.wait_time = 5
 		if enemies.size() == 0:
-			print("ZERO")
 			$EnemyWaitTimer.wait_time = 5
 		elif enemies.size() > 0:
 			$EnemyWaitTimer.wait_time += 3
-		print($EnemyWaitTimer.wait_time)
 		$EnemyWaitTimer.start()
 		for i in range(current_no_of_enemies):
 			random()

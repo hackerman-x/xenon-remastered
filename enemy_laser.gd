@@ -16,6 +16,12 @@ func _physics_process(delta):
 func _process(_delta: float) -> void:
 	pass
 
+func explode() -> void:
+	var bex = Explosion.instantiate()
+	bex.global_position = global_position
+	get_tree().root.add_child(bex)
+	# remove the bullet
+	queue_free()
 
 func _on_area_entered(area):
 	if area.is_in_group("Player"):

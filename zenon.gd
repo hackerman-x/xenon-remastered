@@ -39,12 +39,13 @@ func _physics_process(delta: float) -> void:
 			slow = false
 			faster = true
 			if Input.is_action_pressed("Boost"):
-				$Thrusters/Exhaust.emitting = true
-				fastest = true
-				UP_SPEED = 450
-				FRICTION = 600
-				$Thrusters/Left.play("boost")
-				$Thrusters/Right.play("boost")
+				if health > 2:
+					$Thrusters/Exhaust.emitting = true
+					fastest = true
+					UP_SPEED = 450
+					FRICTION = 600
+					$Thrusters/Left.play("boost")
+					$Thrusters/Right.play("boost")
 			elif Input.is_action_just_released("Boost"):
 				$Thrusters/Exhaust.emitting = false
 				fastest = false
@@ -125,6 +126,8 @@ func _physics_process(delta: float) -> void:
 	
 	
 func respawn() -> void:
+	Hitscreen.visible = false
+	dead = false
 	rect.size.x = 200
 	Regenscreen.visible = true
 	$Timer2.start()
@@ -170,6 +173,7 @@ func regen() -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("EnemyBullet"):
 		rect.size.x -= 20
+		area.explode()
 		if health > 0:
 			$Hit.emitting = true
 			$Zenon_animated.modulate = Color("#ff7c6b")
@@ -184,7 +188,6 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			camera.start_shake(1)
 			explosion.global_position = global_position
 			get_tree().root.add_child(explosion)
-			$explosion.emitting  = true
 			
 			visible = false
 			dead = true

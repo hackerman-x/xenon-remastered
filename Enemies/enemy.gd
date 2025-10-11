@@ -11,7 +11,8 @@ var PowerUp = preload("res://health_powerup.tscn")
 @export var health := 4
 @export var chase_distance: float = 1000.0  # how close player must be
 @export var speed: float = 100.0           # enemy movement speed
-@export var y_stop_range: float = 20.0
+@export var y_stop_range: float = 90.0
+
 
 var num = randi_range(0, 2)
 var aggro: bool = false
@@ -39,7 +40,6 @@ var zenon:CharacterBody2D
 
 func _ready() -> void:
 	zenon = get_tree().root.get_node_or_null("Starting Screen/THE GAME/Main/Zenon")
-	randomize()
 	base_position = Vector2(0, -500)
 	last_x = global_position.x
 	previous_y = position.y  # store initial y
@@ -49,47 +49,58 @@ func _ready() -> void:
 		player = null  # or handle player missing
 
 func _process(_delta: float) -> void:
-	if not is_instance_valid(zenon) and player == null:
-		print("IM NOT GETTING RUN")
+	if not is_instance_valid(zenon):
+		var new_zenon = get_tree().get_root().find_child("Zenon", true, false)
+		if new_zenon:
+			zenon = new_zenon
+		else:
+			return  # player still missing
+	if is_instance_valid(Global.zenon_ref):
+		player = Global.zenon_ref
+	else:
+		player = null  # or handle player missing
+	if not is_instance_valid(player) or player == null:
 		set_physics_process(false)
-	if is_instance_valid(zenon) and not player == null:
-		print("IM GETTING RUN")
+	if is_instance_valid(player) or not player == null:
 		set_physics_process(true)
 
 
+func circling(delta) -> void:
+	# How close in X before enemy stops circling
+	if is_instance_valid(zenon):
+		var x_dist = abs(global_position.x - zenon.global_position.x)
+		var y_dist = global_position.y - zenon.global_position.y
+
+		# ✅ Only move vertically if aligned in X AND enemy is ABOVE Zenon
+		if x_dist <= 20 and global_position.y <= zenon.global_position.y:
+			# Move DOWN toward Zenon until within y_stop_range
+			if y_dist < -y_stop_range:  # enemy is more than 20 px above
+				global_position.y += min(speed * delta, -y_dist - y_stop_range)
+		else:
+			# ✅ Go back to circling
+			var direction = zenon.global_position - global_position
+			var distance = global_position.distance_to(player.global_position)
+			if not in_orbit or aggro:
+				if distance > orbit_radius:
+					position += direction * approach_speed * delta
+				else:
+					# Enter orbit
+					in_orbit = true
+					angle = (global_position - zenon.global_position).angle()
+			else:
+				# If Zenon is too far, stop orbiting
+				if distance > orbit_radius * 1.5:
+					in_orbit = false
+				else:
+					# Instead of snapping, MOVE toward the orbit point
+					angle += orbit_speed * delta
+					var target_pos = zenon.global_position + Vector2(cos(angle), sin(angle)) * orbit_radius
+					global_position = global_position.lerp(target_pos, 0.05) # smooth transition
+
 func _physics_process(delta: float):
 	
-
-	# How close in X before enemy stops circling
-	var x_dist = abs(global_position.x - zenon.global_position.x)
-	var y_dist = global_position.y - zenon.global_position.y
-
-	# ✅ Only move vertically if aligned in X AND enemy is ABOVE Zenon
-	if x_dist <= 20 and global_position.y <= zenon.global_position.y:
-		# Move DOWN toward Zenon until within y_stop_range
-		if y_dist < -y_stop_range:  # enemy is more than 20 px above
-			global_position.y += min(speed * delta, -y_dist - y_stop_range)
-	else:
-		# ✅ Go back to circling
-		var direction = zenon.global_position - global_position
-		var distance = global_position.distance_to(player.global_position)
-		if not in_orbit or aggro:
-			if distance > orbit_radius:
-				position += direction * approach_speed * delta
-			else:
-				# Enter orbit
-				in_orbit = true
-				angle = (global_position - zenon.global_position).angle()
-		else:
-			# If Zenon is too far, stop orbiting
-			if distance > orbit_radius * 1.5:
-				in_orbit = false
-			else:
-				# Instead of snapping, MOVE toward the orbit point
-				angle += orbit_speed * delta
-				var target_pos = zenon.global_position + Vector2(cos(angle), sin(angle)) * orbit_radius
-				global_position = global_position.lerp(target_pos, 0.05) # smooth transition
-
+	circling(delta)
+	
 	var x_speed = global_position.x - last_x
 	
 	if position.y < previous_y:
@@ -155,10 +166,9 @@ func shoot() -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Bullet"):
 		# Explode the bullet safely
-		area.call_deferred("explode")  
+		area.call_deferred("explode")
 
-		if health == 0:
-			randomize()
+		if health == 0 or area.is_in_group("Player"):
 			if num == 1:
 				var HEALTH = PowerUp.instantiate()
 				HEALTH.global_position = position

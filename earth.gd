@@ -7,7 +7,6 @@ extends Node2D
 @export var x_min: float = -900.0
 
 func _ready():
-	randomize()
 	
 	# random X inside viewport
 	var random_x = randf_range(x_min,x_max)

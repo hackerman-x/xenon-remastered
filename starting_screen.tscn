@@ -1,15 +1,21 @@
-[gd_scene load_steps=32 format=3 uid="uid://cp3dvj0otgrcf"]
+[gd_scene load_steps=44 format=3 uid="uid://cp3dvj0otgrcf"]
 
 [ext_resource type="Script" uid="uid://b5dek1nlrh7ra" path="res://starting_screen.gd" id="1_mdfg2"]
 [ext_resource type="PackedScene" uid="uid://b1b3r7nh1ll10" path="res://stars.tscn" id="2_grbrr"]
 [ext_resource type="AudioStream" uid="uid://boclgfunxwn3p" path="res://assets/1-space-cruise-title.mp3" id="2_gxvq4"]
 [ext_resource type="Texture2D" uid="uid://bms0ajn8hacse" path="res://assets/Background.jpeg" id="3_0g0qd"]
-[ext_resource type="Texture2D" uid="uid://cujrc4ks3p1o5" path="res://assets/Text.png" id="5_grbrr"]
 [ext_resource type="AudioStream" uid="uid://cwej1ik4oqoln" path="res://assets/Skaven - Razorback (original) [a8Vqitgfoko].mp3" id="6_jrgtf"]
+[ext_resource type="Texture2D" uid="uid://cxccc0keo0vq3" path="res://assets/2.png" id="6_ym2er"]
+[ext_resource type="Texture2D" uid="uid://b7a8162ds82q2" path="res://assets/1.png" id="7_2kodb"]
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="7_bb5qi"]
+[ext_resource type="Texture2D" uid="uid://by8hmut1j5k2p" path="res://PixelSpaceRage/256px/PlayerRed_Frame_02_png_processed.png" id="8_1awdi"]
 [ext_resource type="Texture2D" uid="uid://bvshkuyg2flea" path="res://PixelSpaceRage/256px/Exhaust_Frame_02_png_processed.png" id="8_nn2kd"]
+[ext_resource type="Texture2D" uid="uid://b5a2gqarfi30s" path="res://assets/3-1.png" id="8_ym2er"]
+[ext_resource type="Texture2D" uid="uid://cdyv51g5qp54" path="res://PixelSpaceRage/256px/PlayerRed_Frame_03_png_processed.png" id="9_2kodb"]
+[ext_resource type="Texture2D" uid="uid://dwtoqxi0ck1qx" path="res://assets/3.png" id="9_cpc8k"]
 [ext_resource type="Texture2D" uid="uid://dh0ymeqba102s" path="res://PixelSpaceRage/256px/Exhaust_Frame_05_png_processed.png" id="9_y3dbm"]
 [ext_resource type="Texture2D" uid="uid://4gupuv1e8r1a" path="res://PixelSpaceRage/256px/Exhaust_Frame_03_png_processed_bigger.png" id="10_1awdi"]
+[ext_resource type="Texture2D" uid="uid://dcnojbgydbdx8" path="res://assets/4.png" id="10_cpc8k"]
 [ext_resource type="Texture2D" uid="uid://881ns2k50570" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed_bigger.png" id="11_2kodb"]
 [ext_resource type="Texture2D" uid="uid://vmoo7r6pnpge" path="res://PixelSpaceRage/256px/Exhaust_Frame_03_png_processed.png" id="12_yc5d4"]
 [ext_resource type="Texture2D" uid="uid://d1275vuovejht" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed.png" id="13_ym2er"]
@@ -31,30 +37,96 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_ym2er"]
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(-2.93, 6.285)
+
 [sub_resource type="Animation" id="Animation_bb5qi"]
 resource_name = "Intro"
+length = 3.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Player:position")
+tracks/0/path = NodePath("Zenon_animated/Left:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, 496), Vector2(0, 0)]
+"times": PackedFloat32Array(2.4333334, 2.5333335, 2.6333334, 2.7333333, 2.8333335, 2.9333334, 3.0333335, 3.1333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1, 0, 1, 0, 1]
 }
-tracks/1/type = "method"
+tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Player/Left")
+tracks/1/path = NodePath("Zenon_animated/Right:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"values": []
+"times": PackedFloat32Array(2.4333332, 2.5333333, 2.6333332, 2.733333, 2.8333333, 2.9333332, 3.0333333, 3.1333332),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1, 0, 1, 0, 1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Zenon_animated/Left:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.1333334, 2.2, 2.2666667, 2.3333333, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Zenon_animated/Right:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2.1333334, 2.2, 2.2666667, 2.3333333, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Zenon_animated:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.2333333, 1.3, 1.3666667, 1.8666667, 2.0333333),
+"transitions": PackedFloat32Array(0.9999998, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 0, 1, 2, 1, 0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Zenon_animated:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1, 1.2333333, 2.1333334, 2.4, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 550), Vector2(0, 0), Vector2(0, -70), Vector2(0, 250), Vector2(0, 270), Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Zenon_animated:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_w34a2"]
@@ -62,14 +134,74 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Player:position")
+tracks/0/path = NodePath("Zenon_animated:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(28, 496)]
+"values": [Vector2(0, 496)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Zenon_animated:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Zenon_animated/Right:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Zenon_animated/Left:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Zenon_animated/Right:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Zenon_animated:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_k2t2y"]
@@ -77,6 +209,47 @@ _data = {
 &"Intro": SubResource("Animation_bb5qi"),
 &"RESET": SubResource("Animation_w34a2")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2o0eo"]
+atlas = ExtResource("7_bb5qi")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uadn"]
+atlas = ExtResource("7_bb5qi")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_urj40"]
+atlas = ExtResource("8_1awdi")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yulqn"]
+atlas = ExtResource("9_2kodb")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yc5d4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2o0eo")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uadn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_urj40")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yulqn")
+}],
+"loop": false,
+"name": &"turn",
+"speed": 7.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y1rom"]
 atlas = ExtResource("8_nn2kd")
@@ -186,6 +359,7 @@ autoplay = true
 stream = ExtResource("6_jrgtf")
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 32.0
 one_shot = true
 
 [node name="STARS" type="Node2D" parent="."]
@@ -306,6 +480,105 @@ scale = Vector2(0.7, 0.7)
 position = Vector2(355.99994, 473)
 scale = Vector2(0.7, 0.7)
 
+[node name="Intro" type="Node2D" parent="."]
+
+[node name="BG" type="ColorRect" parent="Intro"]
+modulate = Color(1, 1, 1, 0)
+offset_left = -1506.0
+offset_top = -847.0
+offset_right = -1466.0
+offset_bottom = -807.0
+scale = Vector2(74.457794, 47.79631)
+color = Color(0, 0, 0, 1)
+
+[node name="1" type="Sprite2D" parent="Intro"]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(1.08, 1.08)
+texture = ExtResource("7_2kodb")
+
+[node name="2" type="Sprite2D" parent="Intro"]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(1.08, 1.08)
+texture = ExtResource("6_ym2er")
+
+[node name="31" type="Sprite2D" parent="Intro"]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(1.08, 1.08)
+texture = ExtResource("8_ym2er")
+
+[node name="3" type="Sprite2D" parent="Intro"]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(1.08, 1.08)
+texture = ExtResource("9_cpc8k")
+
+[node name="4" type="Sprite2D" parent="Intro"]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("10_cpc8k")
+
+[node name="Text" type="Node2D" parent="Intro"]
+position = Vector2(0, 3861)
+
+[node name="Text" type="Label" parent="Intro/Text"]
+offset_left = -907.0
+offset_top = -3139.0
+offset_right = -361.0
+offset_bottom = -2934.0
+scale = Vector2(1.5097158, 1.5097158)
+text = "It is a time of desperate struggle.
+ Five years of brutal conflict with
+the merciless ARGONITE EMPIRE have pushed humanity to the brink of
+extinction.
+ Across the galaxy, Earth's scattered forces have united to
+forge a final hope—a devastating super weapon capable of ending the
+alien menace forever. 
+"
+label_settings = SubResource("LabelSettings_ym2er")
+
+[node name="Text2" type="Label" parent="Intro/Text"]
+offset_left = -907.0
+offset_top = -2463.0
+offset_right = -357.0
+offset_bottom = -2258.0
+scale = Vector2(1.5097158, 1.5097158)
+text = "But victory hangs by a thread.
+ Deep within enemy territory, on the
+isolated STATION 24B12, lies the last known vial of XENONITE—the rare
+element without which the weapon cannot be completed.
+ Time is running
+"
+label_settings = SubResource("LabelSettings_ym2er")
+
+[node name="Text3" type="Label" parent="Intro/Text"]
+offset_left = -907.0
+offset_top = -1721.0
+offset_right = -338.0
+offset_bottom = -1490.0
+scale = Vector2(1.5097158, 1.5097158)
+text = "In humanity's darkest hour, the Resistance has prepared the MEGABLAST,
+their fastest and most heavily armed starship, for a suicide mission
+through the heart of the Argonite Empire.
+ Only one pilot possesses the
+skill to navigate the gauntlet of enemy fighters that stands between
+Station 24B12 and Earth.
+at pilot is you,
+ CAPTAIN ARCHER.
+"
+label_settings = SubResource("LabelSettings_ym2er")
+
+[node name="Text4" type="Label" parent="Intro/Text"]
+offset_left = -907.0
+offset_top = -894.0
+offset_right = -324.0
+offset_bottom = -663.0
+scale = Vector2(1.5097158, 1.5097158)
+text = "The fate of every man, woman, and child on Earth now rests in your hands.
+ Retrieve the xenonite.
+ Break through the Argonite blockade.
+ Make it home.
+Failure is not an option. The survival of humanity depends on your courage.
+Godspeed, Captain. May the stars guide you home.... "
+label_settings = SubResource("LabelSettings_ym2er")
+
 [node name="Button" type="Button" parent="."]
 texture_filter = 4
 offset_left = 257.0
@@ -323,13 +596,18 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 text = "START"
 flat = true
 
-[node name="Scroll" type="Sprite2D" parent="."]
-position = Vector2(25, 3102.35)
-texture = ExtResource("5_grbrr")
-
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="THE GAME" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -1332.9999
+offset_top = -760.0
+offset_right = -1292.9999
+offset_bottom = -720.0
+scale = Vector2(62.70301, 39.834614)
+color = Color(0, 0, 0, 1)
 
 [node name="Timer2" type="Timer" parent="."]
 one_shot = true
@@ -357,24 +635,27 @@ libraries = {
 &"": SubResource("AnimationLibrary_k2t2y")
 }
 
-[node name="Player" type="Sprite2D" parent="."]
+[node name="Zenon_animated" type="AnimatedSprite2D" parent="."]
 visible = false
-position = Vector2(28, 496)
-texture = ExtResource("7_bb5qi")
+position = Vector2(0, 496)
+sprite_frames = SubResource("SpriteFrames_yc5d4")
+animation = &"turn"
+autoplay = "idle"
+flip_h = true
 
-[node name="Left" type="AnimatedSprite2D" parent="Player"]
+[node name="Left" type="AnimatedSprite2D" parent="Zenon_animated"]
 show_behind_parent = true
 position = Vector2(-3, 35)
 sprite_frames = SubResource("SpriteFrames_bxd36")
 animation = &"boost"
-frame_progress = 0.99632907
+frame = 1
 
-[node name="Right" type="AnimatedSprite2D" parent="Player"]
+[node name="Right" type="AnimatedSprite2D" parent="Zenon_animated"]
+visible = false
 show_behind_parent = true
 position = Vector2(3, 35)
 sprite_frames = SubResource("SpriteFrames_bxd36")
-animation = &"idle"
-frame_progress = 0.1810813
+animation = &"boost"
 flip_h = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

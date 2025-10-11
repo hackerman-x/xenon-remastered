@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://b6ey43jfat6tm"]
+[gd_scene load_steps=36 format=3 uid="uid://b6ey43jfat6tm"]
 
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="1_1idqq"]
 [ext_resource type="Script" uid="uid://bjoch4en3npja" path="res://zenon.gd" id="1_a6j1p"]
@@ -11,8 +11,13 @@
 [ext_resource type="Texture2D" uid="uid://vmoo7r6pnpge" path="res://PixelSpaceRage/256px/Exhaust_Frame_03_png_processed.png" id="7_yulqn"]
 [ext_resource type="Texture2D" uid="uid://cxgm3siu65kog" path="res://PixelSpaceRage/256px/Exhaust_Frame_04_png_processed.png" id="8_ss6wa"]
 [ext_resource type="Texture2D" uid="uid://dh0ymeqba102s" path="res://PixelSpaceRage/256px/Exhaust_Frame_05_png_processed.png" id="9_1uvvo"]
+[ext_resource type="Texture2D" uid="uid://dmkqryn666mo" path="res://assets/ChatGPT Image Oct 11, 2025, 09_35_49 AM.png" id="10_1uvvo"]
 [ext_resource type="Texture2D" uid="uid://d1275vuovejht" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed.png" id="10_sijs3"]
 [ext_resource type="AudioStream" uid="uid://c1licgfy3s8f3" path="res://assets/space-explosion-with-reverb-101449.mp3" id="13_ss6wa"]
+
+[sub_resource type="Curve" id="Curve_1uvvo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.61797756), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y1rom"]
 atlas = ExtResource("6_urj40")
@@ -158,15 +163,11 @@ radius = 24.020824
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.06741583), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Gradient" id="Gradient_ss6wa"]
-offsets = PackedFloat32Array(0, 0.9626168)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
 [sub_resource type="Gradient" id="Gradient_1uvvo"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [node name="Zenon" type="CharacterBody2D" groups=["Player"]]
-collision_mask = 520
+collision_mask = 776
 script = ExtResource("1_a6j1p")
 
 [node name="Thrusters" type="Node2D" parent="."]
@@ -175,7 +176,8 @@ script = ExtResource("1_a6j1p")
 position = Vector2(0, 32)
 rotation = 1.5707964
 emitting = false
-amount = 100
+amount = 200
+speed_scale = 2.0
 draw_order = 1
 emission_shape = 3
 emission_rect_extents = Vector2(20, 1)
@@ -183,9 +185,11 @@ spread = 0.0
 gravity = Vector2(0, 100)
 initial_velocity_min = 50.0
 initial_velocity_max = 150.0
+damping_max = 100.0
 scale_amount_min = 3.0
 scale_amount_max = 3.0
-color = Color(0.7137255, 0.92941177, 1, 0.4509804)
+scale_amount_curve = SubResource("Curve_1uvvo")
+color = Color(0.7137255, 0.92941177, 1, 0.7764706)
 
 [node name="Left" type="AnimatedSprite2D" parent="Thrusters"]
 position = Vector2(-3, 35)
@@ -199,6 +203,25 @@ sprite_frames = SubResource("SpriteFrames_ht32x")
 animation = &"idle"
 autoplay = "idle"
 flip_h = true
+
+[node name="BoostDown" type="CPUParticles2D" parent="Thrusters"]
+position = Vector2(0, 32)
+rotation = 1.5707964
+emitting = false
+amount = 20
+texture = ExtResource("10_1uvvo")
+speed_scale = 2.0
+draw_order = 1
+emission_shape = 3
+emission_rect_extents = Vector2(20, 1)
+spread = 0.0
+gravity = Vector2(0, 100)
+initial_velocity_min = 50.0
+initial_velocity_max = 150.0
+damping_max = 100.0
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_1uvvo")
+color = Color(0.7137255, 0.92941177, 1, 0.7764706)
 
 [node name="Zenon_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ss6wa")
@@ -216,6 +239,7 @@ wait_time = 0.15
 one_shot = true
 
 [node name="Hitbox" type="Area2D" parent="." groups=["Player"]]
+collision_layer = 16384
 collision_mask = 8
 
 [node name="Hitbox" type="CollisionShape2D" parent="Hitbox"]
@@ -234,20 +258,6 @@ one_shot = true
 wait_time = 0.3
 
 [node name="Timer2" type="Timer" parent="."]
-
-[node name="explosion" type="CPUParticles2D" parent="."]
-emitting = false
-amount = 100
-explosiveness = 1.0
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 100.0
-initial_velocity_max = 200.0
-scale_amount_min = 2.0
-scale_amount_max = 4.0
-scale_amount_curve = SubResource("Curve_ss6wa")
-color = Color(0.16862746, 0.73333335, 0.94509804, 1)
-color_ramp = SubResource("Gradient_ss6wa")
 
 [node name="Hit" type="CPUParticles2D" parent="."]
 emitting = false

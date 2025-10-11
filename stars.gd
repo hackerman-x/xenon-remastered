@@ -2,7 +2,6 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	randomize()
 	
 	# pick one random delay between 1–5 seconds
 	var delay = randf_range(1.0, 5.0)
