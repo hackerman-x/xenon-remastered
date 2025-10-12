@@ -49,7 +49,10 @@ func _physics_process(delta: float) -> void:
 					FRICTION = 600
 					$Thrusters/Left.play("boost")
 					$Thrusters/Right.play("boost")
+				elif health <= 2:
+					$Thrusters/BoostDown.emitting = true
 			elif Input.is_action_just_released("Boost"):
+				$Thrusters/BoostDown.emitting = false
 				$Thrusters/Exhaust.emitting = false
 				fastest = false
 				UP_SPEED = 250.0
@@ -194,6 +197,17 @@ func regen() -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Enemies"):
+		rect.size.x -= 20
+		$Hit.emitting = true
+		$Zenon_animated.modulate = Color("#ff7c6b")
+		$HitTimer.start()
+		health -= 1
+		Hitscreen.visible = true
+		Hittime += 1
+		area.get_parent().explode()
+		$Timer.start()
+		camera.start_shake(5)
 	if area.is_in_group("PowerUpHealth"):
 		area.pickup()
 	if area.is_in_group("PowerUpLaser"):

@@ -38,7 +38,6 @@ func _process(delta: float) -> void:
 				$Intro.visible = false
 				$Timer.start()
 				$TextureProgressBar.value = 0
-				print($Timer.wait_time)
 				hold_time = 0.0  # reset so it doesn't keep triggering
 				introstart = false
 		else:
@@ -130,7 +129,7 @@ func _on_timer_timeout() -> void:
 	explode.position = Vector2(0, 495)
 	add_child(explode)
 	$AnimationPlayer.play("Intro")
-	await get_tree().create_timer(3.0).timeout
+	await get_tree().create_timer(3.2).timeout
 	$AnimationPlayer.play("RESET")
 	$Camera2D.enabled = false
 	var main = Main.instantiate()
@@ -140,6 +139,9 @@ func _on_timer_timeout() -> void:
 
 
 func _on_button_pressed2() -> void:
+	$AnimationPlayer.play("Intro")
+	await get_tree().create_timer(3.6).timeout
+	$AnimationPlayer.play("RESET")
 	$"THE GAME"/Main.zenon_spawn()
 	$AudioStreamPlayer2.play()
 	$Death/Death.visible = false

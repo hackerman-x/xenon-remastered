@@ -164,6 +164,14 @@ func shoot() -> void:
 		$ShootTimer.start()
 	
 
+func explode() -> void:
+	var explosion = Explosion.instantiate()
+	var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
+	camera.start_shake(8)
+	explosion.global_position = global_position
+	get_tree().root.call_deferred("add_child", explosion)
+	call_deferred("queue_free")
+
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Bullet"):
 		# Explode the bullet safely
@@ -181,14 +189,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 				var place = get_tree().root.get_node("Starting Screen/THE GAME/Main/PowerUps")
 				place.call_deferred("add_child", Damage)
 
-			var explosion = Explosion.instantiate()
-			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
-			camera.start_shake(8)
-			explosion.global_position = global_position
-			get_tree().root.call_deferred("add_child", explosion)
+			explode()
 
-			# Remove the enemy safely
-			call_deferred("queue_free")
 		elif health > 0:
 			if Global.zenon_ref.PowerdUp:
 				health -= 5

@@ -241,7 +241,7 @@ one_shot = true
 
 [node name="Hitbox" type="Area2D" parent="." groups=["Player"]]
 collision_layer = 16384
-collision_mask = 40968
+collision_mask = 41224
 
 [node name="Hitbox" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 3)
@@ -278,6 +278,21 @@ scale_amount_min = 2.0
 scale_amount_max = 4.0
 scale_amount_curve = SubResource("Curve_ss6wa")
 color = Color(0.5385077, 0.12745526, 0.085117765, 1)
+
+[node name="Shoot" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 50
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_ss6wa")
+color = Color(1, 1, 0.15294118, 0.5647059)
 
 [node name="Regen" type="CPUParticles2D" parent="."]
 emitting = false

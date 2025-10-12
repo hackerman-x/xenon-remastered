@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://8n11rkutu6gs" path="res://PixelSpaceRage/256px/Explosion01_Frame_02_png_processed.png" id="6_i62wh"]
 [ext_resource type="Texture2D" uid="uid://effiq5cqtum7" path="res://PixelSpaceRage/256px/Explosion01_Frame_08_png_processed2.png" id="7_7jjqy"]
 [ext_resource type="Texture2D" uid="uid://b1wa6w3bgsi08" path="res://PixelSpaceRage/256px/Explosion01_Frame_09_png_processed2.png" id="8_s2var"]
-[ext_resource type="AudioStream" uid="uid://d3jaclaeqagpv" path="res://assets/laser-gun-81720.mp3.mp3" id="9_g7c54"]
+[ext_resource type="AudioStream" uid="uid://qyro8nus3yks" path="res://assets/laser-gun-280344.mp3" id="9_us8xk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uci0n"]
 atlas = ExtResource("2_us8xk")
@@ -81,6 +81,7 @@ show_behind_parent = true
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_us8xk")
+speed = 700
 
 [node name="Laser_animated" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a3a2b")
@@ -91,7 +92,7 @@ scale = Vector2(0.474388, 0.474388)
 shape = SubResource("CapsuleShape2D_klg7v")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_g7c54")
-volume_db = -30.0
+stream = ExtResource("9_us8xk")
+volume_db = -20.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
