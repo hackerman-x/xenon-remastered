@@ -30,6 +30,8 @@ Enemies="These are the enemies"
 Bullet=""
 Player=""
 EnemyBullet=""
+PowerUpHealth=""
+PowerUpLaser=""
 
 [input]
 
@@ -86,7 +88,9 @@ Skip={
 2d_physics/layer_4="EnemyLaser"
 2d_physics/layer_9="EnemyRadar"
 2d_physics/layer_10="Border"
+2d_physics/layer_14="Laser PowerUp"
 2d_physics/layer_15="Player Hitbox"
+2d_physics/layer_16="Health PowerUp"
 
 [rendering]
 

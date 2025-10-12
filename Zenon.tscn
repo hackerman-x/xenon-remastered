@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://b6ey43jfat6tm"]
+[gd_scene load_steps=37 format=3 uid="uid://b6ey43jfat6tm"]
 
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="1_1idqq"]
 [ext_resource type="Script" uid="uid://bjoch4en3npja" path="res://zenon.gd" id="1_a6j1p"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dmkqryn666mo" path="res://assets/ChatGPT Image Oct 11, 2025, 09_35_49 AM.png" id="10_1uvvo"]
 [ext_resource type="Texture2D" uid="uid://d1275vuovejht" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed.png" id="10_sijs3"]
 [ext_resource type="AudioStream" uid="uid://c1licgfy3s8f3" path="res://assets/space-explosion-with-reverb-101449.mp3" id="13_ss6wa"]
+[ext_resource type="AudioStream" uid="uid://bwgxlb4jtfosd" path="res://assets/power-up-35839.mp3" id="15_sijs3"]
 
 [sub_resource type="Curve" id="Curve_1uvvo"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.61797756), 0.0, 0.0, 0, 0]
@@ -240,7 +241,7 @@ one_shot = true
 
 [node name="Hitbox" type="Area2D" parent="." groups=["Player"]]
 collision_layer = 16384
-collision_mask = 8
+collision_mask = 40968
 
 [node name="Hitbox" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 3)
@@ -256,8 +257,14 @@ one_shot = true
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.3
+one_shot = true
 
 [node name="Timer2" type="Timer" parent="."]
+one_shot = true
+
+[node name="PowerUp2" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
 
 [node name="Hit" type="CPUParticles2D" parent="."]
 emitting = false
@@ -296,8 +303,38 @@ scale_amount_curve = SubResource("Curve_ss6wa")
 color = Color(0.29411766, 0.6313726, 0.87058824, 1)
 color_ramp = SubResource("Gradient_1uvvo")
 
+[node name="LaserPower" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 60
+lifetime = 2.0
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+orbit_velocity_min = -3.0
+orbit_velocity_max = 3.0
+linear_accel_min = 50.0
+linear_accel_max = 100.0
+radial_accel_min = 50.0
+radial_accel_max = 100.0
+tangential_accel_max = 100.0
+angle_min = 500.0
+angle_max = 500.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_ss6wa")
+color = Color(0.8374691, 0.8144758, 0.19123319, 1)
+color_ramp = SubResource("Gradient_1uvvo")
+
+[node name="PowerUp3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_sijs3")
+volume_db = -20.0
+
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
+[connection signal="timeout" from="PowerUp2" to="." method="_on_power_up_2_timeout"]
+[connection signal="finished" from="PowerUp3" to="." method="_on_power_up_3_finished"]

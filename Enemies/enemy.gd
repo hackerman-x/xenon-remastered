@@ -7,6 +7,7 @@ extends RigidBody2D
 var Explosion = preload("res://Explosions/enemy_explosion.tscn")
 var BulletScene = preload("res://EnemyLaser.tscn")
 var PowerUp = preload("res://health_powerup.tscn")
+var PowerUp2 = preload("res://laser_powerup.tscn")
 
 @export var health := 4
 @export var chase_distance: float = 1000.0  # how close player must be
@@ -14,7 +15,7 @@ var PowerUp = preload("res://health_powerup.tscn")
 @export var y_stop_range: float = 90.0
 
 
-var num = randi_range(0, 2)
+var num = randi_range(0, 3)
 var aggro: bool = false
 var can_shoot := true
 var last_x: float = 0.0
@@ -168,12 +169,17 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		# Explode the bullet safely
 		area.call_deferred("explode")
 
-		if health == 0 or area.is_in_group("Player"):
+		if health <= 0 or area.is_in_group("Player"):
 			if num == 1:
 				var HEALTH = PowerUp.instantiate()
 				HEALTH.global_position = position
 				var place = get_tree().root.get_node("Starting Screen/THE GAME/Main/PowerUps")
 				place.call_deferred("add_child", HEALTH)
+			if num == 2:
+				var Damage = PowerUp2.instantiate()
+				Damage.global_position = position
+				var place = get_tree().root.get_node("Starting Screen/THE GAME/Main/PowerUps")
+				place.call_deferred("add_child", Damage)
 
 			var explosion = Explosion.instantiate()
 			var camera = get_tree().root.get_node("Starting Screen/THE GAME/Main/Camera")
@@ -184,9 +190,14 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			# Remove the enemy safely
 			call_deferred("queue_free")
 		elif health > 0:
-			health -= 1
-			$Enemy_animated.modulate = Color("#ff7c6b")
-			$EnemyHitTimer.start()
+			if Global.zenon_ref.PowerdUp:
+				health -= 5
+				$Enemy_animated.modulate = Color("#ff7c6b")
+				$EnemyHitTimer.start()
+			else:
+				health -= 1
+				$Enemy_animated.modulate = Color("#ff7c6b")
+				$EnemyHitTimer.start()
 
 
 func _on_shoot_timer_timeout() -> void:

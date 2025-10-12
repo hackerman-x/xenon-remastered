@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 var newLaser = preload("res://Laser.tscn")
 var Explosion = preload("res://Explosions/player_explosion.tscn")
+var Laser = preload("res://LaserPower.tscn")
 
 
 @export var health := 9
@@ -14,6 +15,7 @@ var camera:Camera2D
 var can_shoot := true
 var Hitscreen :Sprite2D
 var Regenscreen :Sprite2D
+var PowerUp :Sprite2D
 var rect :ColorRect
 var rectborder:ColorRect
 var faster := false
@@ -24,6 +26,7 @@ var slow := false
 var idle := true
 var Hittime := 1
 var dead := false
+var PowerdUp := false
 
 
 
@@ -114,10 +117,16 @@ func _physics_process(delta: float) -> void:
 
 
 	if Input.is_action_pressed("Shoot") and can_shoot:
-		var laser = newLaser.instantiate()
-		laser.position = position
-		var parent_node = get_tree().root.get_node("Starting Screen/THE GAME/Main/Laser")
-		parent_node.add_child(laser)
+		if PowerdUp:
+			var laser2 = Laser.instantiate()
+			laser2.position = position
+			var parent_node2 = get_tree().root.get_node("Starting Screen/THE GAME/Main/Laser")
+			parent_node2.add_child(laser2)
+		else:
+			var laser = newLaser.instantiate()
+			laser.position = position
+			var parent_node = get_tree().root.get_node("Starting Screen/THE GAME/Main/Laser")
+			parent_node.add_child(laser)
 #
 		can_shoot = false
 		$ShootTimer.start()
@@ -148,12 +157,26 @@ func _ready() -> void:
 	rectborder = get_parent().get_node("HealthBarBorder")
 	Hitscreen = get_parent().get_node("Hit")
 	Regenscreen =  get_parent().get_node("Regen")
+	PowerUp = get_parent().get_node("PowerUp")
 	camera = get_parent().get_node("Camera")
 	
 
 
 func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
+
+func powerUp() -> void:
+	PowerdUp = true
+	$PowerUp3.play()
+	$LaserPower.emitting = true
+	PowerUp.visible = true
+	$PowerUp2.start()
+	var tween = create_tween()
+	tween.tween_property(rect, "color", Color.YELLOW, 0.5) # change to red in 1 second
+	tween.tween_property(rect, "color", Color.RED, 0.5) # then back to white in 1 second
+	tween.tween_property(rectborder, "color", Color.YELLOW, 0.5) # change to red in 1 second
+	tween.tween_property(rectborder, "color", Color.DARK_RED, 0.5) # then back to white in 1 second
+	
 
 func regen() -> void:
 	$Regen.emitting = true
@@ -171,6 +194,10 @@ func regen() -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.is_in_group("PowerUpHealth"):
+		area.pickup()
+	if area.is_in_group("PowerUpLaser"):
+		area.pickup()
 	if area.is_in_group("EnemyBullet"):
 		rect.size.x -= 20
 		area.explode()
@@ -225,3 +252,14 @@ func _on_timer_timeout() -> void:
 
 func _on_timer_2_timeout() -> void:
 	Regenscreen.visible = false
+
+
+
+func _on_power_up_2_timeout() -> void:
+	PowerUp.visible = false
+	$LaserPower.emitting = false
+	
+
+
+func _on_power_up_3_finished() -> void:
+	PowerdUp = false

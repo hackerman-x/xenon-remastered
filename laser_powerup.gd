@@ -12,17 +12,16 @@ func _physics_process(delta: float) -> void:
 	position.y += speed * delta
 
 func pickup() -> void:
-	$Health.visible = false
-	$AudioStreamPlayer.play()
-	var player = get_tree().root.get_node("Starting Screen/THE GAME/Main/Zenon")
-	player.regen()
+	$Laser.visible = false
+	var player = Global.zenon_ref
+	player.powerUp()
 	position = player.global_position
-	$Timer.start()
 
-
-func _on_timer_timeout() -> void:
-	queue_free()
 	
 
 func _on_end_timer_timeout() -> void:
+	queue_free()
+
+
+func _on_timer_timeout() -> void:
 	queue_free()

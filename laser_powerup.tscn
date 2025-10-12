@@ -1,18 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://o47wd2jygfa2"]
+[gd_scene load_steps=6 format=3 uid="uid://vllb65qmf152"]
 
-[ext_resource type="Texture2D" uid="uid://dxjxes117l46k" path="res://PixelSpaceRage/256px/Powerup_Health_png_processed.png" id="1_c4mbi"]
-[ext_resource type="Script" uid="uid://hwskbltlcyrx" path="res://health_powerup.gd" id="1_vwali"]
-[ext_resource type="AudioStream" uid="uid://qi8jwb64o37w" path="res://assets/pick-up-sfx-38516.mp3" id="6_84yhs"]
+[ext_resource type="Script" uid="uid://dq3mbtsdfblgg" path="res://laser_powerup.gd" id="1_ekxyj"]
+[ext_resource type="Texture2D" uid="uid://dk2wqd076y13c" path="res://PixelSpaceRage/256px/Powerup_Rockets_png_processed.png" id="2_tcjf5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_c4mbi"]
-atlas = ExtResource("1_c4mbi")
-region = Rect2(0, 0, 48, 29)
+[sub_resource type="AtlasTexture" id="AtlasTexture_8urio"]
+atlas = ExtResource("2_tcjf5")
+region = Rect2(0, 0, 47, 29)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vwali"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_c4mbi")
+"texture": SubResource("AtlasTexture_8urio")
 }],
 "loop": true,
 "name": &"idle",
@@ -22,11 +21,11 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c4mbi"]
 size = Vector2(28, 25)
 
-[node name="Health" type="Area2D" groups=["PowerUpHealth"]]
-collision_layer = 32768
-script = ExtResource("1_vwali")
+[node name="Laser" type="Area2D" groups=["PowerUpLaser"]]
+collision_layer = 8192
+script = ExtResource("1_ekxyj")
 
-[node name="Health" type="AnimatedSprite2D" parent="."]
+[node name="Laser" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vwali")
 animation = &"idle"
 autoplay = "idle"
@@ -37,9 +36,6 @@ shape = SubResource("RectangleShape2D_c4mbi")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_84yhs")
 
 [node name="End Timer" type="Timer" parent="."]
 wait_time = 10.0

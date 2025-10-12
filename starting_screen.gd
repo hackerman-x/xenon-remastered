@@ -2,24 +2,51 @@ extends Node2D
 
 var Main = preload("res://main.tscn")
 var Explosion = preload("res://Explosions/intro_explosion.tscn")
+var StarScene = preload("res://starsformain.tscn")
+var StarScene2 = preload("res://starsformain2.tscn")
+var StarScene3 = preload("res://starsformain3.tscn")
+var no_of_stars = 200
 var max_y := 1360
 var can_move := false
 var next := false
 var Go := false
 var introstart:= false
+var Star: Node2D
+var stars := []
+var hold_time := 0.0  # how long ESC has been held
+var max_hold := 5.0  # how many seconds to hold
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Global.starting = self
 	$AudioStreamPlayer.play()
+	$TextureProgressBar.min_value = 0
+	$TextureProgressBar.max_value = max_hold
+	$TextureProgressBar.value = 0
 
+func _process(delta: float) -> void:
+	if introstart:
+		$Label.visible = true
+		$TextureProgressBar.visible = true
+		if Input.is_action_pressed("Skip"):  # ESC key
+			hold_time += delta
+			$TextureProgressBar.value = hold_time
+			if hold_time >= 5.0:
+				$AudioStreamPlayer2.stop()
+				$AudioStreamPlayer2.play(32.0)  # jump to 32 seconds
+				$Timer.wait_time = 0.01
+				$Intro.visible = false
+				$Timer.start()
+				$TextureProgressBar.value = 0
+				print($Timer.wait_time)
+				hold_time = 0.0  # reset so it doesn't keep triggering
+				introstart = false
+		else:
+			hold_time = 0.0  # reset if released
+			$TextureProgressBar.value = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_pressed("Skip"):
-		$Timer2.start()
-	if Input.is_action_just_released("Skip"):
-		$Timer2.stop()
 	if Go and not is_instance_valid(Global.zenon_ref):
 		$AudioStreamPlayer2.stop()
 		$Death/Death.visible = true
@@ -58,6 +85,8 @@ func intro() -> void:
 	fade_in($Intro/BG)
 	await get_tree().create_timer(2.0).timeout
 	fade_in($"Intro/1")
+	$AnimatedSprite2D.visible = false
+	$STARS.queue_free()
 	await get_tree().create_timer(6.0).timeout
 	fade_out($"Intro/1")
 	await get_tree().create_timer(1.0).timeout
@@ -77,14 +106,26 @@ func intro() -> void:
 	await get_tree().create_timer(4.5).timeout
 	introstart = false
 	
-	
+func spawn_star() -> void:
+	for star in no_of_stars:
+		Star = StarScene.instantiate()
+		get_node("STAR").add_child(Star)
+		stars.append(Star)
+	for star in no_of_stars:
+		Star = StarScene2.instantiate()
+		get_node("STAR").add_child(Star)
+		stars.append(Star)
+	for star in no_of_stars:
+		Star = StarScene3.instantiate()
+		get_node("STAR").add_child(Star)
+		stars.append(Star)
 
 func _on_timer_timeout() -> void:
-	$ColorRect.visible = true
+	$TextureProgressBar.queue_free()
+	$Label.visible = false
 	$Intro.visible = false
-	$AnimatedSprite2D.visible = false
-	can_move = false
-	$STARS.queue_free()
+	$ColorRect.visible = true
+	spawn_star()
 	var explode = Explosion.instantiate()
 	explode.position = Vector2(0, 495)
 	add_child(explode)
@@ -92,16 +133,10 @@ func _on_timer_timeout() -> void:
 	await get_tree().create_timer(3.0).timeout
 	$AnimationPlayer.play("RESET")
 	$Camera2D.enabled = false
-	$ColorRect.visible = false
 	var main = Main.instantiate()
 	get_node("THE GAME").add_child(main)
 	if is_instance_valid(Global.zenon_ref):
 		Go = true
-
-
-func _on_timer_2_timeout() -> void:
-	$AudioStreamPlayer2.seek(32)
-	$Timer.wait_time = 0.1
 
 
 func _on_button_pressed2() -> void:

@@ -36,7 +36,7 @@ func _ready() -> void:
 	$Health.color = Color.RED
 	$HealthBarBorder.color = Color.DARK_RED
 	zenon = $Zenon
-	spawn_star()
+	#spawn_star()
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(zenon):
@@ -49,6 +49,8 @@ func _process(_delta: float) -> void:
 		set_physics_process(false)
 	if is_instance_valid(zenon):
 		set_physics_process(true)
+
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
@@ -233,12 +235,10 @@ func random() -> void:
 
 func _on_warning_timeout() -> void:
 	random()
-	print("spawning")
 
 
 func _on_enemy_wait_timer_timeout() -> void:
 	if is_instance_valid(zenon):
-		print("spawning")
 		$EnemyWaitTimer.wait_time = 5
 		if enemies.size() == 0:
 			$EnemyWaitTimer.wait_time = 5

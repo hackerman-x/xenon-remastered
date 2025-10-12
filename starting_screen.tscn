@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://cp3dvj0otgrcf"]
+[gd_scene load_steps=46 format=3 uid="uid://cp3dvj0otgrcf"]
 
 [ext_resource type="Script" uid="uid://b5dek1nlrh7ra" path="res://starting_screen.gd" id="1_mdfg2"]
 [ext_resource type="PackedScene" uid="uid://b1b3r7nh1ll10" path="res://stars.tscn" id="2_grbrr"]
@@ -21,6 +21,8 @@
 [ext_resource type="Texture2D" uid="uid://d1275vuovejht" path="res://PixelSpaceRage/256px/Exhaust_Frame_06_png_processed.png" id="13_ym2er"]
 [ext_resource type="Texture2D" uid="uid://cr4y8uqxbauj7" path="res://PixelSpaceRage/256px/Exhaust_Frame_01_png_processed.png" id="14_cpc8k"]
 [ext_resource type="Texture2D" uid="uid://cxgm3siu65kog" path="res://PixelSpaceRage/256px/Exhaust_Frame_04_png_processed.png" id="15_a4jg5"]
+[ext_resource type="Texture2D" uid="uid://tjuevjd4qwq3" path="res://assets/JUSTTHERE.png" id="22_bxd36"]
+[ext_resource type="Texture2D" uid="uid://bevwgw856w6ya" path="res://assets/Unnamed.png" id="23_fog4h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0g0qd"]
 atlas = ExtResource("3_0g0qd")
@@ -39,7 +41,7 @@ animations = [{
 
 [sub_resource type="LabelSettings" id="LabelSettings_ym2er"]
 shadow_color = Color(0, 0, 0, 1)
-shadow_offset = Vector2(-2.93, 6.285)
+shadow_offset = Vector2(0, 2.26)
 
 [sub_resource type="Animation" id="Animation_bb5qi"]
 resource_name = "Intro"
@@ -598,10 +600,9 @@ flat = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="THE GAME" type="Node2D" parent="."]
-
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
+z_index = -1
 offset_left = -1332.9999
 offset_top = -760.0
 offset_right = -1292.9999
@@ -609,8 +610,10 @@ offset_bottom = -720.0
 scale = Vector2(62.70301, 39.834614)
 color = Color(0, 0, 0, 1)
 
-[node name="Timer2" type="Timer" parent="."]
-one_shot = true
+[node name="STAR" type="Node2D" parent="."]
+z_index = -1
+
+[node name="THE GAME" type="Node2D" parent="."]
 
 [node name="Death" type="Node2D" parent="."]
 position = Vector2(-982, -619)
@@ -658,7 +661,26 @@ sprite_frames = SubResource("SpriteFrames_bxd36")
 animation = &"boost"
 flip_h = true
 
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+visible = false
+offset_left = 773.0
+offset_top = 336.0
+offset_right = 898.0
+offset_bottom = 461.0
+value = 8.0
+fill_mode = 4
+texture_under = ExtResource("22_bxd36")
+texture_progress = ExtResource("23_fog4h")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 698.0
+offset_top = 377.0
+offset_right = 783.0
+offset_bottom = 426.0
+text = "PRESS
+Esc To Skip"
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
 [connection signal="pressed" from="Death/Button" to="." method="_on_button_pressed2"]
