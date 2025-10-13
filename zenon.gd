@@ -33,10 +33,11 @@ var PowerdUp := false
 var going_right = false
 var going_left = false
 var energydown = 0
+var boosting := false
 
 
 func _process(_delta: float) -> void:
-	if Energy <= 200 and not Input.is_action_pressed("Boost"):
+	if Energy <= 200 and not boosting:
 		energydown += 0.8
 		Energy += 0.8
 		if energy.size.x < 200:
@@ -54,7 +55,7 @@ func start_process_later():
 func _physics_process(delta: float) -> void:
 	if Energy == 0:
 		$Thrusters/BoostDown.emitting = true
-	if Energy <= 200 and not Input.is_action_pressed("Boost"):
+	if Energy <= 200 and not boosting:
 		start_process_later()
 		
 	# Get the input direction and handle the movement/deceleration.
@@ -68,6 +69,7 @@ func _physics_process(delta: float) -> void:
 			slow = false
 			faster = true
 			if Input.is_action_pressed("Boost"):
+				boosting = true
 				if health > 2 and Energy > 0:
 					set_process(false)
 					energydown += 0.8
@@ -82,6 +84,7 @@ func _physics_process(delta: float) -> void:
 				elif health <= 2:
 					$Thrusters/BoostDown.emitting = true
 			elif Input.is_action_just_released("Boost"):
+				boosting = false
 				$Thrusters/BoostDown.emitting = false
 				$Thrusters/Exhaust.emitting = false
 				fastest = false
@@ -116,6 +119,9 @@ func _physics_process(delta: float) -> void:
 		camera.move_back()
 #
 #
+	if not Input.is_action_just_released("Up") and Input.is_action_pressed("Boost"):
+		boosting = false
+			
 	var direction_x := Input.get_axis("Left", "Right")
 	if direction_x < 0: # Moving left now. 
 		velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
@@ -250,6 +256,17 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		area.get_parent().explode()
 		$Timer.start()
 		camera.start_shake(5)
+
+	elif health == 0:
+		var explosion = Explosion.instantiate()
+		camera.start_shake(1)
+		explosion.global_position = global_position
+		get_tree().root.add_child(explosion)
+		
+		visible = false
+		dead = true
+		queue_free()
+
 	if area.is_in_group("PowerUpHealth"):
 		area.pickup()
 	if area.is_in_group("PowerUpLaser"):
