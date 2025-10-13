@@ -141,6 +141,25 @@ scale = Vector2(1, 0.39999998)
 color = Color(0.7529412, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
+[node name="EnergyBarBorder" type="ColorRect" parent="."]
+offset_left = -901.0
+offset_top = -245.0
+offset_right = -697.0
+offset_bottom = -225.0
+rotation = -1.5707964
+color = Color(4.0911138e-07, 0.30512017, 0.22740865, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Energy" type="ColorRect" parent="."]
+offset_left = -899.00006
+offset_top = -247.0
+offset_right = -699.00006
+offset_bottom = -207.0
+rotation = -1.5707964
+scale = Vector2(1, 0.39999998)
+color = Color(0, 0.80819577, 0.64285153, 1)
+metadata/_edit_use_anchors_ = true
+
 [node name="Score" type="Label" parent="."]
 texture_filter = 4
 offset_left = -19.0

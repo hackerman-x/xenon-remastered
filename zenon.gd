@@ -11,6 +11,7 @@ var Laser = preload("res://LaserPower.tscn")
 @export var ACCELERATION = 700   # how fast we reach top speed
 @export var FRICTION = 900      # how fast we slow down
 @export var MAX_SPEED = 300      # top speed
+@export var Energy = 200
 var camera:Camera2D
 var can_shoot := true
 var Hitscreen :Sprite2D
@@ -18,6 +19,8 @@ var Regenscreen :Sprite2D
 var PowerUp :Sprite2D
 var rect :ColorRect
 var rectborder:ColorRect
+var energy :ColorRect
+var energyborder:ColorRect
 var faster := false
 var fastest := false
 var right := false
@@ -27,10 +30,33 @@ var idle := true
 var Hittime := 1
 var dead := false
 var PowerdUp := false
+var going_right = false
+var going_left = false
+var energydown = 0
 
 
+func _process(_delta: float) -> void:
+	if Energy <= 200 and not Input.is_action_pressed("Boost"):
+		energydown += 0.8
+		Energy += 0.8
+		if energy.size.x < 200:
+			energy.size.x += 0.8
+
+func start_process_later():
+	if not is_processing():
+		await get_tree().create_timer(3.0).timeout  # wait 2 seconds
+		set_process(true)  # starts _process()
+	if is_processing():
+		await get_tree().create_timer(3.0).timeout  # wait 2 seconds
+		set_process(true)  # starts _process()
+		
 
 func _physics_process(delta: float) -> void:
+	if Energy == 0:
+		$Thrusters/BoostDown.emitting = true
+	if Energy <= 200 and not Input.is_action_pressed("Boost"):
+		start_process_later()
+		
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction_y := Input.get_axis("Up", "Down")
@@ -42,7 +68,11 @@ func _physics_process(delta: float) -> void:
 			slow = false
 			faster = true
 			if Input.is_action_pressed("Boost"):
-				if health > 2:
+				if health > 2 and Energy > 0:
+					set_process(false)
+					energydown += 0.8
+					Energy -= 0.8
+					energy.size.x -= 0.8
 					$Thrusters/Exhaust.emitting = true
 					fastest = true
 					UP_SPEED = 450
@@ -92,11 +122,13 @@ func _physics_process(delta: float) -> void:
 	elif direction_x == 0: 
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 	if Input.is_action_just_pressed("Left"):
+		going_left = true
 		left = true
 		camera.move_left()
 		$Zenon_animated.flip_h = false
 		$Zenon_animated.play("turn")
 	if Input.is_action_just_released("Left"):
+		going_left = false
 		left = false
 		camera.move_back()
 		$Zenon_animated.play_backwards("turn")
@@ -109,14 +141,21 @@ func _physics_process(delta: float) -> void:
 #
 #
 	if Input.is_action_just_pressed("Right"):
+		going_right = true
 		right = true
 		camera.move_right()
 		$Zenon_animated.flip_h = true
 		$Zenon_animated.play("turn")
 	if Input.is_action_just_released("Right"):
+		going_right = false
 		right = false
 		camera.move_back()
 		$Zenon_animated.play_backwards("turn")
+	if Input.is_action_just_pressed("Right") and Input.is_action_just_pressed("Left"):
+		if going_right:
+			$Zenon_animated.play("turn")
+		if going_left:
+			$Zenon_animated.play_backwards("turn")
 
 
 	if Input.is_action_pressed("Shoot") and can_shoot:
@@ -138,6 +177,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 func respawn() -> void:
+	set_process(false)  # make sure it starts off
 	Hitscreen.visible = false
 	dead = false
 	rect.size.x = 200
@@ -158,6 +198,8 @@ func _ready() -> void:
 	Global.zenon_ref = self
 	rect = get_parent().get_node("Health")
 	rectborder = get_parent().get_node("HealthBarBorder")
+	energy = get_parent().get_node("Energy")
+	energyborder = get_parent().get_node("EnergyBarBorder")
 	Hitscreen = get_parent().get_node("Hit")
 	Regenscreen =  get_parent().get_node("Regen")
 	PowerUp = get_parent().get_node("PowerUp")
@@ -277,3 +319,6 @@ func _on_power_up_2_timeout() -> void:
 
 func _on_power_up_3_finished() -> void:
 	PowerdUp = false
+
+
+		

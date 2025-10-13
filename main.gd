@@ -87,14 +87,13 @@ func zenon_spawn() -> void:
 	var zenon1 = Zenon.instantiate()
 	add_child(zenon1)  # add it to Main
 	$Zenon.respawn()
-	zenon1.position = Vector2(200, 100)  # set its position in the scene
+	zenon1.position = Vector2(0, 0)  # set its position in the scene
 	move_child(zenon1, 5)
 	
 
 func spawn():
 	var viewport_rect = get_viewport().get_visible_rect()
 	var margin = 100  # how far outside to spawn
-
 	var side = randi_range(0, 3)  # 0=top, 1=bottom, 2=left, 3=right
 
 	match side:
@@ -113,7 +112,12 @@ func spawn():
 		3: # Right
 			spawn_pos.x = viewport_rect.position.x + viewport_rect.size.x + margin
 			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
-			
+
+	# Extra safety: if by some weird reason the point is inside, re-roll once more
+	# (practically this won't loop forever because match already places it outside)
+	if viewport_rect.has_point(spawn_pos):
+		return spawn()  # try again (very safe because match places outside)
+
 	return spawn_pos
 
 func enemy1() -> void:

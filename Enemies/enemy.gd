@@ -11,21 +11,20 @@ var PowerUp2 = preload("res://laser_powerup.tscn")
 
 @export var health := 4
 @export var chase_distance: float = 1000.0  # how close player must be
-@export var speed: float = 100.0           # enemy movement speed
+@export var speed: float = 80.0           # enemy movement speed
 @export var y_stop_range: float = 90.0
 
 
 var num = randi_range(0, 3)
-var aggro: bool = false
 var can_shoot := true
 var last_x: float = 0.0
 var moving_left: bool = false
 var moving_right: bool = false
 var min_distance := 50
 var powerup_enable = false
-var orbit_speed := 1.5
+var orbit_speed := 1.0
 var old_health: int = 5
-var orbit_radius := 120.0
+var orbit_radius := 150.0
 var player: Node2D
 var angle := 0.0
 var approach_speed: float = 0.8   # how fast it moves toward Zenon's Y\
@@ -35,6 +34,7 @@ var previous_y = 0
 var moving_up = false
 var moving_down = false
 var zenon:CharacterBody2D
+var avoid_distance = 100.0
 # VARIABELLLLLS
 
 
@@ -69,6 +69,9 @@ func _process(_delta: float) -> void:
 func circling(delta) -> void:
 	# How close in X before enemy stops circling
 	if is_instance_valid(zenon):
+		var direction = zenon.global_position - global_position
+		var distance = global_position.distance_to(player.global_position)
+
 		var x_dist = abs(global_position.x - zenon.global_position.x)
 		var y_dist = global_position.y - zenon.global_position.y
 
@@ -79,9 +82,7 @@ func circling(delta) -> void:
 				global_position.y += min(speed * delta, -y_dist - y_stop_range)
 		else:
 			# ✅ Go back to circling
-			var direction = zenon.global_position - global_position
-			var distance = global_position.distance_to(player.global_position)
-			if not in_orbit or aggro:
+			if not in_orbit:
 				if distance > orbit_radius:
 					position += direction * approach_speed * delta
 				else:

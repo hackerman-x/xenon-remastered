@@ -13,8 +13,10 @@ var Go := false
 var introstart:= false
 var Star: Node2D
 var stars := []
-var hold_time := 0.0  # how long ESC has been held
-var max_hold := 5.0  # how many seconds to hold
+var hold_time := 0.0 
+var max_hold := 5.0  
+var radius := 40.0
+var line_width := 8.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,8 +34,8 @@ func _process(delta: float) -> void:
 			hold_time += delta
 			$TextureProgressBar.value = hold_time
 			if hold_time >= 5.0:
-				$AudioStreamPlayer2.stop()
-				$AudioStreamPlayer2.play(32.0)  # jump to 32 seconds
+				$AudioStreamPlayer3.stop()
+				$AudioStreamPlayer2.play(1)
 				$Timer.wait_time = 0.01
 				$Intro.visible = false
 				$Timer.start()
@@ -57,8 +59,8 @@ func _physics_process(_delta: float) -> void:
 func _on_button_pressed() -> void:
 	$Button.disabled = true
 	$Button.visible = false
-	$AudioStreamPlayer.playing = false
-	$AudioStreamPlayer2.play()
+	$AudioStreamPlayer.stop()
+	$AudioStreamPlayer3.play()
 	$Timer.start()
 	intro()
 
@@ -134,15 +136,21 @@ func _on_timer_timeout() -> void:
 	$Camera2D.enabled = false
 	var main = Main.instantiate()
 	get_node("THE GAME").add_child(main)
+	$AudioStreamPlayer2.volume_db = -1
 	if is_instance_valid(Global.zenon_ref):
 		Go = true
 
 
 func _on_button_pressed2() -> void:
 	$AnimationPlayer.play("Intro")
-	await get_tree().create_timer(3.6).timeout
+	$AudioStreamPlayer2.play(1)
+	await get_tree().create_timer(3.2).timeout
 	$AnimationPlayer.play("RESET")
 	$"THE GAME"/Main.zenon_spawn()
-	$AudioStreamPlayer2.play()
 	$Death/Death.visible = false
 	$Death/Button.visible = false
+	$Death/Button.disabled = true
+
+
+func _on_audio_stream_player_2_finished() -> void:
+	$AudioStreamPlayer2.play(1)

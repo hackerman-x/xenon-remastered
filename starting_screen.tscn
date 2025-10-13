@@ -1,10 +1,11 @@
-[gd_scene load_steps=46 format=3 uid="uid://cp3dvj0otgrcf"]
+[gd_scene load_steps=47 format=3 uid="uid://cp3dvj0otgrcf"]
 
 [ext_resource type="Script" uid="uid://b5dek1nlrh7ra" path="res://starting_screen.gd" id="1_mdfg2"]
 [ext_resource type="PackedScene" uid="uid://b1b3r7nh1ll10" path="res://stars.tscn" id="2_grbrr"]
 [ext_resource type="AudioStream" uid="uid://boclgfunxwn3p" path="res://assets/1-space-cruise-title.mp3" id="2_gxvq4"]
 [ext_resource type="Texture2D" uid="uid://bms0ajn8hacse" path="res://assets/Background.jpeg" id="3_0g0qd"]
-[ext_resource type="AudioStream" uid="uid://cwej1ik4oqoln" path="res://assets/Skaven - Razorback (original) [a8Vqitgfoko].mp3" id="6_jrgtf"]
+[ext_resource type="AudioStream" uid="uid://ysod5bet5hsl" path="res://assets/gameplay.mp3" id="4_fog4h"]
+[ext_resource type="AudioStream" uid="uid://bvqb4vm2reeim" path="res://assets/intro.mp3" id="5_04r33"]
 [ext_resource type="Texture2D" uid="uid://cxccc0keo0vq3" path="res://assets/2.png" id="6_ym2er"]
 [ext_resource type="Texture2D" uid="uid://b7a8162ds82q2" path="res://assets/1.png" id="7_2kodb"]
 [ext_resource type="Texture2D" uid="uid://5p6y83mv71x2" path="res://PixelSpaceRage/256px/PlayerRed_Frame_01_png_processed.png" id="7_bb5qi"]
@@ -154,6 +155,18 @@ tracks/8/keys = {
 "update": 1,
 "values": [&"boost", &"idle"]
 }
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Zenon_animated:animation")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 1.3, 2.1666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [&"idle", &"turn", &"idle"]
+}
 
 [sub_resource type="Animation" id="Animation_w34a2"]
 length = 0.001
@@ -252,6 +265,18 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [&"idle"]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Zenon_animated:animation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"turn"]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_k2t2y"]
@@ -406,7 +431,10 @@ stream = ExtResource("2_gxvq4")
 autoplay = true
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_jrgtf")
+stream = ExtResource("4_fog4h")
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_04r33")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 32.0
@@ -596,7 +624,7 @@ text = "But victory hangs by a thread.
  Deep within enemy territory, on the
 isolated STATION 24B12, lies the last known vial of XENONITE—the rare
 element without which the weapon cannot be completed.
- Time is running
+ Time is running out.
 "
 label_settings = SubResource("LabelSettings_ym2er")
 horizontal_alignment = 1
@@ -736,6 +764,7 @@ offset_bottom = 426.0
 text = "PRESS
 Esc To Skip"
 
+[connection signal="finished" from="AudioStreamPlayer2" to="." method="_on_audio_stream_player_2_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Death/Button" to="." method="_on_button_pressed2"]
