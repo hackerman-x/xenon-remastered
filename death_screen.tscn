@@ -1,9 +1,25 @@
 [gd_scene load_steps=2 format=3 uid="uid://bqdmjcdmv1gi5"]
 
-[ext_resource type="Script" uid="uid://cywgp8sd6du4b" path="res://death_screen.gd" id="1_if853"]
+[sub_resource type="GDScript" id="GDScript_7hb72"]
+script/source = "extends Node2D
+
+var Main = preload(\"res://main.tscn\")
+
+func _ready() -> void:
+	$Camera2D.enabled = true
+
+func _on_button_pressed() -> void:
+	var main = Main.instantiate()
+
+	if Global.starting and Global.starting.has_node(\"THE GAME\"):
+		var place = Global.starting.get_node(\"THE GAME\")
+		place.add_child(main)
+	else:
+		push_error(\"Global.starting or 'THE GAME' not found!\")
+"
 
 [node name="DeathScreen" type="Node2D"]
-script = ExtResource("1_if853")
+script = SubResource("GDScript_7hb72")
 
 [node name="Button" type="Button" parent="."]
 offset_left = -30.0

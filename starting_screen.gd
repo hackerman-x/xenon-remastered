@@ -51,7 +51,10 @@ func _physics_process(_delta: float) -> void:
 	if Go and not is_instance_valid(Global.zenon_ref):
 		$AudioStreamPlayer2.stop()
 		$Death/Death.visible = true
-		$Death/Button.visible = true
+		$Death/Button2.visible = true
+	else :
+		if $AudioStreamPlayer2.playing == false and $AudioStreamPlayer3.playing == false and $AudioStreamPlayer.playing == false:
+			$AudioStreamPlayer2.play(1)
 	if introstart:
 		$Intro/Text.global_position.y -= 1.7
 		
@@ -104,8 +107,9 @@ func intro() -> void:
 	fade_out($"Intro/31")
 	await get_tree().create_timer(1.0).timeout
 	fade_in($"Intro/4")
-	await get_tree().create_timer(4.5).timeout
+	await get_tree().create_timer(5.0).timeout
 	introstart = false
+	
 	
 func spawn_star() -> void:
 	for star in no_of_stars:
@@ -122,6 +126,8 @@ func spawn_star() -> void:
 		stars.append(Star)
 
 func _on_timer_timeout() -> void:
+	$AudioStreamPlayer3.stop()
+	$AudioStreamPlayer2.play(1)
 	$TextureProgressBar.queue_free()
 	$Label.visible = false
 	$Intro.visible = false
@@ -136,21 +142,24 @@ func _on_timer_timeout() -> void:
 	$Camera2D.enabled = false
 	var main = Main.instantiate()
 	get_node("THE GAME").add_child(main)
-	$AudioStreamPlayer2.volume_db = -1
 	if is_instance_valid(Global.zenon_ref):
 		Go = true
 
 
 func _on_button_pressed2() -> void:
+	$AudioStreamPlayer2.play(2)
 	$AnimationPlayer.play("Intro")
-	$AudioStreamPlayer2.play(1)
 	await get_tree().create_timer(3.2).timeout
 	$AnimationPlayer.play("RESET")
 	$"THE GAME"/Main.zenon_spawn()
 	$Death/Death.visible = false
-	$Death/Button.visible = false
-	$Death/Button.disabled = true
+	$Death/Button2.visible = false
+	$Death/Button2.disabled = true
 
 
 func _on_audio_stream_player_2_finished() -> void:
 	$AudioStreamPlayer2.play(1)
+
+
+func _on_audio_stream_player_3_finished() -> void:
+	$AudioStreamPlayer2.play()

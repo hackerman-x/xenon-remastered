@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-
+##VARIABLES
 var newLaser = preload("res://Laser.tscn")
 var Explosion = preload("res://Explosions/player_explosion.tscn")
 var Laser = preload("res://LaserPower.tscn")
@@ -12,6 +12,8 @@ var Laser = preload("res://LaserPower.tscn")
 @export var FRICTION = 900      # how fast we slow down
 @export var MAX_SPEED = 300      # top speed
 @export var Energy = 200
+
+
 var camera:Camera2D
 var can_shoot := true
 var Hitscreen :Sprite2D
@@ -35,13 +37,14 @@ var going_left = false
 var energydown = 0
 var boosting := false
 
-
+##FUNCTIONS
 func _process(_delta: float) -> void:
 	if Energy <= 200 and not boosting:
 		energydown += 0.8
 		Energy += 0.8
 		if energy.size.x < 200:
 			energy.size.x += 0.8
+
 
 func start_process_later():
 	if not is_processing():
@@ -50,7 +53,7 @@ func start_process_later():
 	if is_processing():
 		await get_tree().create_timer(3.0).timeout  # wait 2 seconds
 		set_process(true)  # starts _process()
-		
+
 
 func _physics_process(delta: float) -> void:
 	if Energy == 0:
@@ -68,6 +71,8 @@ func _physics_process(delta: float) -> void:
 			$Thrusters/Exhaust.emitting = false
 			slow = false
 			faster = true
+			if Input.is_action_just_pressed("Boost"):
+				$Boost.play()
 			if Input.is_action_pressed("Boost"):
 				boosting = true
 				if health > 2 and Energy > 0:
@@ -84,6 +89,7 @@ func _physics_process(delta: float) -> void:
 				elif health <= 2:
 					$Thrusters/BoostDown.emitting = true
 			elif Input.is_action_just_released("Boost"):
+				$Boost.stop()
 				boosting = false
 				$Thrusters/BoostDown.emitting = false
 				$Thrusters/Exhaust.emitting = false
@@ -98,6 +104,8 @@ func _physics_process(delta: float) -> void:
 			UP_SPEED = 250.0
 			FRICTION = 900
 	else:
+
+#DEFAULT SETTING
 		idle = true
 		slow = false
 		faster = false
@@ -105,6 +113,8 @@ func _physics_process(delta: float) -> void:
 		$Thrusters/Left.play("idle")
 		$Thrusters/Exhaust.emitting = false
 		$Thrusters/Right.play("idle")
+
+#THRUST ANIMATION AND CAMERA MOVEMENT SETTING
 	if Input.is_action_just_pressed("Up"):
 		camera.move_up()
 		$Thrusters/Left.play("forward")
@@ -117,16 +127,22 @@ func _physics_process(delta: float) -> void:
 		$Thrusters/Right.play("back")
 	if Input.is_action_just_released("Down"):
 		camera.move_back()
-#
-#
+
+#SETTING BOOST
 	if not Input.is_action_just_released("Up") and Input.is_action_pressed("Boost"):
 		boosting = false
 			
+
+#THIS SETS THE DIRECTION OF X(VERY IMP)
 	var direction_x := Input.get_axis("Left", "Right")
+
+#THIS CAUSES MOVEMENT IN LEFT(VERY IMP)
 	if direction_x < 0: # Moving left now. 
 		velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
 	elif direction_x == 0: 
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+
+#CHECK RIGHT KEY PRESSED AND PLAY APPROPRIATE ANIMATION
 	if Input.is_action_just_pressed("Left"):
 		going_left = true
 		left = true
@@ -138,14 +154,14 @@ func _physics_process(delta: float) -> void:
 		left = false
 		camera.move_back()
 		$Zenon_animated.play_backwards("turn")
-#
-#
+
+#THIS CAUSES MOVEMENT IN RIGHT(VERY IMP)
 	if direction_x > 0:
 		velocity.x = move_toward(velocity.x, direction_x * MAX_SPEED, ACCELERATION * delta)
 	elif direction_x == 0:
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
-#
-#
+
+#CHECK LEFT KEY PRESSED AND PLAY APPROPRIATE ANIMATION
 	if Input.is_action_just_pressed("Right"):
 		going_right = true
 		right = true
@@ -157,6 +173,8 @@ func _physics_process(delta: float) -> void:
 		right = false
 		camera.move_back()
 		$Zenon_animated.play_backwards("turn")
+
+#DEBUG
 	if Input.is_action_just_pressed("Right") and Input.is_action_just_pressed("Left"):
 		if going_right:
 			$Zenon_animated.play("turn")
@@ -164,6 +182,7 @@ func _physics_process(delta: float) -> void:
 			$Zenon_animated.play_backwards("turn")
 
 
+#SHOOTING
 	if Input.is_action_pressed("Shoot") and can_shoot:
 		if PowerdUp:
 			var laser2 = Laser.instantiate()
@@ -175,13 +194,14 @@ func _physics_process(delta: float) -> void:
 			laser.position = position
 			var parent_node = get_tree().root.get_node("Starting Screen/THE GAME/Main/Laser")
 			parent_node.add_child(laser)
-#
+		
 		can_shoot = false
 		$ShootTimer.start()
 		
 	move_and_slide()
-	
-	
+
+
+
 func respawn() -> void:
 	set_process(false)  # make sure it starts off
 	Hitscreen.visible = false
@@ -199,6 +219,7 @@ func respawn() -> void:
 	var score = get_parent().get_node("Score")
 	score.text = "0"
 
+
 func _ready() -> void:
 	dead = false
 	Global.zenon_ref = self
@@ -210,11 +231,7 @@ func _ready() -> void:
 	Regenscreen =  get_parent().get_node("Regen")
 	PowerUp = get_parent().get_node("PowerUp")
 	camera = get_parent().get_node("Camera")
-	
 
-
-func _on_shoot_timer_timeout() -> void:
-	can_shoot = true
 
 func powerUp() -> void:
 	PowerdUp = true
@@ -227,7 +244,7 @@ func powerUp() -> void:
 	tween.tween_property(rect, "color", Color.RED, 0.5) # then back to white in 1 second
 	tween.tween_property(rectborder, "color", Color.YELLOW, 0.5) # change to red in 1 second
 	tween.tween_property(rectborder, "color", Color.DARK_RED, 0.5) # then back to white in 1 second
-	
+
 
 func regen() -> void:
 	$Regen.emitting = true
@@ -244,56 +261,57 @@ func regen() -> void:
 	$Regen.emitting = false
 
 
+func die() -> void:
+	var explosion = Explosion.instantiate()
+	camera.start_shake(7)
+	explosion.global_position = global_position
+	get_tree().root.add_child(explosion)
+	
+	visible = false
+	dead = true
+	queue_free()
+
+
+func checkhealth() -> void:
+	rect.size.x -= 20
+	$Hit.emitting = true
+	$Zenon_animated.modulate = Color("#ff7c6b")
+	$HitTimer.start()
+	health -= 1
+	Hitscreen.visible = true
+	Hittime += 1
+	$Timer.start()
+	camera.start_shake(5)
+
+
+
+##SIGNALS
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Enemies"):
-		rect.size.x -= 20
-		$Hit.emitting = true
-		$Zenon_animated.modulate = Color("#ff7c6b")
-		$HitTimer.start()
-		health -= 1
-		Hitscreen.visible = true
-		Hittime += 1
-		area.get_parent().explode()
-		$Timer.start()
-		camera.start_shake(5)
-
-	elif health == 0:
-		var explosion = Explosion.instantiate()
-		camera.start_shake(1)
-		explosion.global_position = global_position
-		get_tree().root.add_child(explosion)
-		
-		visible = false
-		dead = true
-		queue_free()
+		if health > 0:
+			if area.is_in_group("Enemies") and not area.is_in_group("Non-Shooter"):
+				area.get_parent().explode()
+			elif area.is_in_group("Non-Shooter") and area.is_in_group("Enemies"):
+				area.get_parent().explode()
+				
+			checkhealth()
+		if health == 0 and area.is_in_group("Enemies") and not area.is_in_group("Non-Shooter"):
+			area.get_parent().explode()
+			die()
+		elif health == 0 and area.is_in_group("Enemies") and area.is_in_group("Non-Shooter"):
+			area.get_parent().explode()
+			die()
 
 	if area.is_in_group("PowerUpHealth"):
 		area.pickup()
 	if area.is_in_group("PowerUpLaser"):
 		area.pickup()
 	if area.is_in_group("EnemyBullet"):
-		rect.size.x -= 20
 		area.explode()
 		if health > 0:
-			$Hit.emitting = true
-			$Zenon_animated.modulate = Color("#ff7c6b")
-			$HitTimer.start()
-			health -= 1
-			Hitscreen.visible = true
-			Hittime += 1
-			$Timer.start()
-			camera.start_shake(5)
+			checkhealth()
 		elif health == 0:
-			var explosion = Explosion.instantiate()
-			camera.start_shake(1)
-			explosion.global_position = global_position
-			get_tree().root.add_child(explosion)
-			
-			visible = false
-			dead = true
-			queue_free()
-			
-
+			die()
 
 
 func _on_hit_timer_timeout() -> void:
@@ -327,15 +345,14 @@ func _on_timer_2_timeout() -> void:
 	Regenscreen.visible = false
 
 
-
 func _on_power_up_2_timeout() -> void:
 	PowerUp.visible = false
 	$LaserPower.emitting = false
-	
 
 
 func _on_power_up_3_finished() -> void:
 	PowerdUp = false
 
 
-		
+func _on_shoot_timer_timeout() -> void:
+	can_shoot = true

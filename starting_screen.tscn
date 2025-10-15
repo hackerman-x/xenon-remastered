@@ -432,9 +432,11 @@ autoplay = true
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_fog4h")
+volume_db = -8.0
 
 [node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_04r33")
+volume_db = -5.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 32.0
@@ -597,6 +599,7 @@ texture = ExtResource("10_cpc8k")
 position = Vector2(0, 3861)
 
 [node name="Text" type="Label" parent="Intro/Text"]
+texture_filter = 4
 offset_left = -807.0
 offset_top = -3139.0
 offset_right = -261.0
@@ -615,6 +618,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Text2" type="Label" parent="Intro/Text"]
+texture_filter = 4
 offset_left = -807.0
 offset_top = -2463.0
 offset_right = -257.0
@@ -631,6 +635,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Text3" type="Label" parent="Intro/Text"]
+texture_filter = 4
 offset_left = -807.0
 offset_top = -1721.0
 offset_right = -238.0
@@ -650,6 +655,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Text4" type="Label" parent="Intro/Text"]
+texture_filter = 4
 offset_left = -807.0
 offset_top = -894.0
 offset_right = -224.0
@@ -708,7 +714,7 @@ offset_right = 1945.0
 offset_bottom = 1304.0
 color = Color(0, 0, 0, 0.39215687)
 
-[node name="Button" type="Button" parent="Death"]
+[node name="Button2" type="Button" parent="Death"]
 visible = false
 texture_filter = 4
 offset_left = 950.0
@@ -765,6 +771,7 @@ text = "PRESS
 Esc To Skip"
 
 [connection signal="finished" from="AudioStreamPlayer2" to="." method="_on_audio_stream_player_2_finished"]
+[connection signal="finished" from="AudioStreamPlayer3" to="." method="_on_audio_stream_player_3_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="Death/Button" to="." method="_on_button_pressed2"]
+[connection signal="pressed" from="Death/Button2" to="." method="_on_button_pressed2"]

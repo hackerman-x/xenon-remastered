@@ -1,6 +1,6 @@
 [gd_scene load_steps=49 format=3 uid="uid://da70gciyjjmgm"]
 
-[ext_resource type="Script" uid="uid://dflyhpkpu13v0" path="res://Enemies/enemy.gd" id="1_e6d4v"]
+[ext_resource type="Script" uid="uid://bs2t4yr3jw68k" path="res://Enemies/enemy1.gd" id="1_pwnby"]
 [ext_resource type="Texture2D" uid="uid://bw8sosbsj2ma5" path="res://PixelSpaceRage/256px/Enemy01_Red_Frame_1_png_processed.png" id="1_tt7e2"]
 [ext_resource type="Texture2D" uid="uid://0w72ck4ndvpj" path="res://PixelSpaceRage/256px/Enemy01_Red_Frame_2_png_processed.png" id="2_2hac7"]
 [ext_resource type="Texture2D" uid="uid://c6hjqx0eflmev" path="res://PixelSpaceRage/256px/Explosion01_Frame_01_png_processed.png" id="2_2iwxp"]
@@ -230,11 +230,11 @@ radius = 43.011627
 [sub_resource type="CircleShape2D" id="CircleShape2D_2iwxp"]
 radius = 34.525352
 
-[node name="Enemy" type="RigidBody2D" groups=["Enemies"]]
+[node name="Enemy" type="RigidBody2D" groups=["Enemies", "Non-Shooter"]]
 collision_layer = 2
 collision_mask = 6
 gravity_scale = 0.0
-script = ExtResource("1_e6d4v")
+script = ExtResource("1_pwnby")
 
 [node name="Left" type="AnimatedSprite2D" parent="."]
 modulate = Color(1, 0.39607844, 1, 1)
@@ -263,7 +263,7 @@ autoplay = "idle"
 [node name="Enemy" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tt7e2")
 
-[node name="Radar" type="Area2D" parent="." groups=["Enemies"]]
+[node name="Radar" type="Area2D" parent="." groups=["Enemies", "Non-Shooter"]]
 z_index = 1
 collision_layer = 256
 collision_mask = 5

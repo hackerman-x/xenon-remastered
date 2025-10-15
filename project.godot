@@ -32,6 +32,7 @@ Player=""
 EnemyBullet=""
 PowerUpHealth=""
 PowerUpLaser=""
+Non-Shooter=""
 
 [input]
 

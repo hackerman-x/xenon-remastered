@@ -1,5 +1,6 @@
 extends Node2D
 
+##VARIABLES
 @export var no_of_stars := 100
 
 var StarScene = preload("res://starsformain.tscn")
@@ -31,6 +32,7 @@ var can_shoot := false
 var score := 0
 var score_str :String
 
+##FUNCTIONS
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Health.color = Color.RED
@@ -50,8 +52,6 @@ func _process(_delta: float) -> void:
 	if is_instance_valid(zenon):
 		set_physics_process(true)
 
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
 	for enemy in enemies:
@@ -59,12 +59,14 @@ func _physics_process(_delta: float) -> void:
 			var x_dist = abs(enemy.global_position.x - zenon.global_position.x)
 			var y_dist = enemy.global_position.y - zenon.global_position.y
 			if is_instance_valid(enemy):
-				if y_dist <= -30 and y_dist >= -300 and x_dist <= 25:
+				if y_dist <= -30 and y_dist >= -300 and x_dist <= 25 and not enemy.is_in_group("Non-Shooter"):
 					enemy.shoot()
+				if enemy.is_in_group("Non-Shooter"):
+					pass
 	if enemies.size() > 0 and not is_instance_valid(zenon):
 		for enemy in enemies:
 			enemy.queue_free()
-	
+
 
 func spawn_star() -> void:
 	for star in no_of_stars:
@@ -81,42 +83,33 @@ func spawn_star() -> void:
 		stars.append(Star)
 	#var earth = Earth.instantiate()
 	#get_node("Background/Earth").add_child(earth)
-	
-	
+
+
 func zenon_spawn() -> void:
 	var zenon1 = Zenon.instantiate()
 	add_child(zenon1)  # add it to Main
 	$Zenon.respawn()
 	zenon1.position = Vector2(0, 0)  # set its position in the scene
 	move_child(zenon1, 5)
-	
 
+##ENEMY STUFF
 func spawn():
 	var viewport_rect = get_viewport().get_visible_rect()
-	var margin = 100  # how far outside to spawn
-	var side = randi_range(0, 3)  # 0=top, 1=bottom, 2=left, 3=right
+	var margin = 100
+	var side = randi_range(0, 2)  # 0=top, 1=left, 2=right
 
 	match side:
 		0: # Top
-			spawn_pos.x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
-			spawn_pos.y = viewport_rect.position.y - margin
+			spawn_pos.x = randf_range(0, 1904)  # across screen width
+			spawn_pos.y = -margin  # above the viewport
 
-		1: # Bottom
-			spawn_pos.x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
-			spawn_pos.y = viewport_rect.position.y + viewport_rect.size.y + margin
+		1: # Left
+			spawn_pos.x = -margin  # to the left of screen
+			spawn_pos.y = randf_range(0, viewport_rect.size.y)  # random Y inside screen height
 
-		2: # Left
-			spawn_pos.x = viewport_rect.position.x - margin
-			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
-
-		3: # Right
-			spawn_pos.x = viewport_rect.position.x + viewport_rect.size.x + margin
-			spawn_pos.y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
-
-	# Extra safety: if by some weird reason the point is inside, re-roll once more
-	# (practically this won't loop forever because match already places it outside)
-	if viewport_rect.has_point(spawn_pos):
-		return spawn()  # try again (very safe because match places outside)
+		2: # Right
+			spawn_pos.x = 1904 + margin  # to the right of screen
+			spawn_pos.y = randf_range(0, viewport_rect.size.y)  # random Y inside screen height
 
 	return spawn_pos
 
@@ -135,6 +128,11 @@ func enemy1() -> void:
 			score += 5
 			score_str = str(score)
 			$Score.text = score_str
+			$Score.scale.x += 1
+			$Score.scale.y += 1
+			await get_tree().create_timer(0.2).timeout
+			$Score.scale.x -= 1
+			$Score.scale.y -= 1
 	)
 	
 func enemy2() -> void:
@@ -152,6 +150,11 @@ func enemy2() -> void:
 			score += 10
 			score_str = str(score)
 			$Score.text = score_str
+			$Score.scale.x += 1
+			$Score.scale.y += 1
+			await get_tree().create_timer(0.2).timeout
+			$Score.scale.x -= 1
+			$Score.scale.y -= 1
 	)
 
 func enemy3() -> void:
@@ -166,9 +169,14 @@ func enemy3() -> void:
 	enemy.tree_exited.connect(func ():
 		if enemies.has(enemy):
 			enemies.erase(enemy)
-			score += 10
+			score += 5
 			score_str = str(score)
 			$Score.text = score_str
+			$Score.scale.x += 1
+			$Score.scale.y += 1
+			await get_tree().create_timer(0.2).timeout
+			$Score.scale.x -= 1
+			$Score.scale.y -= 1
 	)
 
 func enemy4() -> void:
@@ -183,9 +191,14 @@ func enemy4() -> void:
 	enemy.tree_exited.connect(func ():
 		if enemies.has(enemy):
 			enemies.erase(enemy)
-			score += 5
+			score += 10
 			score_str = str(score)
 			$Score.text = score_str
+			$Score.scale.x += 1
+			$Score.scale.y += 1
+			await get_tree().create_timer(0.2).timeout
+			$Score.scale.x -= 1
+			$Score.scale.y -= 1
 	)
 
 func enemy5() -> void:
@@ -200,9 +213,14 @@ func enemy5() -> void:
 	enemy.tree_exited.connect(func ():
 		if enemies.has(enemy):
 			enemies.erase(enemy)
-			score += 20
+			score += 10
 			score_str = str(score)
 			$Score.text = score_str
+			$Score.scale.x += 1
+			$Score.scale.y += 1
+			await get_tree().create_timer(0.2).timeout
+			$Score.scale.x -= 1
+			$Score.scale.y -= 1
 	)
 
 func enemy6() -> void:
@@ -220,6 +238,11 @@ func enemy6() -> void:
 			score += 20
 			score_str = str(score)
 			$Score.text = score_str
+			$Score.scale.x += 1
+			$Score.scale.y += 1
+			await get_tree().create_timer(0.2).timeout
+			$Score.scale.x -= 1
+			$Score.scale.y -= 1
 	)
 
 func random() -> void:
@@ -240,7 +263,7 @@ func random() -> void:
 func _on_warning_timeout() -> void:
 	random()
 
-
+##SPAWNING
 func _on_enemy_wait_timer_timeout() -> void:
 	if is_instance_valid(zenon):
 		$EnemyWaitTimer.wait_time = 5

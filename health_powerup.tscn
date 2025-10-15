@@ -40,6 +40,7 @@ one_shot = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_84yhs")
+volume_db = -5.0
 
 [node name="End Timer" type="Timer" parent="."]
 wait_time = 10.0
