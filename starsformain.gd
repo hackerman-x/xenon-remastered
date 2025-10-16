@@ -1,8 +1,8 @@
 extends Node2D
 
 @export var speed: float = 100.0   # how fast the star falls
-@export var y_min: float = -560.0  # spawn range min Y
-@export var y_max: float = 560.0   # spawn range max Y
+@export var y_min: float = -620.0  # spawn range min Y
+@export var y_max: float = 620.0   # spawn range max Y
 @export var x_max: float = 945.0
 @export var x_min: float = -945.0
 
